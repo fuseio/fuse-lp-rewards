@@ -1,0 +1,88 @@
+@include block(header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 56px;
+  width: 100%;
+  
+  @include element(wrapper) {
+    box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
+    display: block;
+    padding: 0 20px;
+    position: relative;
+    width: 100%;
+    height: min-content;
+  }
+  @include element(logo) {
+    width: 100px;
+    cursor: pointer;
+  }
+
+  @include element(icons) {
+    display: flex;
+    flex-direction: row;
+
+    @include breakpoint(medium down) {
+      margin-bottom: 2em;
+    }
+  }
+
+  @include element(wallet) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 201px;
+    height: 40px;
+    // background: $color-primary-dark;
+    border-radius: 100px;
+
+    @include modifier(logged-out) {
+      background: $color-primary-dark;
+
+      .text {
+        color: $color-white;
+      }
+
+      &:hover {
+        background: $color-light-dark;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @include modifier(logged-in) {
+      background: $color-white;
+      border: 2px solid $color-primary-dark;
+
+      .text {
+        color: $color-primary-dark;
+      }
+    }
+
+    @include block(icon) {
+      width: 23px;
+      height: 23px;
+    }
+
+    @include block(dot) {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #68ca1b;
+      margin: 8px 0px;
+    }
+
+    @include block(text) {
+      margin-left: 0.5em;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.938em;
+      line-height: 14px;
+      // color: $color-white;
+    }
+  }
+}

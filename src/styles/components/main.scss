@@ -1,0 +1,195 @@
+@include block(main) {
+  height: 496px;
+  width: 544px;
+  box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
+  border-radius: 16px;
+  margin: auto;
+  padding: 1.5em;
+
+  @include element(wrapper) {
+    padding-top: 3em;
+  }
+
+  @include block(title) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.375em;
+    line-height: 21px;
+    color: #333333;
+  }
+
+  @include block(boxs) {
+    margin-top: 1em;
+    @include xy-grid(horizontal);
+    @include flex-align(justify, null);
+  }
+}
+
+@include block(tabs) {
+  width: 100%;
+  margin-top: 2em;
+
+  @include element(panel) {
+    margin-top: 2em;
+    @include xy-grid();
+    @include flex-align(spaced, middle);
+  }
+
+  @include element(list) {
+    border-radius: 8px;
+    background: #eef3f6;
+    height: 56px;
+    @include xy-grid();
+    @include flex-align(justify, middle);
+    padding: 0.5em;
+  }
+
+  @include element(tab) {
+    @include xy-cell(30%, null, 0);
+    height: 40px;
+    border-radius: 4px;
+    @include xy-grid();
+    @include flex-align(spaced, middle);
+    cursor: pointer;
+    > h1 {
+      font-weight: 500;
+      font-size: 0.938em;
+      line-height: 14px;
+      color: #b2bcc4;
+    }
+
+    @include modifier(selected) {
+      background: #0f273c;
+
+      > h1 {
+        color: $color-white;
+      }
+    }
+  }
+}
+
+@include block(deposit) {
+  width: 352px;
+
+  @include block(balance) {
+    font-size: 0.75em;
+    line-height: 11px;
+    color: #a0a0a0;
+    margin-bottom: 0.5em;
+  }
+
+  @include block(button) {
+    width: 100%;
+    background: #0f273c;
+    color: $color-white;
+    height: 48px;
+    border-radius: 100px;
+    margin-top: 2em;
+    font-weight: 500;
+    font-size: .938em;
+    line-height: 14px;
+  }
+
+  @include block(input) {
+    position: relative;
+    width: 100%;
+    @include element(wrapper) {
+      @include xy-grid(vertical);
+      @include flex-align(null, bottom);
+    }
+
+    @include block(symbol) {
+      position: absolute;
+      height: 14px;
+      right: 16px;
+      top: calc(50% - 14px / 2 + 1px);
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.938em;
+      line-height: 14px;
+
+      color: #a0a0a0;
+    }
+
+    > input {
+      width: 100%;
+      height: 48px;
+      border: 2px solid #eef3f6;
+      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 0 16px;
+
+      &::placeholder {
+        font-size: 0.938em;
+        color: #a0a0a0;
+      }
+      &:focus {
+        border-color: $color-light-gray;
+      }
+    }
+  }
+}
+
+@include block(withdraw) {
+  width: 352px;
+
+  @include block(button) {
+    width: 100%;
+    background: #0f273c;
+    color: $color-white;
+    height: 48px;
+    border-radius: 100px;
+    margin-top: 2em;
+    font-weight: 500;
+    font-size: .938em;
+    line-height: 14px;
+  }
+
+  @include block(balance) {
+    font-size: 0.75em;
+    line-height: 11px;
+    color: #a0a0a0;
+    margin-bottom: 0.5em;
+  }
+
+  @include block(input) {
+    position: relative;
+    width: 100%;
+    @include element(wrapper) {
+      @include xy-grid(vertical);
+      @include flex-align(null, bottom);
+    }
+
+    @include block(symbol) {
+      position: absolute;
+      height: 14px;
+      right: 16px;
+      top: calc(50% - 14px / 2 + 1px);
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.938em;
+      line-height: 14px;
+
+      color: #a0a0a0;
+    }
+
+    > input {
+      width: 100%;
+      height: 48px;
+      border: 2px solid #eef3f6;
+      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 0 16px;
+
+      &::placeholder {
+        font-size: 0.938em;
+        color: #a0a0a0;
+      }
+      &:focus {
+        border-color: $color-light-gray;
+      }
+    }
+  }
+}

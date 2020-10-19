@@ -1,0 +1,51 @@
+@include block(info_box) {
+  width: 160px;
+  height: 112px;
+  padding: 0.7em;
+  border-radius: 16px;
+  @include xy-cell(30%, null, 0);
+  @include xy-grid(vertical);
+  @include flex-align(justify, null);
+
+  @include modifier(apy) {
+    background: #ebeef9;
+  }
+
+  @include modifier(deposits) {
+    background: #ebf8fc;
+    margin: 0 0.625rem;
+  }
+
+  @include modifier(rewards) {
+    background: #eafbec;
+  }
+
+  @include block(icons) {
+    @include xy-grid();
+    width: 100%;
+    @include flex-align(justify, middle);
+  }
+
+  @include element(value) {
+    width: 46px;
+    height: 16px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.938em;
+    line-height: 16px;
+    color: #333333;
+    margin-bottom: 0.3em;
+  }
+
+  @include element(title) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.563em;
+    line-height: 12px;
+
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+
+    color: #7e8ab4;
+  }
+}

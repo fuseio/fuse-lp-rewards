@@ -1,0 +1,85 @@
+{
+  "name": "fuse-lp-reward",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "dapp",
+    "liqudity",
+    "mining",
+    "staking"
+  ],
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": "src/constants/abi",
+    "globals": [
+      "CONFIG"
+    ]
+  },
+  "author": {
+    "name": "Lior Agnin",
+    "url": "https://github.com/LiorAgnin"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build:dist": "npm run clean && cross-env NODE_ENV=production webpack -p",
+    "start:dist": "npm run clean && cross-env NODE_ENV=production webpack-dev-server --hot && http-server ./dist -o",
+    "start": "npm run clean && webpack-dev-server --hot --mode development"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^5.4.0",
+    "@toruslabs/torus-embed": "^1.8.3",
+    "@walletconnect/web3-provider": "^1.0.0-beta.35",
+    "bignumber.js": "^8.0.1",
+    "classnames": "^2.2.6",
+    "config": "^3.3.2",
+    "connected-react-router": "^6.8.0",
+    "cross-env": "^7.0.2",
+    "formik": "^2.2.0",
+    "foundation-sites": "^6.6.3",
+    "history": "^5.0.0",
+    "normalize.css": "^8.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-hot-loader": "^4.13.0",
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-tabs": "^3.1.1",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.1.3",
+    "reset-css": "^5.0.1",
+    "sanitize.css": "^12.0.1",
+    "web3": "^1.3.0",
+    "web3modal": "^1.9.1",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "@hot-loader/react-dom": "^17.0.0-rc.2",
+    "autoprefixer": "^10.0.1",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "css-loader": "^5.0.0",
+    "file-loader": "^6.1.1",
+    "html-webpack-plugin": "^4.5.0",
+    "http-server": "^0.12.3",
+    "image-webpack-loader": "^7.0.1",
+    "mini-css-extract-plugin": "^1.0.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^4.0.4",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "resolve-url-loader": "^3.1.1",
+    "sass-loader": "^10.0.3",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "webapp-webpack-plugin": "^2.7.1",
+    "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.9.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

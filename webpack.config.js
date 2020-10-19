@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const WebappWebpackPlugin = require('webapp-webpack-plugin')
 const config = require('config')
-
+ 
 const isDev = process.env.NODE_ENV === 'development'
 const sourceMap = isDev
 

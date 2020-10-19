@@ -1,8 +1,9 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { withdrawStakeAndInterest } from '@/actions/mining'
 import { object, number } from 'yup'
 import { Formik, Field } from 'formik'
+import { toWei, formatWei } from '@/utils/format'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive()
@@ -10,32 +11,34 @@ const Scheme = object().noUnknown(false).shape({
 
 const WithdrawForm = () => {
   const dispatch = useDispatch()
+  const { amountStaked = 0 } = useSelector(state => state.staking)
 
   const onSubmit = (values) => {
     const { amount } = values
-    dispatch(withdrawStakeAndInterest(amount))
+    dispatch(withdrawStakeAndInterest(toWei(amount)))
   }
 
   const renderForm = ({ handleSubmit }) => {
     return (
       <form onSubmit={handleSubmit} className='withdraw'>
         <div className='input__wrapper'>
-          <div className='balance'>Balance - LP</div>
+          <div className='balance'>Balance - {formatWei(amountStaked)} FUSE</div>
           <div className='input'>
-            <Field name="amount">
+            <Field name='amount'>
               {({
-                field,
+                field
               }) => (
-                  <input {...field} placeholder='0.00' type='number' />
-                )}
+                <input {...field} placeholder='0.00' />
+              )}
             </Field>
-            <span className='symbol'>LP</span>
+            <span className='symbol'>FUSE</span>
           </div>
-          <button type="submit" className='button'>Withdraw</button>
+          <button type='submit' className='button'>Withdraw</button>
         </div>
       </form>
     )
   }
+
   return (
     <Formik
       initialValues={{
@@ -47,7 +50,6 @@ const WithdrawForm = () => {
       enableReinitialize
       validateOnChange
     />
-
   )
 }
 

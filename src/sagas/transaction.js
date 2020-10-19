@@ -3,7 +3,7 @@ import { eventChannel } from 'redux-saga'
 
 import { transactionPending, transactionConfirmed, transactionFailed, transactionSucceeded } from '@/actions/transactions'
 
-export function* transactionFlow({ transactionPromise, action, confirmationsLimit, tokenAddress }) {
+export function * transactionFlow ({ transactionPromise, action, confirmationsLimit, tokenAddress }) {
   if (confirmationsLimit) {
     yield fork(transactionConfirmations, { transactionPromise, action, confirmationsLimit })
   }
@@ -40,7 +40,7 @@ export function* transactionFlow({ transactionPromise, action, confirmationsLimi
   return receipt
 }
 
-function createConfirmationChannel(transactionPromise) {
+function createConfirmationChannel (transactionPromise) {
   return eventChannel(emit => {
     const func = (confirmationNumber, receipt) => {
       emit({ receipt, confirmationNumber })
@@ -55,7 +55,7 @@ function createConfirmationChannel(transactionPromise) {
   })
 }
 
-export function* transactionConfirmations({ confirmationsLimit, transactionPromise, action }) {
+export function * transactionConfirmations ({ confirmationsLimit, transactionPromise, action }) {
   const confirmationChannel = yield call(createConfirmationChannel, transactionPromise)
 
   let isWaiting = true

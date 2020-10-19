@@ -19,5 +19,3 @@ export const getBlockNumber = (networkType, bridgeType) => requestAction(GET_BLO
 export const changeNetwork = (networkType) => requestAction(CHANGE_NETWORK, { networkType })
 export const checkAccountChanged = (selectedAddress) => requestAction(CHECK_ACCOUNT_CHANGED,
   { selectedAddress })
-
-

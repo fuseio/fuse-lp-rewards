@@ -1,11 +1,8 @@
 import * as actions from '@/actions/accounts'
 import { CHECK_ACCOUNT_CHANGED, CONNECT_TO_WALLET } from '@/actions/network'
-import union from 'lodash/union'
 
 export const initialAccount = {
-  balances: {},
-  transactions: {},
-  tokens: [],
+  balances: {}
 }
 
 const handlers = {
@@ -21,7 +18,7 @@ const handlers = {
 }
 
 export default (state = {}, action) => {
-  if (handlers.hasOwnProperty(action.type) && action.accountAddress) {
+  if (Object.prototype.hasOwnProperty.call(handlers, action.type) && action.accountAddress) {
     const account = state[action.accountAddress] || initialAccount
     return { ...state, [action.accountAddress]: handlers[action.type](account, action) }
   }

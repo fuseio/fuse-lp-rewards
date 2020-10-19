@@ -3,23 +3,16 @@ import { toChecksumAddress } from 'web3-utils'
 import { getWeb3 as getWeb3Service } from '@/services/web3'
 import * as actions from '@/actions/network'
 import { balanceOfNative, balanceOfToken } from '@/actions/accounts'
+import { getStakerData } from '@/actions/staking'
 import { getProviderInfo } from 'web3modal'
 import { eventChannel } from 'redux-saga'
 
-const cb = (error, result) => {
-  if (!error) {
-    console.log(result)
-  } else {
-    console.log(error.code)
-  }
-}
-
-function* getNetworkTypeInternal(web3) {
-  const networkId = yield web3.eth.net.getId(cb)
+function * getNetworkTypeInternal (web3) {
+  const networkId = yield web3.eth.net.getId()
   return { networkId }
 }
 
-function* watchNetworkChanges(provider) {
+function * watchNetworkChanges (provider) {
   const chan = eventChannel(emitter => {
     provider.on('chainChanged', (message) => emitter(message))
     return () => {
@@ -35,7 +28,7 @@ function* watchNetworkChanges(provider) {
   }
 }
 
-function* watchAccountChanges(provider) {
+function * watchAccountChanges (provider) {
   const chan = eventChannel(emitter => {
     provider.on('accountsChanged', (message) => emitter(message))
     return () => {
@@ -51,7 +44,7 @@ function* watchAccountChanges(provider) {
   }
 }
 
-function* connectToWallet() {
+function * connectToWallet () {
   const web3 = yield getWeb3Service()
   const provider = web3.currentProvider
 
@@ -62,7 +55,7 @@ function* connectToWallet() {
 
     const providerInfo = getProviderInfo(provider)
 
-    const accounts = yield web3.eth.getAccounts(cb)
+    const accounts = yield web3.eth.getAccounts()
     const accountAddress = accounts[0]
 
     yield fork(watchNetworkChanges, provider)
@@ -85,7 +78,7 @@ function* connectToWallet() {
   }
 }
 
-function* checkNetworkType({ web3, accountAddress }) {
+function * checkNetworkType ({ web3, accountAddress }) {
   try {
     if (!accountAddress) {
       accountAddress = yield select(state => state.network.accountAddress)
@@ -101,8 +94,9 @@ function* checkNetworkType({ web3, accountAddress }) {
       response
     })
     yield put(balanceOfNative(accountAddress))
-    yield put(balanceOfToken('0x8D533E192268DD91Ba8eC9ee55D9602d97E48f37', accountAddress))
-    yield put(balanceOfToken('0x72bf54E32276CbCFB6635Eb81C5F98a27CbD7072', accountAddress))
+    yield put(balanceOfToken(CONFIG.rewardToken, accountAddress))
+    yield put(balanceOfToken(CONFIG.stakeToken, accountAddress))
+    yield put(getStakerData())
   } catch (error) {
     yield put({ type: actions.CHECK_NETWORK_TYPE.FAILURE, error })
     yield put({
@@ -112,7 +106,7 @@ function* checkNetworkType({ web3, accountAddress }) {
   }
 }
 
-function* checkAccountChanged({ selectedAddress }) {
+function * checkAccountChanged ({ selectedAddress }) {
   const accountAddress = yield select(state => state.network.accountAddress)
   const checksummedAddress = selectedAddress && toChecksumAddress(selectedAddress)
 
@@ -129,7 +123,7 @@ function* checkAccountChanged({ selectedAddress }) {
   return false
 }
 
-export default function* web3Saga() {
+export default function * web3Saga () {
   yield all([
     takeEvery(actions.CHECK_NETWORK_TYPE.REQUEST, checkNetworkType),
     takeEvery(actions.CONNECT_TO_WALLET.REQUEST, connectToWallet),

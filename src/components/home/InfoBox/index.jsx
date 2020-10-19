@@ -8,7 +8,7 @@ export default ({ name }) => {
     <div className={classNames('info_box', { [`info_box--${name}`]: name })}>
       <div className='icons'>
         <img src={percentageIcon} />
-        <InfoIcon fill={"#7E8AB4"} />
+        <InfoIcon fill='#7E8AB4' />
       </div>
       <div>
         <div className='info_box__value'>3.89%</div>

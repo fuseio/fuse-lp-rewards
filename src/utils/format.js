@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js'
 
-export const ROUND_PRECISION = 4
+export const ROUND_PRECISION = 2
 export const MAX_PRECISION = 18
 
 export const formatWei = (value, round = ROUND_PRECISION, decimals = 18) => new BigNumber(value).div(10 ** decimals).toFormat(round, BigNumber.ROUND_HALF_UP)

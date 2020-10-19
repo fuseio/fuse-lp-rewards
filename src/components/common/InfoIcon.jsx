@@ -1,7 +1,7 @@
 import React from 'react'
 import { ReactComponent as InfoIcon } from '@/assets/images/info-icon.svg'
 
-export default ({ fill = "#7E8AB4" }) => {
+export default ({ fill = '#7E8AB4' }) => {
   return (
     <InfoIcon fill={fill} />
   )

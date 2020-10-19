@@ -1,15 +1,15 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const WebappWebpackPlugin = require('webapp-webpack-plugin')
 const config = require('config')
 
 const isDev = process.env.NODE_ENV === 'development'
-const sourceMap = isDev;
+const sourceMap = isDev
 
 module.exports = {
   entry: [
@@ -33,11 +33,11 @@ module.exports = {
           !isDev ? {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: './',
-            },
+              publicPath: './'
+            }
           } : {
-              loader: 'style-loader'
-            },
+            loader: 'style-loader'
+          },
           {
             loader: 'css-loader',
             options: {
@@ -47,22 +47,22 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap,
-            },
+              sourceMap
+            }
           },
           {
             loader: 'resolve-url-loader',
             options: {
-              sourceMap,
-            },
+              sourceMap
+            }
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap,
-            },
+              sourceMap
+            }
           }
-        ],
+        ]
       },
       {
         test: /\.(gif|png|jpe?g)$/i,
@@ -73,7 +73,7 @@ module.exports = {
             options: {
               outputPath: 'images',
               name: '[name].[ext]',
-              publicPath: './images',
+              publicPath: './images'
             }
           },
           isDev ? {
@@ -81,20 +81,20 @@ module.exports = {
             options: {
               bypassOnDebug: true,
               gifsicle: {
-                interlaced: false,
+                interlaced: false
               },
               optipng: {
-                optimizationLevel: 7,
+                optimizationLevel: 7
               },
               pngquant: {
-                speed: 4,
+                speed: 4
               },
               mozjpeg: {
-                progressive: true,
-              },
-            },
-          } : null,
-        ].filter(Boolean),
+                progressive: true
+              }
+            }
+          } : null
+        ].filter(Boolean)
       },
       {
         test: /\.svg$/,
@@ -109,7 +109,7 @@ module.exports = {
     ],
     alias: {
       'react-dom': '@hot-loader/react-dom',
-      '@': path.resolve(path.resolve(__dirname, './'), 'src'),
+      '@': path.resolve(path.resolve(__dirname, './'), 'src')
     }
   },
   devServer: {
@@ -137,18 +137,18 @@ module.exports = {
           favicons: true,
           firefox: false,
           windows: false,
-          yandex: false,
-        },
-      },
+          yandex: false
+        }
+      }
     }),
     new HtmlWebpackPlugin({
       appMountId: 'app',
       filename: 'index.html',
-      template: path.join(__dirname, 'src', 'index.html'),
+      template: path.join(__dirname, 'src', 'index.html')
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      openAnalyzer: false,
+      openAnalyzer: false
     }),
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin()
@@ -166,9 +166,9 @@ module.exports = {
           name: 'styles',
           test: /\.css$/,
           chunks: 'all',
-          enforce: true,
-        },
+          enforce: true
+        }
       }
     }
-  },
-};
+  }
+}

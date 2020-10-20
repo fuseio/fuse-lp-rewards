@@ -22,7 +22,7 @@ const WithdrawForm = () => {
     return (
       <form onSubmit={handleSubmit} className='form form--withdraw'>
         <div className='input__wrapper'>
-          <div className='balance'>Balance - {formatWei(totalStaked)} LP</div>
+          <div className='balance'>Deposited balance - {formatWei(totalStaked)} LP</div>
           <div className='input'>
             <Field name='amount'>
               {({

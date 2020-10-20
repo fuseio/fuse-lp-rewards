@@ -5,10 +5,9 @@ import { addressShortener } from '@/utils/format'
 import walletIcon from '@/assets/images/wallet.svg'
 import fuseLogoWhite from '@/assets/images/fuse-logo-white.svg'
 
-const NavBar = ({ history, web3connect }) => {
+const NavBar = ({ history, handleConnect }) => {
   const homePage = () => history.push('/')
   const { accountAddress } = useSelector(state => state.network)
-  const handleConnect = React.useCallback(web3connect.toggleModal, [web3connect?.toggleModal])
 
   return (
     <header className='header__wrapper'>

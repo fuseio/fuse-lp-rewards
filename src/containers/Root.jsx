@@ -16,6 +16,12 @@ export default () => {
 
   const web3connect = useWeb3Connect(onConnectCallback)
 
+  // const handleLogout = React.useCallback(() => {
+  //   web3connect.core.clearCachedProvider()
+  // }, [web3connect])
+
+  const handleConnect = React.useCallback(web3connect?.toggleModal, [web3connect])
+
   useEffect(() => {
     if (web3connect.core.cachedProvider) {
       web3connect.core.connect()
@@ -24,7 +30,7 @@ export default () => {
 
   return (
     <>
-      <Header web3connect={web3connect} />
+      <Header handleConnect={handleConnect} />
       <Switch>
         <Route path='/'>
           <HomePage />

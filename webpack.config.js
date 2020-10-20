@@ -125,8 +125,8 @@ module.exports = {
       logo: path.join(path.resolve(__dirname, './'), '/src/assets/images/favicon.png'),
       prefix: 'images/favicons/',
       favicons: {
-        appName: 'Fuse LP tokens',
-        appDescription: 'Fuse LP tokens',
+        appName: 'Fuse LP Rewards',
+        appDescription: 'Fuse LP Rewards',
         developerName: null,
         developerURL: null,
         icons: {

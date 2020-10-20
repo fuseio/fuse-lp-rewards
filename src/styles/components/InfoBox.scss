@@ -13,7 +13,7 @@
 
   @include modifier(deposits) {
     background: #ebf8fc;
-    margin: 0 0.625rem;
+    margin: 0 0.525rem;
   }
 
   @include modifier(rewards) {
@@ -27,7 +27,6 @@
   }
 
   @include element(value) {
-    width: 46px;
     height: 16px;
     font-style: normal;
     font-weight: 500;

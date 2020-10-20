@@ -1,10 +1,13 @@
 @include block(main) {
-  height: 496px;
   width: 544px;
   box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
   border-radius: 16px;
   margin: auto;
   padding: 1.5em;
+
+  @include breakpoint(small down) {
+    width: 90%
+  }
 
   @include element(wrapper) {
     padding-top: 3em;
@@ -68,8 +71,16 @@
   }
 }
 
-@include block(deposit) {
+@include block(form) {
   width: 352px;
+
+  @include modifier(deposit) {
+
+  }
+
+  @include modifier(withdraw) {
+    
+  }
 
   @include block(balance) {
     font-size: 0.75em;
@@ -88,69 +99,15 @@
     font-weight: 500;
     font-size: .938em;
     line-height: 14px;
-  }
 
-  @include block(input) {
-    position: relative;
-    width: 100%;
-    @include element(wrapper) {
-      @include xy-grid(vertical);
-      @include flex-align(null, bottom);
+    &:disabled {
+      background-color: $color-disabled;
+      cursor: not-allowed;
     }
 
-    @include block(symbol) {
-      position: absolute;
-      height: 14px;
-      right: 16px;
-      top: calc(50% - 14px / 2 + 1px);
-
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.938em;
-      line-height: 14px;
-
-      color: #a0a0a0;
+    img {
+      width: 30px;
     }
-
-    > input {
-      width: 100%;
-      height: 48px;
-      border: 2px solid #eef3f6;
-      box-sizing: border-box;
-      border-radius: 8px;
-      padding: 0 16px;
-
-      &::placeholder {
-        font-size: 0.938em;
-        color: #a0a0a0;
-      }
-      &:focus {
-        border-color: $color-light-gray;
-      }
-    }
-  }
-}
-
-@include block(withdraw) {
-  width: 352px;
-
-  @include block(button) {
-    width: 100%;
-    background: #0f273c;
-    color: $color-white;
-    height: 48px;
-    border-radius: 100px;
-    margin-top: 2em;
-    font-weight: 500;
-    font-size: .938em;
-    line-height: 14px;
-  }
-
-  @include block(balance) {
-    font-size: 0.75em;
-    line-height: 11px;
-    color: #a0a0a0;
-    margin-bottom: 0.5em;
   }
 
   @include block(input) {

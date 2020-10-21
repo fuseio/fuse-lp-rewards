@@ -5,7 +5,25 @@
   flex-direction: row;
   height: 56px;
   width: 100%;
-  
+
+  @include block(link) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.75em;
+    line-height: 11px;
+    color: $color-primary-dark;
+    width: 72px;
+    height: 100%;
+    margin-left: 3em;
+
+    a {
+      margin-left: .3em;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
   @include element(wrapper) {
     box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
     display: block;
@@ -33,10 +51,12 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 201px;
     height: 40px;
-    // background: $color-primary-dark;
     border-radius: 100px;
+    padding: 0.8em;
+    // @include breakpoint(medium up) {
+    //   width: 201px;
+    // }
 
     @include modifier(logged-out) {
       background: $color-primary-dark;

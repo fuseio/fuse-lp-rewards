@@ -1,11 +1,11 @@
 import React from 'react'
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
-// import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import DepositForm from './Deposit'
 import WithdrawForm from './Withdraw'
 
 const CustomTab = ({ children, ...otherProps }) => (
-  <Tab className='tabs__tab' {...otherProps}>
+  <Tab {...otherProps}>
     <h1>{children}</h1>
   </Tab>
 )
@@ -20,17 +20,24 @@ const CustomTabPanel = ({ children, className, ...otherProps }) => (
 
 CustomTabPanel.tabsRole = 'TabPanel'
 
-const TabsWrapper = () => {
+const TabsWrapper = ({ handleConnect }) => {
+  const { accountAddress } = useSelector(state => state.network)
   return (
-    <Tabs className='tabs' selectedTabClassName='tabs__tab--selected'>
+    <Tabs className='tabs' selectedTabClassName={accountAddress ? 'tabs__tab--selected' : 'tabs__tab--disabled'}>
       <TabList className='tabs__list'>
-        <CustomTab>Deposit</CustomTab>
-        <CustomTab>Withdraw</CustomTab>
-        <CustomTab>Stats</CustomTab>
+        <CustomTab className='tabs__tab'>Deposit</CustomTab>
+        <CustomTab className='tabs__tab'>Withdraw</CustomTab>
+        <CustomTab className='tabs__tab'>Stats</CustomTab>
       </TabList>
-      <CustomTabPanel className='tabs__panel'><DepositForm /></CustomTabPanel>
-      <CustomTabPanel className='tabs__panel'><WithdrawForm /></CustomTabPanel>
-      <CustomTabPanel className='tabs__panel'>Panel 3</CustomTabPanel>
+      <CustomTabPanel className='tabs__panel'>
+        <DepositForm handleConnect={handleConnect} />
+      </CustomTabPanel>
+      <CustomTabPanel className='tabs__panel'>
+        <WithdrawForm handleConnect={handleConnect} />
+      </CustomTabPanel>
+      <CustomTabPanel className='tabs__panel'>
+        Stats content page
+      </CustomTabPanel>
     </Tabs>
   )
 }

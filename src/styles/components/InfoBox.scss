@@ -7,6 +7,10 @@
   @include xy-grid(vertical);
   @include flex-align(justify, null);
 
+  @include modifier(disabled) {
+    background: $color-disabled;
+  }
+
   @include modifier(apy) {
     background: #ebeef9;
   }
@@ -24,6 +28,10 @@
     @include xy-grid();
     width: 100%;
     @include flex-align(justify, middle);
+
+    @include block(item) {
+      cursor: pointer;
+    }
   }
 
   @include element(value) {
@@ -32,8 +40,12 @@
     font-weight: 500;
     font-size: 0.938em;
     line-height: 16px;
-    color: #333333;
+    color: $color-black;
     margin-bottom: 0.3em;
+
+    @include modifier(disabled) {
+      color: $color-dark-gray;
+    }
   }
 
   @include element(title) {
@@ -41,10 +53,12 @@
     font-weight: 500;
     font-size: 0.563em;
     line-height: 12px;
-
     letter-spacing: 0.3px;
     text-transform: uppercase;
-
     color: #7e8ab4;
+
+    @include modifier(disabled) {
+      color: #B2BCC4;
+    }
   }
 }

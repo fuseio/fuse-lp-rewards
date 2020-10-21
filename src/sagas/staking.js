@@ -5,6 +5,7 @@ import { getWeb3 } from '@/services/web3'
 import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI, Staking as StakingABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
+import { BigNumber } from 'bignumber.js'
 
 function * approveToken ({ amount }) {
   const tokenAddress = CONFIG.stakeToken
@@ -78,7 +79,10 @@ function * getStakingData () {
     yield put({
       type: actions.GET_STAKE_DATA.SUCCESS,
       accountAddress,
-      response: { totalStaked: stakeData[0], depositAmount: stakeData[1] }
+      response: {
+        totalStaked: stakeData[0],
+        withdrawnToDate: stakeData[1]
+      }
     })
   }
 }
@@ -90,18 +94,46 @@ function * getStatsData () {
     const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
+    const globalTotalStake = statsData[0]
+    const totalReward = statsData[1]
+    const estimatedReward = statsData[2]
+    const unlockedReward = statsData[3]
+    const accruedRewards = statsData[4]
+    const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
+    const rewardsPerToken = new BigNumber(lockedRewards).dividedBy(new BigNumber(globalTotalStake))
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
       accountAddress,
-      response: { accruedRewards: statsData[4] }
+      response: {
+        globalTotalStake,
+        totalReward,
+        estimatedReward,
+        unlockedReward,
+        accruedRewards,
+        lockedRewards,
+        rewardsPerToken
+      }
     })
   }
 }
 
-function * refetchBalance () {
+function * withdrawInterest () {
   const { accountAddress } = yield select(state => state.network)
-  yield put(balanceOfToken(CONFIG.rewardToken, accountAddress))
-  yield put(balanceOfToken(CONFIG.stakeToken, accountAddress))
+  if (accountAddress) {
+    const web3 = yield getWeb3()
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+
+    const transactionPromise = basicTokenContract.methods.withdrawInterest().send({
+      from: accountAddress
+    })
+
+    const action = actions.WITHDRAW_INTEREST
+    yield call(transactionFlow, { transactionPromise, action })
+  }
+}
+function * refetchBalance () {
+  yield put(balanceOfToken(CONFIG.rewardToken))
+  yield put(balanceOfToken(CONFIG.stakeToken))
   yield put(actions.getStakerData())
   yield put(actions.getStatsData())
 }
@@ -112,6 +144,7 @@ function * approveTokenSuccess () {
 
 export default function * accountsSaga () {
   yield all([
+    tryTakeEvery(actions.WITHDRAW_INTEREST, withdrawInterest),
     tryTakeEvery(actions.DEPOSIT_STAKE, depositStake),
     tryTakeEvery(actions.WITHDRAW_STAKE, withdrawStake),
     tryTakeEvery(actions.APPROVE_TOKEN, approveToken, 1),

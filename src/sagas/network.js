@@ -94,8 +94,8 @@ function * checkNetworkType ({ web3, accountAddress }) {
       response
     })
     yield put(balanceOfNative(accountAddress))
-    yield put(balanceOfToken(CONFIG.rewardToken, accountAddress))
-    yield put(balanceOfToken(CONFIG.stakeToken, accountAddress))
+    yield put(balanceOfToken(CONFIG.rewardToken))
+    yield put(balanceOfToken(CONFIG.stakeToken))
     yield put(getTokenAllowance())
     yield put(getStakerData())
     yield put(getStatsData())

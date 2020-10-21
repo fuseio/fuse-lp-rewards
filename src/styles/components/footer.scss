@@ -1,0 +1,74 @@
+@include block(footer) {
+  width: 100%;
+  @include xy-grid();
+  @include flex-align(justify, null);
+
+  @include block(link) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.75em;
+    line-height: 11px;
+    color: $color-white;
+    width: 72px;
+    height: 100%;
+    margin-left: 3em;
+
+    a {
+      margin-left: 0.3em;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  @include element(wrapper) {
+    height: 144px;
+    padding: 0 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background: #052235;
+
+    @include breakpoint(small down) {
+      height: 200px;
+    }
+  }
+
+  @include element(logo) {
+    width: 100px;
+    cursor: pointer;
+  }
+
+  @include element(text) {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.75em;
+    // line-height: 11px;
+    display: flex;
+    align-items: center;
+    color: $color-disabled;
+
+    @include breakpoint(small down) {
+      height: 200px;
+      margin-top: 1em;
+    }
+  }
+
+  @include element(icons) {
+  }
+
+  @include element(icon) {
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 1em;
+    }
+  }
+
+  @include block(image) {
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

@@ -1,16 +1,20 @@
 @include block(main) {
-  width: 544px;
+  width: fit-content;
   box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
   border-radius: 16px;
   margin: auto;
   padding: 1.5em;
 
+  @include breakpoint(medium up) {
+    min-width: 660px;
+  }
+
   @include breakpoint(small down) {
-    width: 90%
+    width: 90%;
   }
 
   @include element(wrapper) {
-    padding-top: 3em;
+    padding: 3em 0;
   }
 
   @include block(title) {
@@ -18,7 +22,7 @@
     font-weight: 500;
     font-size: 1.375em;
     line-height: 21px;
-    color: #333333;
+    color: $color-black;
   }
 
   @include block(boxs) {
@@ -40,7 +44,7 @@
 
   @include element(list) {
     border-radius: 8px;
-    background: #eef3f6;
+    background: $color-disabled;
     height: 56px;
     @include xy-grid();
     @include flex-align(justify, middle);
@@ -48,12 +52,12 @@
   }
 
   @include element(tab) {
-    @include xy-cell(30%, null, 0);
     height: 40px;
     border-radius: 4px;
+    cursor: pointer;
+    @include xy-cell(8, null, 0);
     @include xy-grid();
     @include flex-align(spaced, middle);
-    cursor: pointer;
     > h1 {
       font-weight: 500;
       font-size: 0.938em;
@@ -61,8 +65,18 @@
       color: #b2bcc4;
     }
 
+    @include modifier(not-selected) {
+      > h1 {
+        color: $color-primary-dark;
+      }
+    }
+
+    @include modifier(disabled) {
+      background: #d9e1e7;
+    }
+
     @include modifier(selected) {
-      background: #0f273c;
+      background: $color-primary-dark;
 
       > h1 {
         color: $color-white;
@@ -72,37 +86,59 @@
 }
 
 @include block(form) {
-  width: 352px;
+  // width: 352px;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 
   @include modifier(deposit) {
-
   }
 
   @include modifier(withdraw) {
-    
   }
 
   @include block(balance) {
     font-size: 0.75em;
     line-height: 11px;
-    color: #a0a0a0;
+    color: $color-dark-gray;
     margin-bottom: 0.5em;
+
+    span {
+      color: $color-black;
+    }
+
+    @include modifier(disabled) {
+      color: $color-dark-gray;
+      span {
+        color: $color-dark-gray;
+      }
+    }
   }
 
   @include block(button) {
-    width: 100%;
-    background: #0f273c;
+    @include breakpoint(medium up) {
+      width: 352px;
+    }
+
+    @include breakpoint(small only) {
+      width: 85%;
+    }
+
+    background: $color-primary-dark;
     color: $color-white;
     height: 48px;
     border-radius: 100px;
     margin-top: 2em;
     font-weight: 500;
-    font-size: .938em;
+    font-size: 0.938em;
     line-height: 14px;
-
+    @include xy-grid();
+    @include flex-align(center, middle);
     &:disabled {
       background-color: $color-disabled;
       cursor: not-allowed;
+      color: $color-primary-dark;
     }
 
     img {
@@ -112,10 +148,19 @@
 
   @include block(input) {
     position: relative;
-    width: 100%;
+    @include breakpoint(medium up) {
+      width: 352px;
+    }
+
+    @include breakpoint(small only) {
+      width: 100%;
+    }
     @include element(wrapper) {
       @include xy-grid(vertical);
       @include flex-align(null, bottom);
+      @include breakpoint(small only) {
+        width: 100%;
+      }
     }
 
     @include block(symbol) {
@@ -129,24 +174,96 @@
       font-size: 0.938em;
       line-height: 14px;
 
-      color: #a0a0a0;
+      color: $color-dark-gray;
     }
 
     > input {
       width: 100%;
       height: 48px;
-      border: 2px solid #eef3f6;
+      border: 2px solid $color-disabled;
       box-sizing: border-box;
       border-radius: 8px;
       padding: 0 16px;
 
       &::placeholder {
         font-size: 0.938em;
-        color: #a0a0a0;
+        color: $color-dark-gray;
       }
       &:focus {
-        border-color: $color-light-gray;
+        border: 2px solid #869aac;
       }
     }
+  }
+}
+
+@include block(gray_container) {
+  position: relative;
+  background: $color-disabled;
+  border-radius: 8px;
+  width: 100%;
+  @include breakpoint(medium up) {
+    width: 352px;
+  }
+
+  @include breakpoint(small only) {
+    width: 100%;
+  }
+  max-width: 352px;
+  padding: 1em;
+  margin-top: 2em;
+  @include xy-grid(vertical);
+  @include flex-align(justify, null);
+
+  > div:not(:first-child) {
+    margin-top: 1em;
+  }
+
+  @include element(wrapper) {
+    margin-top: 2em;
+    width: 100%;
+    @include xy-grid(horizontal, false);
+    @include flex-align(justify, null);
+    > div {
+      @include xy-cell(49%, null, 0);
+      margin-top: 0;
+    }
+  }
+
+  @include block(title) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.563em;
+    line-height: 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: #869aac;
+  }
+
+  @include block(value) {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.938em;
+    line-height: 16px;
+    color: $color-black;
+    // margin-top: 1em;
+
+    @include modifier(disabled) {
+      color: $color-dark-gray;
+    }
+  }
+
+  @include block(withdraw_stake) {
+    width: 103px;
+    background: #ffffff;
+    border: 2px solid #0f273c;
+    box-sizing: border-box;
+    border-radius: 100px;
+    text-align: center;
+    padding: 0.2em;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.75em;
+    line-height: 11px;
+    color: #0f273c;
   }
 }

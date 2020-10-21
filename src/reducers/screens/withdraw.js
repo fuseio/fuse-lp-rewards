@@ -8,7 +8,6 @@ export default (state = {}, action) => {
       return { ...state, isWithdraw: false }
     case WITHDRAW_STAKE.FAILURE:
       return { ...state, isWithdraw: false, failReason: 'Oops' }
-
     default:
       return state
   }

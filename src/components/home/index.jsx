@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import InfoBox from '@/components/home/InfoBox'
 import Tabs from '@/components/home/Tabs'
+import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
 import briefcaseIcon from '@/assets/images/briefcase-check.svg'
 import walletIcon from '@/assets/images/wallet-plus.svg'
+import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
+import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWei, formatWeiToNumber } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 
-export default () => {
+export default ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { accruedRewards = 0, totalStaked = 0 } = useSelector(state => state.staking)
   const { accountAddress } = useSelector(state => state.network)
@@ -35,7 +38,7 @@ export default () => {
             withSymbol={false}
             title='Deposit APY'
             Icon={() => (
-              <img src={percentageIcon} />
+              <img src={accountAddress ? percentageIcon : percentageIcongray} />
             )}
           />
           <InfoBox
@@ -44,7 +47,7 @@ export default () => {
             end={formatWeiToNumber(totalStaked)}
             value={`${formatWei(totalStaked)} FUSE`}
             Icon={() => (
-              <img src={briefcaseIcon} />
+              <img src={accountAddress ? briefcaseIcon : briefcaseIcongray} />
             )}
           />
           <InfoBox
@@ -53,11 +56,11 @@ export default () => {
             title='Accrued rewards'
             value={`${formatWei(accruedRewards)} FUSE`}
             Icon={() => (
-              <img src={walletIcon} />
+              <img src={accountAddress ? walletIcon : walletIcongray} />
             )}
           />
         </div>
-        <Tabs />
+        <Tabs handleConnect={handleConnect} />
       </div>
     </div>
   )

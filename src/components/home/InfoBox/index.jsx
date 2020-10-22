@@ -4,15 +4,41 @@ import classNames from 'classnames'
 import InfoIcon from '@/components/common/InfoIcon.jsx'
 import InfoIconHover from '@/components/common/InfoIconHover.jsx'
 import { useCountUp } from 'react-countup'
+import ReactModal from 'react-modal'
+import { useModal } from 'react-modal-hook'
 import { formatNumber } from '@/utils/format'
+import InfoIconModal from '@/assets/images/info-icon-modal.svg'
 
-export default ({ Icon, name, title, end, withSymbol = true }) => {
+export default ({ Icon, name, title, end, withSymbol = true, modalText }) => {
   const { accountAddress } = useSelector(state => state.network)
   const [isHover, setHover] = useState(false)
+  const [modalStatus, setModalStatus] = useState(false)
   const { countUp, start, update } = useCountUp({
     formattingFn: formatNumber,
     end
   })
+
+  const [showModal] = useModal(() => (
+    <ReactModal isOpen={modalStatus} overlayClassName='modal__overlay' className='modal__content'>
+      <div className='info-modal'>
+        <div className='image'><img src={InfoIconModal} /></div>
+        <div className='title'>
+          What does “{title}” mean?
+        </div>
+        <div className='text'>
+          {modalText}
+        </div>
+        <button
+          className='close'
+          onClick={() => {
+            setModalStatus(false)
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+  ), [modalStatus])
 
   useEffect(() => {
     start()
@@ -27,6 +53,10 @@ export default ({ Icon, name, title, end, withSymbol = true }) => {
       <div className='icons'>
         <Icon />
         <div
+          onClick={() => {
+            showModal()
+            setModalStatus(true)
+          }}
           className='item'
           onMouseEnter={() => {
             setHover(true)

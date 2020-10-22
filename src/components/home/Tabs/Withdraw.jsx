@@ -10,7 +10,7 @@ import walletIcon from '@/assets/images/wallet.svg'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
 
 const Scheme = object().noUnknown(false).shape({
-  amount: number().positive().required(),
+  amount: number().positive(),
   submitType: mixed().oneOf(['withdrawStakeAndInterest', 'withdrawInterest']).required().default('withdrawStakeAndInterest')
 })
 
@@ -20,7 +20,7 @@ const WithdrawForm = ({ handleConnect }) => {
   const { totalStaked = 0, accruedRewards = 0, withdrawnToDate = 0 } = useSelector(state => state.staking)
   const { isWithdraw } = useSelector(state => state.screens.withdraw)
 
-  const onSubmit = (values, { set }) => {
+  const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
     if (submitType === 'withdrawInterest') {
       dispatch(withdrawInterest(toWei(amount)))
@@ -29,11 +29,11 @@ const WithdrawForm = ({ handleConnect }) => {
     }
   }
 
-  const renderForm = ({ handleSubmit, setFieldValue, isSubmitting, dirty, isValid }) => {
+  const renderForm = ({ handleSubmit, setFieldValue, dirty, isValid }) => {
     return (
       <form onSubmit={handleSubmit} className='form form--withdraw'>
         <div className='input__wrapper'>
-          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Deposited balance - <span>{formatWei(totalStaked)} LP</span></div>
+          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Deposited balance - <span>{formatWei(totalStaked)} UNI FUSE-ETH</span></div>
           <div className='input'>
             <Field name='amount'>
               {({
@@ -42,14 +42,14 @@ const WithdrawForm = ({ handleConnect }) => {
                 <input {...field} placeholder='0.00' autoComplete='off' />
               )}
             </Field>
-            <span className='symbol'>LP</span>
+            <span className='symbol'>UNI FUSE-ETH</span>
           </div>
         </div>
         <div className='gray_container__wrapper'>
           <GrayContainer
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
-            showWithdrawBtn
+            showWithdrawBtn={formatWeiToNumber(accruedRewards) > 0}
             handleWithdraw={() => {
               setFieldValue('submitType', 'withdrawInterest')
             }}
@@ -75,7 +75,10 @@ const WithdrawForm = ({ handleConnect }) => {
         {
           !accountAddress && (
             <button
-              onClick={handleConnect}
+              onClick={(e) => {
+                e.preventDefault()
+                handleConnect()
+              }}
               type='submit'
               className='button'
             >

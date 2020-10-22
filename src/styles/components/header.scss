@@ -54,19 +54,16 @@
     height: 40px;
     border-radius: 100px;
     padding: 0.8em;
-    // @include breakpoint(medium up) {
-    //   width: 201px;
-    // }
+
+    &:hover {
+      background: $color-light-dark;
+    }
 
     @include modifier(logged-out) {
       background: $color-primary-dark;
 
       .text {
         color: $color-white;
-      }
-
-      &:hover {
-        background: $color-light-dark;
       }
     }
 

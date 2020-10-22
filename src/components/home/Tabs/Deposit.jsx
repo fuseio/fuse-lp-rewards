@@ -42,7 +42,7 @@ const DepositForm = ({ handleConnect }) => {
     return (
       <form onSubmit={handleSubmit} className='form form--deposit'>
         <div className='input__wrapper'>
-          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} LP</span></div>
+          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} UNI FUSE-ETH</span></div>
           <div className='input'>
             <Field name='amount'>
               {({
@@ -55,7 +55,7 @@ const DepositForm = ({ handleConnect }) => {
                 />
               )}
             </Field>
-            <span className='symbol'>LP</span>
+            <span className='symbol'>UNI FUSE-ETH</span>
           </div>
         </div>
         <GrayContainer title='your estimated rewards' end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)} />
@@ -91,7 +91,10 @@ const DepositForm = ({ handleConnect }) => {
         {
           !accountAddress && (
             <button
-              onClick={handleConnect}
+              onClick={(e) => {
+                e.preventDefault()
+                handleConnect()
+              }}
               className='button'
             >
               <img style={{ width: '16px', marginRight: '.5em' }} className='icon' src={walletIcon} />

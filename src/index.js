@@ -1,5 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
+import { ModalProvider } from 'react-modal-hook'
+import Modal from 'react-modal'
+import { TransitionGroup } from 'react-transition-group'
 import App from './App'
 import './styles/styles.scss'
 
@@ -14,5 +17,10 @@ import './styles/styles.scss'
   }, {})
 })(require.context('./assets', true, /.*/))
 
-ReactDOM.render(<App />,
+Modal.setAppElement('#root')
+
+render(
+  <ModalProvider rootComponent={TransitionGroup}>
+    <App />
+  </ModalProvider>,
   document.getElementById('root'))

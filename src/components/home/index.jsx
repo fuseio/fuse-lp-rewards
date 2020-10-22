@@ -35,6 +35,7 @@ export default ({ handleConnect }) => {
         <div className='boxs'>
           <InfoBox
             name='apy'
+            modalText='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
             withSymbol={false}
             title='Deposit APY'
             Icon={() => (
@@ -43,6 +44,7 @@ export default ({ handleConnect }) => {
           />
           <InfoBox
             name='deposits'
+            modalText='Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract.'
             title='Your deposits'
             end={formatWeiToNumber(totalStaked)}
             value={`${formatWei(totalStaked)} FUSE`}
@@ -52,6 +54,7 @@ export default ({ handleConnect }) => {
           />
           <InfoBox
             name='rewards'
+            modalText={"Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"}
             end={formatWeiToNumber(accruedRewards)}
             title='Accrued rewards'
             value={`${formatWei(accruedRewards)} FUSE`}

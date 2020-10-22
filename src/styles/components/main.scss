@@ -121,6 +121,10 @@
       width: 352px;
     }
 
+    &:hover {
+      background: $color-light-dark;
+    }
+
     @include breakpoint(small only) {
       width: 85%;
     }
@@ -255,7 +259,7 @@
   @include block(withdraw_stake) {
     width: 103px;
     background: #ffffff;
-    border: 2px solid #0f273c;
+    border: 2px solid $color-primary-dark;
     box-sizing: border-box;
     border-radius: 100px;
     text-align: center;
@@ -264,6 +268,6 @@
     font-weight: 500;
     font-size: 0.75em;
     line-height: 11px;
-    color: #0f273c;
+    color: $color-primary-dark;
   }
 }

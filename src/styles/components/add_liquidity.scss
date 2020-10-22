@@ -1,0 +1,44 @@
+@include block(add_liquidity) {
+  background: #f6c444;
+  height: 56px;
+
+  @include element(container) {
+    @include xy-grid-container();
+    @include xy-grid();
+    @include flex-align(null, middle);
+    height: 100%;
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  @include block(content) {
+  }
+
+  @include block(text) {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.875em;
+    line-height: 18px;
+    color: #333333;
+  }
+
+  @include block(text) {
+    margin-left: 2em;
+  }
+
+  @include block(button) {
+    width: 254px;
+    height: 40px;
+    background: $color-primary-dark;
+    border-radius: 100px;
+    color: $color-white;
+    font-weight: 500;
+    font-size: 0.938em;
+    line-height: 14px;
+    &:hover {
+      background: $color-light-dark;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+@include block(modal) {
+  @include element(overlay) {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    overflow: auto;
+    text-align: center;
+
+    @include modifier(after-open) {
+    }
+    @include modifier(before-open) {
+    }
+  }
+
+  @include element(content) {
+    position: relative;
+    height: auto;
+    outline: 0;
+    border-radius: 20px;
+    background-color: $color-white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    padding: 2em;
+    max-height: 90%;
+    overflow-y: auto;
+    box-sizing: content-box;
+    width: 352px;
+  }
+}
+
+@include block(info-modal) {
+  @include xy-grid(vertical);
+  @include flex-align(justify, top);
+  height: 100%;
+
+  > div {
+    padding-bottom: 1em;
+  }
+
+  @include block(image) {
+  }
+
+  @include block(close) {
+    height: 48px;
+    margin-top: 2em;
+    width: 100%;
+    background: $color-primary-dark;
+    border-radius: 100px;
+    color: $color-white;
+
+    &:hover {
+      background: $color-light-dark;
+    }
+  }
+
+  @include block(text) {
+    text-align: start;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.938em;
+    line-height: 21px;
+    color: #525252;
+  }
+
+  @include block(title) {
+    text-align: start;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 21px;
+    color: #333333;
+  }
+}

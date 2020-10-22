@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { BigNumber } from 'bignumber.js'
 import InfoBox from '@/components/home/InfoBox'
 import Tabs from '@/components/home/Tabs'
 import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
@@ -8,15 +9,17 @@ import walletIcon from '@/assets/images/wallet-plus.svg'
 import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
-import { formatWei, formatWeiToNumber } from '@/utils/format'
+import { formatWeiToNumber } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { accruedRewards = 0, totalStaked = 0 } = useSelector(state => state.staking)
+  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0 } = useSelector(state => state.staking)
   const { accountAddress } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
+
+  const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
 
   useEffect(() => {
     if (accountAddress) {
@@ -37,6 +40,7 @@ export default ({ handleConnect }) => {
             name='apy'
             modalText='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
             withSymbol={false}
+            end={parseInt(apyPercent)}
             title='Deposit APY'
             Icon={() => (
               <img src={accountAddress ? percentageIcon : percentageIcongray} />
@@ -44,20 +48,20 @@ export default ({ handleConnect }) => {
           />
           <InfoBox
             name='deposits'
+            symbol='FUSE-ETH'
             modalText='Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract.'
             title='Your deposits'
             end={formatWeiToNumber(totalStaked)}
-            value={`${formatWei(totalStaked)} FUSE`}
             Icon={() => (
               <img src={accountAddress ? briefcaseIcon : briefcaseIcongray} />
             )}
           />
           <InfoBox
             name='rewards'
+            symbol='FUSE'
             modalText={"Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"}
-            end={formatWeiToNumber(accruedRewards)}
+            end={formatWeiToNumber(accrued)}
             title='Accrued rewards'
-            value={`${formatWei(accruedRewards)} FUSE`}
             Icon={() => (
               <img src={accountAddress ? walletIcon : walletIcongray} />
             )}

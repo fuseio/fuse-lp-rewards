@@ -3,6 +3,7 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
 import { useSelector } from 'react-redux'
 import DepositForm from './Deposit'
 import WithdrawForm from './Withdraw'
+import Stats from './Stats'
 
 const CustomTab = ({ children, ...otherProps }) => (
   <Tab {...otherProps}>
@@ -36,7 +37,7 @@ const TabsWrapper = ({ handleConnect }) => {
         <WithdrawForm handleConnect={handleConnect} />
       </CustomTabPanel>
       <CustomTabPanel className='tabs__panel'>
-        Stats content page
+        <Stats />
       </CustomTabPanel>
     </Tabs>
   )

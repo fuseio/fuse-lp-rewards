@@ -58,7 +58,7 @@ const DepositForm = ({ handleConnect }) => {
             <span className='symbol'>UNI FUSE-ETH</span>
           </div>
         </div>
-        <GrayContainer title='your estimated rewards' end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)} />
+        <GrayContainer modifier='gray_container--fix-width' symbol='FUSE' title='your estimated rewards' end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)} />
         {
           showApprove && accountAddress && (
             <button

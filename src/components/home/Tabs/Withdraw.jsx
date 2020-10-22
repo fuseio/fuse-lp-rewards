@@ -47,6 +47,7 @@ const WithdrawForm = ({ handleConnect }) => {
         </div>
         <div className='gray_container__wrapper'>
           <GrayContainer
+            symbol='FUSE'
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
             showWithdrawBtn={formatWeiToNumber(accruedRewards) > 0}
@@ -54,7 +55,13 @@ const WithdrawForm = ({ handleConnect }) => {
               setFieldValue('submitType', 'withdrawInterest')
             }}
           />
-          <GrayContainer title='rewards claimed' end={isNaN(formatWeiToNumber(withdrawnToDate)) ? 0 : formatWeiToNumber(withdrawnToDate)} />
+          <GrayContainer
+            symbol='FUSE'
+            title='rewards claimed'
+            end={isNaN(formatWeiToNumber(withdrawnToDate))
+              ? 0
+              : formatWeiToNumber(withdrawnToDate)}
+          />
         </div>
         {
           accountAddress && (

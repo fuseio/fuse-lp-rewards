@@ -1,5 +1,13 @@
 {
   "stakeToken": "0x8D533E192268DD91Ba8eC9ee55D9602d97E48f37",
   "rewardToken": "0x72bf54E32276CbCFB6635Eb81C5F98a27CbD7072",
-  "stakingContract": "0x8D45DaE2971a869Ece9FC987eBf6698124c3896C"
+  "stakingContract": "0x8D45DaE2971a869Ece9FC987eBf6698124c3896C",
+  "api": {
+    "graph": {
+      "url": "https://api.thegraph.com/subgraphs/name/uniswap",
+      "subgraphs": {
+        "v2": "/uniswap-v2"
+      }
+    }
+  }
 }

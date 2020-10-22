@@ -6,6 +6,10 @@ import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI, Staking as StakingABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { BigNumber } from 'bignumber.js'
+import { fetchPairInfo } from '@/services/api/uniswap'
+import { getTokenPrice } from '@/services/api/coingecko'
+import get from 'lodash/get'
+import { formatWeiToNumber } from '@/utils/format'
 
 function * approveToken ({ amount }) {
   const tokenAddress = CONFIG.stakeToken
@@ -89,11 +93,15 @@ function * getStakingData () {
 
 function * getStatsData () {
   const { accountAddress } = yield select(state => state.network)
+  const { totalStaked = 0 } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
     const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
+    const { data } = yield call(fetchPairInfo, { address: '0x4ce3687fed17e19324f23e305593ab13bbd55c4d' })
+    const tokenPrice = yield call(getTokenPrice, '0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d')
+
     const globalTotalStake = statsData[0]
     const totalReward = statsData[1]
     const estimatedReward = statsData[2]
@@ -101,6 +109,12 @@ function * getStatsData () {
     const accruedRewards = statsData[4]
     const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
     const rewardsPerToken = new BigNumber(lockedRewards).dividedBy(new BigNumber(globalTotalStake))
+    const reserveUSD = get(data, 'pair.reserveUSD', 0)
+    const totalSupply = get(data, 'pair.totalSupply', 0)
+    const lpPrice = reserveUSD / totalSupply
+    const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
+    const totalRewardInUSD = formatWeiToNumber(totalReward) * tokenPrice['0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d'].usd
+    const apyPercent = (totalRewardInUSD / totalStakeUSD) * 26.07145 * 100
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
       accountAddress,
@@ -111,7 +125,11 @@ function * getStatsData () {
         unlockedReward,
         accruedRewards,
         lockedRewards,
-        rewardsPerToken
+        rewardsPerToken,
+        totalStakeUSD,
+        lpPrice,
+        totalRewardInUSD,
+        apyPercent
       }
     })
   }
@@ -142,6 +160,29 @@ function * approveTokenSuccess () {
   yield put(actions.getTokenAllowance())
 }
 
+function * withdrawInterestSuccess () {
+  yield put(actions.getStakerData())
+}
+
+function * getStakingPeriod () {
+  const { accountAddress } = yield select(state => state.network)
+  if (accountAddress) {
+    const web3 = yield getWeb3()
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+
+    const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
+    const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
+    yield put({
+      type: actions.GET_STAKING_PERIOD.SUCCESS,
+      accountAddress,
+      response: {
+        stakingPeriod,
+        stakingStartTime
+      }
+    })
+  }
+}
+
 export default function * accountsSaga () {
   yield all([
     tryTakeEvery(actions.WITHDRAW_INTEREST, withdrawInterest),
@@ -151,7 +192,9 @@ export default function * accountsSaga () {
     tryTakeEvery(actions.GET_TOKEN_ALLOWANCE, getAllowance, 1),
     tryTakeEvery(actions.GET_STAKE_DATA, getStakingData, 1),
     tryTakeEvery(actions.GET_STATS_DATA, getStatsData, 1),
+    tryTakeEvery(actions.GET_STAKING_PERIOD, getStakingPeriod, 1),
     takeEvery([actions.WITHDRAW_STAKE.SUCCESS, actions.DEPOSIT_STAKE.SUCCESS], refetchBalance),
-    takeEvery([actions.APPROVE_TOKEN.SUCCESS], approveTokenSuccess)
+    takeEvery([actions.APPROVE_TOKEN.SUCCESS], approveTokenSuccess),
+    takeEvery([actions.WITHDRAW_INTEREST.SUCCESS], withdrawInterestSuccess)
   ])
 }

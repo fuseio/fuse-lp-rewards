@@ -17,7 +17,7 @@
     margin-left: 3em;
 
     a {
-      margin-left: .3em;
+      margin-left: 0.3em;
       &:hover {
         text-decoration: underline;
       }
@@ -55,13 +55,12 @@
     border-radius: 100px;
     padding: 0.8em;
 
-    &:hover {
-      background: $color-light-dark;
-    }
-
     @include modifier(logged-out) {
       background: $color-primary-dark;
 
+      &:hover {
+        background: $color-light-dark;
+      }
       .text {
         color: $color-white;
       }

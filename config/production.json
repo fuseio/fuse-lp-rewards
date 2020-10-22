@@ -1,5 +1,5 @@
 {
-  "stakeToken": "0x4Ce3687fEd17e19324F23e305593Ab13bBd55c4D",
-  "rewardToken": "0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d",
-  "stakingContract": "0xAa5F9bf540F1f61674f24a11C1cfec93fE3b4CcA"
+  "stakeToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+  "rewardToken": "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d",
+  "stakingContract": "0xa2b2798192561c2f52074278C1A74401089B43dF"
 }

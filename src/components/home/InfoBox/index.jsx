@@ -9,7 +9,7 @@ import { useModal } from 'react-modal-hook'
 import { formatNumber } from '@/utils/format'
 import InfoIconModal from '@/assets/images/info-icon-modal.svg'
 
-export default ({ Icon, name, title, end, withSymbol = true, modalText }) => {
+export default ({ Icon, name, title, end, withSymbol = true, modalText, symbol }) => {
   const { accountAddress } = useSelector(state => state.network)
   const [isHover, setHover] = useState(false)
   const [modalStatus, setModalStatus] = useState(false)
@@ -71,8 +71,8 @@ export default ({ Icon, name, title, end, withSymbol = true, modalText }) => {
       <div>
         {
           withSymbol
-            ? <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>{countUp} FUSE</div>
-            : <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>{countUp}</div>
+            ? <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>{countUp} {symbol}</div>
+            : <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>{countUp} %</div>
         }
         <div className={classNames('info_box__title', { 'info_box__title--disabled': !accountAddress })}>{title}</div>
       </div>

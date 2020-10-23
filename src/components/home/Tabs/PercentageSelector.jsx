@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 import { formatWeiToNumber } from '@/utils/format'
 import { Field } from 'formik'
 const percentValues = [25, 50, 75, 100]
@@ -6,6 +8,7 @@ const percentValues = [25, 50, 75, 100]
 const calculate = (value, total) => (value / 100) * total
 
 const PercentOption = ({ value, balance }) => {
+  const { accountAddress } = useSelector(state => state.network)
   return (
     <label className='percent_option'>
       <Field>
@@ -21,7 +24,7 @@ const PercentOption = ({ value, balance }) => {
               name='percent'
               value={value}
             />
-            <span className='text'>{value} %</span>
+            <span className={classNames('text', { 'text--disabled': !accountAddress })}>{value} %</span>
           </>
         )}
       </Field>

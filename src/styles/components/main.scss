@@ -92,12 +92,10 @@
   width: 252px;
   margin-top: 2em;
   @include block(percent_option) {
-    cursor: pointer;
-
     > input {
       display: none;
     }
-
+    cursor: pointer;
     width: 55px;
     height: 32px;
     border: 2px solid $color-disabled;
@@ -111,15 +109,15 @@
       font-style: normal;
       font-weight: normal;
       font-size: 0.75em;
-      line-height: 11px;
-      color: $color-dark-gray;
+      color: $color-primary-dark;
+
+      @include modifier(disabled) {
+        color: $color-dark-gray;
+      }
     }
 
     &:hover {
       border-color: $color-primary-dark;
-      @include block(text) {
-        color: $color-primary-dark;
-      }
     }
     @include modifier(selected) {
     }

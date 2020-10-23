@@ -17,7 +17,7 @@ const AddLiquidity = () => {
             <div className='content grid-x align-middle'>
               <img src={alertIcon} />
               <div className='text'>
-                Please add liquidity on the DEX and deposit the FUSE token received here to mine more $FUSE.
+                Please add liquidity to the Uniswap FUSE-ETH pool and deposit the LP token received here to mine more FUSE.
                 <br />
                 Please refer to the guide for more details.
               </div>

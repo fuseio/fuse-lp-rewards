@@ -17,7 +17,7 @@ const AddLiquidity = () => {
             <div className='content grid-x align-middle'>
               <img src={alertIcon} />
               <div className='text'>
-                Please add liquidity on the DEX and deposit the TKN token received here to mine more $TKN.
+                Please add liquidity on the DEX and deposit the FUSE token received here to mine more $FUSE.
                 <br />
                 Please refer to the guide for more details.
               </div>
@@ -25,7 +25,7 @@ const AddLiquidity = () => {
             <a
               rel='noreferrer noopener'
               target='_blank'
-              href='https://info.uniswap.org/pair/0x4ce3687fed17e19324f23e305593ab13bbd55c4d'>
+              href='https://app.uniswap.org/#/add/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d/ETH'>
               <button className='button'>
                 Add liquidity on Uniswap
               </button>

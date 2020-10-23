@@ -3,14 +3,16 @@ import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import { withdrawStakeAndInterest, withdrawInterest } from '@/actions/staking'
 import { object, number, mixed } from 'yup'
-import { Formik, Field } from 'formik'
+import { Formik, Field, Form } from 'formik'
 import { toWei, formatWei, formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 import walletIcon from '@/assets/images/wallet.svg'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
+import PercentageSelector from './PercentageSelector'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive(),
+  percent: mixed().oneOf([25, 50, 75, 100]),
   submitType: mixed().oneOf(['withdrawStakeAndInterest', 'withdrawInterest']).required().default('withdrawStakeAndInterest')
 })
 
@@ -29,22 +31,19 @@ const WithdrawForm = ({ handleConnect }) => {
     }
   }
 
-  const renderForm = ({ handleSubmit, setFieldValue, dirty, isValid }) => {
+  const renderForm = ({ setFieldValue, dirty, isValid }) => {
     return (
-      <form onSubmit={handleSubmit} className='form form--withdraw'>
+      <Form className='form form--withdraw'>
         <div className='input__wrapper'>
           <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Deposited balance - <span>{formatWei(totalStaked)} UNI FUSE-ETH</span></div>
           <div className='input'>
             <Field name='amount'>
-              {({
-                field
-              }) => (
-                <input {...field} placeholder='0.00' autoComplete='off' />
-              )}
+              {({ field }) => <input {...field} placeholder='0.00' autoComplete='off' />}
             </Field>
             <span className='symbol'>UNI FUSE-ETH</span>
           </div>
         </div>
+        <PercentageSelector balance={totalStaked} />
         <div className='gray_container__wrapper'>
           <GrayContainer
             symbol='FUSE'
@@ -94,7 +93,7 @@ const WithdrawForm = ({ handleConnect }) => {
             </button>
           )
         }
-      </form>
+      </Form>
     )
   }
 

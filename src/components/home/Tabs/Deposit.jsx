@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { object, number, mixed } from 'yup'
-import { Formik, Field } from 'formik'
+import { Formik, Field, Form } from 'formik'
 import { BigNumber } from 'bignumber.js'
 import classNames from 'classnames'
 import get from 'lodash/get'
@@ -11,9 +11,11 @@ import GrayContainer from '@/components/common/GrayContainer.jsx'
 import { depositStake, approveToken } from '@/actions/staking'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
 import walletIcon from '@/assets/images/wallet.svg'
+import PercentageSelector from './PercentageSelector'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive().required(),
+  percent: mixed().oneOf([25, 50, 75, 100]),
   submitType: mixed().oneOf(['stake', 'approve']).required().default('stake')
 })
 
@@ -35,12 +37,12 @@ const DepositForm = ({ handleConnect }) => {
     }
   }
 
-  const renderForm = ({ handleSubmit, values, setFieldValue, isSubmitting, dirty, isValid }) => {
+  const renderForm = ({ values, setFieldValue, dirty, isValid, errors }) => {
     const { amount } = values
     const showApprove = new BigNumber(amountApprove).isLessThan(toWei(amount))
     const estimatedAmount = new BigNumber(rewardsPerToken).multipliedBy(new BigNumber(toWei(amount)).plus(totalStaked))
     return (
-      <form onSubmit={handleSubmit} className='form form--deposit'>
+      <Form className='form form--deposit'>
         <div className='input__wrapper'>
           <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} UNI FUSE-ETH</span></div>
           <div className='input'>
@@ -58,6 +60,7 @@ const DepositForm = ({ handleConnect }) => {
             <span className='symbol'>UNI FUSE-ETH</span>
           </div>
         </div>
+        <PercentageSelector balance={balance} />
         <GrayContainer modifier='gray_container--fix-width' symbol='FUSE' title='your estimated rewards' end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)} />
         {
           showApprove && accountAddress && (
@@ -102,7 +105,7 @@ const DepositForm = ({ handleConnect }) => {
             </button>
           )
         }
-      </form>
+      </Form>
     )
   }
 

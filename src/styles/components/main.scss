@@ -7,7 +7,6 @@
 
   @include breakpoint(medium up) {
     width: 700px;
-    // max-width: 720px;
     min-height: 620px;
   }
 
@@ -16,6 +15,7 @@
   }
 
   @include element(wrapper) {
+    margin: 3em 0;
     @include breakpoint(small down) {
       padding: 3em 0;
     }

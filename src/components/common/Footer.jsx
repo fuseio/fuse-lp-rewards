@@ -48,6 +48,16 @@ const Footer = () => {
               Explorer
             </a>
           </div>
+          <div className='link grid-x align-middle align-center'>
+            <a
+              rel='noreferrer noopener'
+              target='_blank'
+              href='https://medium.com/@robert_31058/6cff4f9227c'
+            >
+              Guide
+            </a>
+          </div>
+          &nbsp;<span className='beta'>Beta - use at your own risk</span>
         </div>
 
         <div className='footer__icons grid-x align-center'>
@@ -98,7 +108,7 @@ const Footer = () => {
           />
         </div>
       </div>
-      <div className='footer__text cell medium-8'>
+      <div className='footer__text cell medium-8 grid-x align-start'>
         © 2020 Fuse. The Fuse network is a permissionless and border-less public ledger designed for easy integration of everyday payments.
       </div>
     </footer>

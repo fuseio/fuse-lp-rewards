@@ -33,6 +33,15 @@ const NavBar = ({ history, handleConnect }) => {
                 Explorer
               </a>
             </div>
+            <div className='link grid-x align-middle align-center'>
+              <a
+                rel='noreferrer noopener'
+                target='_blank'
+                href='https://medium.com/@robert_31058/6cff4f9227c'
+              >
+                Guide
+              </a>
+            </div>
           </div>
           {
             accountAddress ? (

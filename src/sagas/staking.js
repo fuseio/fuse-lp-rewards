@@ -108,7 +108,7 @@ function * getStatsData () {
     const unlockedReward = statsData[3]
     const accruedRewards = statsData[4]
     const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
-    const rewardsPerToken = new BigNumber(lockedRewards).dividedBy(new BigNumber(globalTotalStake))
+    const rewardsPerToken = globalTotalStake !== '0' ? new BigNumber(lockedRewards).dividedBy(new BigNumber(globalTotalStake)) : 0
     const reserveUSD = get(data, 'pair.reserveUSD', 0)
     const totalSupply = get(data, 'pair.totalSupply', 0)
     const lpPrice = reserveUSD / totalSupply

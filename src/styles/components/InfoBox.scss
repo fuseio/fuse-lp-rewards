@@ -3,7 +3,15 @@
   height: 112px;
   padding: 0.7em;
   border-radius: 16px;
-  @include xy-cell(30%, null, 0);
+  @include breakpoint(large up) {
+    @include xy-cell(30%, null, 0);
+  }
+
+  @include breakpoint(medium down) {
+    @include xy-cell(24, null, 0);
+    margin: 1em 0;
+  }
+
   @include xy-grid(vertical);
   @include flex-align(justify, null);
 
@@ -17,7 +25,10 @@
 
   @include modifier(deposits) {
     background: #ebf8fc;
-    margin: 0 0.525rem;
+
+    @include breakpoint(large up) {
+      margin: 0 0.525rem;
+    }
   }
 
   @include modifier(rewards) {

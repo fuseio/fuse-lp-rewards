@@ -13,8 +13,8 @@ const AddLiquidity = () => {
     <animated.div style={props}>
       <div className='add_liquidity'>
         <div className='add_liquidity__container'>
-          <div className='grid-x align-middle align-justify'>
-            <div className='content grid-x align-middle'>
+          <div className='grid-x align-middle align-justify grid-margin-x'>
+            <div className='content cell large-auto'>
               <img src={alertIcon} />
               <div className='text'>
                 Please add liquidity to the Uniswap FUSE-ETH pool and deposit the LP token received here to mine more FUSE.
@@ -25,6 +25,7 @@ const AddLiquidity = () => {
             <a
               rel='noreferrer noopener'
               target='_blank'
+              className='cell medium-6 small-24'
               href='https://app.uniswap.org/#/add/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d/ETH'>
               <button className='button'>
                 Add liquidity on Uniswap

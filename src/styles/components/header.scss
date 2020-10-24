@@ -14,7 +14,9 @@
     color: $color-primary-dark;
     width: 72px;
     height: 100%;
-    margin-left: 3em;
+    @include breakpoint(large up) {
+      margin-left: 3em;
+    }
 
     a {
       margin-left: 0.3em;
@@ -35,6 +37,10 @@
   @include element(logo) {
     width: 100px;
     cursor: pointer;
+
+    @include breakpoint(small down) {
+      width: 80px;
+    }
   }
 
   @include element(icons) {
@@ -98,7 +104,9 @@
       font-weight: 500;
       font-size: 0.938em;
       line-height: 14px;
-      // color: $color-white;
+      @include breakpoint(small down) {
+        font-size: 0.8em;
+      }
     }
   }
 }

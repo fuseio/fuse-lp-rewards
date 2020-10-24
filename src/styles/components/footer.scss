@@ -3,6 +3,10 @@
   @include xy-grid();
   @include flex-align(justify, null);
 
+  @include breakpoint(small down) {
+    min-height: 100px;
+  }
+
   @include block(link) {
     font-style: normal;
     font-weight: 500;

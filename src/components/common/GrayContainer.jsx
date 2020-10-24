@@ -24,7 +24,7 @@ const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, mo
   }, [end])
 
   return (
-    <div className={`gray_container ${modifier}`}>
+    <div className={classNames('gray_container', { [modifier]: modifier })}>
       <div className='grid-x align-justify align-middle'>
         <div className='title'>{title}</div>
         <div

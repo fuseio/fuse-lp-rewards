@@ -2,6 +2,10 @@
   background: #f6c444;
   height: 56px;
 
+  @include breakpoint(medium down) {
+    height: unset;
+  }
+
   @include element(container) {
     @include xy-grid-container();
     @include xy-grid();
@@ -11,9 +15,21 @@
     > div {
       width: 100%;
     }
+
+    @include breakpoint(small down) {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
   }
 
   @include block(content) {
+    @include xy-grid(horizontal, false);
+    @include flex-align(null, middle);
+
+    @include breakpoint(medium down) {
+      @include xy-grid(vertical, false);
+      @include flex-align(justify, top);
+    }
   }
 
   @include block(text) {
@@ -26,6 +42,10 @@
 
   @include block(text) {
     margin-left: 1em;
+
+    @include breakpoint(medium down) {
+      margin: 0.5em 0;
+    }
   }
 
   @include block(button) {

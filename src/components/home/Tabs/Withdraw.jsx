@@ -12,7 +12,6 @@ import PercentageSelector from './PercentageSelector'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive(),
-  percent: mixed().oneOf([25, 50, 75, 100]),
   submitType: mixed().oneOf(['withdrawStakeAndInterest', 'withdrawInterest']).required().default('withdrawStakeAndInterest')
 })
 

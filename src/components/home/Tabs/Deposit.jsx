@@ -15,7 +15,6 @@ import PercentageSelector from './PercentageSelector'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive().required(),
-  percent: mixed().oneOf([25, 50, 75, 100]),
   submitType: mixed().oneOf(['stake', 'approve']).required().default('stake')
 })
 

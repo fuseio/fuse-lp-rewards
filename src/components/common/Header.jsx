@@ -37,7 +37,7 @@ const NavBar = ({ history, handleConnect }) => {
               <a
                 rel='noreferrer noopener'
                 target='_blank'
-                href='https://medium.com/@robert_31058/6cff4f9227c'
+                href='https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
               >
                 Guide
               </a>

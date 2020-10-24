@@ -143,6 +143,12 @@
     color: $color-dark-gray;
     margin-bottom: 0.5em;
 
+    > a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     span {
       color: $color-black;
     }
@@ -273,6 +279,19 @@
     }
   }
 
+  @include block(tooltip) {
+    background: $color-primary-dark;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    max-width: 300px;
+    width: fit-content;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.813em;
+    line-height: 21px;
+    color: $color-white;
+  }
+
   @include block(title) {
     font-style: normal;
     font-weight: 500;
@@ -281,6 +300,10 @@
     letter-spacing: 0.3px;
     text-transform: uppercase;
     color: #869aac;
+  }
+
+  @include block(info) {
+    cursor: pointer;
   }
 
   @include block(value) {

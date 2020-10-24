@@ -42,6 +42,12 @@
     color: $color-black;
     margin-bottom: 0.3em;
 
+    > a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     @include modifier(disabled) {
       color: $color-dark-gray;
     }
@@ -57,7 +63,7 @@
     color: #7e8ab4;
 
     @include modifier(disabled) {
-      color: #B2BCC4;
+      color: #b2bcc4;
     }
   }
 }

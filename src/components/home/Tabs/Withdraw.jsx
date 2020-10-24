@@ -47,6 +47,7 @@ const WithdrawForm = ({ handleConnect }) => {
         <div className='gray_container__wrapper'>
           <GrayContainer
             symbol='FUSE'
+            tootlipText='Rewarded FUSEs available for claim.'
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
             showWithdrawBtn={formatWeiToNumber(accruedRewards) > 0}
@@ -56,6 +57,7 @@ const WithdrawForm = ({ handleConnect }) => {
           />
           <GrayContainer
             symbol='FUSE'
+            tootlipText='Rewarded FUSEs already claimed.'
             title='rewards claimed'
             end={isNaN(formatWeiToNumber(withdrawnToDate))
               ? 0

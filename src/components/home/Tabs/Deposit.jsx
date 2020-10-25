@@ -18,10 +18,12 @@ const Scheme = object().noUnknown(false).shape({
   submitType: mixed().oneOf(['stake', 'approve']).required().default('stake')
 })
 
+const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumber(lockedRewards).dividedBy(new BigNumber(total).plus(new BigNumber(amountToStake)))
+
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { accountAddress } = useSelector(state => state.network)
-  const { rewardsPerToken, totalStaked = 0 } = useSelector(state => state.staking)
+  const { globalTotalStake, lockedRewards, totalStaked = 0 } = useSelector(state => state.staking)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)
   const accounts = useSelector(state => state.accounts)
   const balance = get(accounts, [accountAddress, 'balances', CONFIG.stakeToken], 0)
@@ -36,10 +38,12 @@ const DepositForm = ({ handleConnect }) => {
     }
   }
 
-  const renderForm = ({ values, setFieldValue, dirty, isValid, errors }) => {
+  const renderForm = ({ values, setFieldValue, dirty, isValid }) => {
     const { amount } = values
-    const showApprove = new BigNumber(amountApprove).isLessThan(toWei(amount))
-    const estimatedAmount = new BigNumber(rewardsPerToken).multipliedBy(new BigNumber(toWei(amount)).plus(totalStaked))
+    const amountToStake = toWei(amount)
+    const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
+    const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
+    const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
     return (
       <Form className='form form--deposit'>
         <div className='input__wrapper'>

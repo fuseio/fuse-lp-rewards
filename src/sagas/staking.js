@@ -99,8 +99,8 @@ function * getStatsData () {
     const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
-    const { data } = yield call(fetchPairInfo, { address: '0x4ce3687fed17e19324f23e305593ab13bbd55c4d' })
-    const tokenPrice = yield call(getTokenPrice, '0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d')
+    const { data } = yield call(fetchPairInfo, { address: CONFIG.stakeToken })
+    const tokenPrice = yield call(getTokenPrice, CONFIG.rewardToken)
 
     const globalTotalStake = statsData[0]
     const totalReward = statsData[1]
@@ -108,12 +108,12 @@ function * getStatsData () {
     const unlockedReward = statsData[3]
     const accruedRewards = statsData[4]
     const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
-    const rewardsPerToken = globalTotalStake !== '0' ? new BigNumber(lockedRewards).dividedBy(new BigNumber(globalTotalStake)) : 0
     const reserveUSD = get(data, 'pair.reserveUSD', 0)
     const totalSupply = get(data, 'pair.totalSupply', 0)
+    const fusePrice = tokenPrice[CONFIG.rewardToken].usd
     const lpPrice = reserveUSD / totalSupply
     const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
-    const totalRewardInUSD = formatWeiToNumber(totalReward) * tokenPrice['0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d'].usd
+    const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
     const apyPercent = (totalRewardInUSD / totalStakeUSD) * 26.07145 * 100
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
@@ -125,7 +125,6 @@ function * getStatsData () {
         unlockedReward,
         accruedRewards,
         lockedRewards,
-        rewardsPerToken,
         totalStakeUSD,
         lpPrice,
         totalRewardInUSD,

@@ -38,28 +38,7 @@ const Footer = () => {
       <div className='footer cell medium-16 grid-x align-middle'>
         <div className='grid-x align-middle align-center'>
           <img className='logo' src={footerLogo} />
-          <div className='link grid-x align-middle align-center'>
-            <img src={explorerIcon} />
-            <a
-              rel='noreferrer noopener'
-              target='_blank'
-              href='http://explorer.fuse.io/'
-            >
-              Explorer
-            </a>
-          </div>
-          <div className='link grid-x align-middle align-center'>
-            <a
-              rel='noreferrer noopener'
-              target='_blank'
-              href='https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
-            >
-              Guide
-            </a>
-          </div>
-          &nbsp;<span className='beta'>Beta - use at your own risk</span>
         </div>
-
         <div className='footer__icons grid-x align-center'>
           <HoverIcon
             link='https://twitter.com/fuse_network'

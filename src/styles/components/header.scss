@@ -1,26 +1,82 @@
 @include block(header) {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
+  @include xy-grid(horizontal, false);
+  @include flex-align(justify, middle);
   height: 56px;
   width: 100%;
 
-  @include block(link) {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 0.75em;
-    line-height: 11px;
-    color: $color-primary-dark;
-    width: 72px;
-    height: 100%;
-    @include breakpoint(large up) {
-      margin-left: 3em;
+  @include element(nav) {
+    @include xy-grid(horizontal, false);
+    @include flex-align(right, middle);
+    color: #0a2f40;
+    font-size: 1em;
+
+    @include breakpoint(medium down) {
+      display: none;
     }
 
-    a {
-      margin-left: 0.3em;
+    @include xy-cell(8, null, 0);
+
+    @include breakpoint(medium down) {
+      @include xy-cell(12, null, 0);
+    }
+
+    @include element(open) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 99;
+      visibility: visible;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: normal;
+      padding: 0 0 60px;
+      border-radius: 0 0 60px 60px;
+      box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @include element(link) {
+    text-decoration: none;
+    font-size: 0.938em;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $color-primary-dark;
+    @include breakpoint(medium up) {
+      margin-right: 1.3em;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+
+    @include breakpoint(medium down) {
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+    }
+
+    @include element(wrapper) {
+      @include xy-grid(horizontal);
+      @include breakpoint(medium down) {
+        margin: 4em 0 2em;
+        @include xy-grid(vertical);
+      }
+    }
+
+    @include breakpoint(medium down) {
+      font-size: 1.375em;
+    }
+
+    @include modifier(dark) {
+      color: #083549;
+
       &:hover {
+        color: #083549;
         text-decoration: underline;
       }
     }
@@ -37,6 +93,12 @@
   @include element(logo) {
     width: 100px;
     cursor: pointer;
+
+    @include xy-cell(8, null, 0);
+
+    @include breakpoint(medium down) {
+      @include xy-cell(12, null, 0);
+    }
 
     @include breakpoint(small down) {
       width: 80px;
@@ -108,5 +170,64 @@
         font-size: 0.8em;
       }
     }
+  }
+}
+
+@include block(hamburger-button) {
+  @include element(container) {
+    @include breakpoint(medium up) {
+      display: none;
+    }
+    background-color: transparent;
+    position: relative;
+    flex: 0 0 auto;
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin-left: auto;
+    z-index: 100;
+
+    span {
+      background: #052741;
+      border: none;
+      height: 2px;
+      width: 25px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.35s ease;
+      cursor: pointer;
+      &:nth-of-type(2) {
+        top: 11px;
+      }
+
+      &:nth-of-type(3) {
+        top: 22px;
+      }
+    }
+
+    @include modifier(white) {
+      span {
+        background: white;
+      }
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &:focus,
+    :active {
+      outline: none;
+    }
+  }
+
+  @include element(top) {
+  }
+
+  @include element(middle) {
+  }
+
+  @include element(bottom) {
   }
 }

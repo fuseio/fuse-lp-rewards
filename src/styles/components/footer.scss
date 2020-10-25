@@ -36,12 +36,6 @@
     }
   }
 
-  @include block(beta) {
-    font-weight: 500;
-    font-size: 1.1em;
-    color: $color-white;
-  }
-
   @include element(logo) {
     width: 100px;
     cursor: pointer;
@@ -58,11 +52,6 @@
     @include breakpoint(small down) {
       height: 200px;
       margin-top: 1em;
-    }
-
-    @include block(beta) {
-      font-weight: bold;
-      font-size: 1.2em;
     }
   }
 

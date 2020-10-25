@@ -1,6 +1,6 @@
 @include block(add_liquidity) {
   background: #f6c444;
-  height: 56px;
+  padding: 0.5em;
 
   @include breakpoint(medium down) {
     height: unset;
@@ -38,14 +38,17 @@
     font-size: 0.875em;
     line-height: 18px;
     color: #333333;
-  }
-
-  @include block(text) {
     margin-left: 1em;
 
     @include breakpoint(medium down) {
       margin: 0.5em 0;
     }
+  }
+
+  @include block(beta) {
+    font-weight: 500;
+    font-size: 1.3em;
+    color: $color-primary-dark;
   }
 
   @include block(button) {

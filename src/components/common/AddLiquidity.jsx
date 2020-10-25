@@ -17,6 +17,7 @@ const AddLiquidity = () => {
             <div className='content cell large-auto'>
               <img src={alertIcon} />
               <div className='text'>
+                <div className='beta'>Beta - use at your own risk.</div>
                 Please add liquidity to the Uniswap FUSE-ETH pool and deposit the LP token received here to mine more FUSE.
                 <br />
                 Please refer to the guide for more details.

@@ -65,7 +65,7 @@ const DepositForm = ({ handleConnect }) => {
         </div>
         <PercentageSelector balance={balance} />
         <GrayContainer
-          tootlipText='Your estimated rewards reflect the amount of $FUSE you may receive till the end of the program assuming no change in deposits.'
+          tootlipText='Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits.'
           modifier='gray_container--fix-width'
           symbol='FUSE' title='your estimated rewards'
           end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)}

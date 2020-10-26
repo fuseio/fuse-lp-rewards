@@ -27,7 +27,8 @@ const AddLiquidity = () => {
               rel='noreferrer noopener'
               target='_blank'
               className='cell medium-6 small-24'
-              href='https://app.uniswap.org/#/add/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d/ETH'>
+              href='https://app.uniswap.org/#/add/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d/ETH'
+            >
               <button className='button'>
                 Add liquidity on Uniswap
               </button>
@@ -35,7 +36,7 @@ const AddLiquidity = () => {
           </div>
         </div>
       </div>
-    </animated.div >
+    </animated.div>
   )
 }
 

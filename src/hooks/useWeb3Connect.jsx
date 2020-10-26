@@ -10,6 +10,9 @@ const providerOptions = {
   torus: {
     package: Torus,
     options: {
+      networkParams: {
+        host: 'mainnet'
+      },
       enableLogging: isDev,
       buttonPosition: 'top-right',
       config: {

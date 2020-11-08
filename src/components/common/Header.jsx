@@ -6,7 +6,7 @@ import AddLiquidity from '@/components/common/AddLiquidity'
 import useOutsideClick from '@/hooks/useOutsideClick.jsx'
 import { addressShortener } from '@/utils/format'
 import walletIcon from '@/assets/images/wallet.svg'
-import fuseLogoWhite from '@/assets/images/fuse-logo-white.svg'
+import fuseLogoWhite from '@/assets/images/FuseLogo.png'
 import explorerIcon from '@/assets/images/explorer.svg'
 import get from 'lodash/get'
 

@@ -91,10 +91,13 @@
     height: min-content;
   }
   @include element(logo) {
-    width: 100px;
     cursor: pointer;
 
     @include xy-cell(8, null, 0);
+
+    > img {
+      width: 100px;
+    }
 
     @include breakpoint(medium down) {
       @include xy-cell(12, null, 0);

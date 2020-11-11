@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import { BigNumber } from 'bignumber.js'
-import InfoBox from '@/components/common/InfoBox.jsx'
-import Tabs from '@/components/Tabs'
+import InfoBox from '@/components/home/InfoBox'
+import Tabs from '@/components/home/Tabs'
 import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
 import briefcaseIcon from '@/assets/images/briefcase-check.svg'
 import walletIcon from '@/assets/images/wallet-plus.svg'
@@ -12,24 +11,15 @@ import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWeiToNumber } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
-import { getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
-import ChooseStakingContract from '@/pages/ChooseStakingContract.jsx'
+import { getStatsData } from '@/actions/staking'
 
-const StakingContract = ({ handleConnect, history }) => {
+export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0, stakingContract } = useSelector(state => state.staking)
+  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0 } = useSelector(state => state.staking)
   const { accountAddress } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
-  const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
 
-  useEffect(() => {
-    if (accountAddress && stakingContract) {
-      dispatch(getTokenAllowance())
-      dispatch(getStakerData())
-      dispatch(getStatsData())
-      dispatch(getStakingPeriod())
-    }
-  }, [accountAddress, stakingContract])
+  const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
 
   useEffect(() => {
     if (accountAddress) {
@@ -40,10 +30,6 @@ const StakingContract = ({ handleConnect, history }) => {
   useInterval(() => {
     dispatch(getStatsData())
   }, isRunning ? 5000 : null)
-
-  if (!stakingContract) {
-    return <ChooseStakingContract />
-  }
 
   return (
     <div className='main__wrapper'>
@@ -85,9 +71,6 @@ const StakingContract = ({ handleConnect, history }) => {
         </div>
         <Tabs handleConnect={handleConnect} />
       </div>
-      <button className='back-button' onClick={() => history.goBack()}>back</button>
     </div>
   )
 }
-
-export default withRouter(StakingContract)

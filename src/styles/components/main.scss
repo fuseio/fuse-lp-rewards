@@ -16,29 +16,12 @@
 
   @include element(wrapper) {
     margin: 3em 0;
-    @include xy-grid(vertical);
-    @include flex-align(middle, center);
     @include breakpoint(medium down) {
       margin: 0.5em 0;
     }
 
     @include breakpoint(small down) {
       padding: 3em 0;
-    }
-
-    @include block(back-button) {
-      width: 254px;
-      margin-top: 2em;
-      height: 40px;
-      background: $color-primary-dark;
-      border-radius: 100px;
-      color: $color-white;
-      font-weight: 500;
-      font-size: 0.938em;
-      line-height: 14px;
-      &:hover {
-        background: $color-light-dark;
-      }
     }
   }
   @include block(title) {

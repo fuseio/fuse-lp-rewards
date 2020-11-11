@@ -8,8 +8,6 @@ export default (state = {}, action) => {
       return { ...state, ...action.response }
     case staking.GET_STATS_DATA.SUCCESS:
       return { ...state, ...action.response }
-    case staking.SELECT_CONTRACT:
-      return { ...state, stakingContract: action.stakingContract }
     default:
       return state
   }

@@ -4,7 +4,6 @@ import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
-import InfoIcon from '@/components/common/InfoIcon.jsx'
 
 const Stats = () => {
   const {

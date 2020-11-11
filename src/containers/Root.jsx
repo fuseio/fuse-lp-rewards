@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router'
 import Header from '@/components/common/Header.jsx'
@@ -17,11 +17,9 @@ export default () => {
 
   const web3connect = useWeb3Connect(onConnectCallback)
 
-  // const handleLogout = React.useCallback(() => {
-  //   web3connect.core.clearCachedProvider()
-  // }, [web3connect])
+  // const handleLogout = useCallback(web3connect?.core?.clearCachedProvider, [web3connect])
 
-  const handleConnect = React.useCallback(web3connect?.toggleModal, [web3connect])
+  const handleConnect = useCallback(web3connect?.toggleModal, [web3connect])
 
   useEffect(() => {
     if (web3connect.core.cachedProvider) {

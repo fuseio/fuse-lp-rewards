@@ -31,7 +31,6 @@ const PercentOption = ({ value, balance }) => {
     </label>
   )
 }
-
 const PercentageSelector = ({ balance }) => {
   return (
     <div className='percent_wrapper grid-x align-middle align-justify'>
@@ -45,5 +44,4 @@ const PercentageSelector = ({ balance }) => {
     </div>
   )
 }
-
 export default PercentageSelector

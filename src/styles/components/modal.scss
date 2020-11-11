@@ -38,7 +38,7 @@
 
 @include block(info-modal) {
   @include xy-grid(vertical);
-  @include flex-align(justify, top);
+  @include flex-align(justify, center);
   height: 100%;
 
   > div {
@@ -62,7 +62,6 @@
   }
 
   @include block(text) {
-    text-align: start;
     font-style: normal;
     font-weight: normal;
     font-size: 0.938em;
@@ -71,7 +70,6 @@
   }
 
   @include block(title) {
-    text-align: start;
     font-style: normal;
     font-weight: 500;
     font-size: 22px;

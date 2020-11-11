@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import ReactModal from 'react-modal'
+import { useModal } from 'react-modal-hook'
 import { BigNumber } from 'bignumber.js'
 import InfoBox from '@/components/home/InfoBox'
 import Tabs from '@/components/home/Tabs'
@@ -16,7 +18,7 @@ import { getStatsData } from '@/actions/staking'
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0 } = useSelector(state => state.staking)
-  const { accountAddress } = useSelector(state => state.network)
+  const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
 
   const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
@@ -30,6 +32,36 @@ export default ({ handleConnect }) => {
   useInterval(() => {
     dispatch(getStatsData())
   }, isRunning ? 5000 : null)
+
+  const [modalStatus, setModalStatus] = useState(false)
+
+  const [showModal] = useModal(() => (
+    <ReactModal isOpen={modalStatus} overlayClassName='modal__overlay' className='modal__content'>
+      <div className='info-modal'>
+        <div className='title center'>
+          Switch to Mainnet network
+        </div>
+        <button
+          className='close'
+          onClick={() => { setModalStatus(false) }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+  ), [modalStatus])
+
+  useEffect(() => {
+    if (networkId) {
+      if (networkId !== 1) {
+        showModal()
+        setModalStatus(true)
+      }
+      if (networkId === 1) {
+        setModalStatus(false)
+      }
+    }
+  }, [networkId])
 
   return (
     <div className='main__wrapper'>

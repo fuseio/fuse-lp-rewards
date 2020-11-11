@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import { BigNumber } from 'bignumber.js'
 import InfoBox from '@/components/common/InfoBox.jsx'
@@ -14,7 +15,7 @@ import useInterval from '@/hooks/useInterval'
 import { getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
 import ChooseStakingContract from '@/pages/ChooseStakingContract.jsx'
 
-export default ({ handleConnect }) => {
+const StakingContract = ({ handleConnect, history }) => {
   const dispatch = useDispatch()
   const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0, stakingContract } = useSelector(state => state.staking)
   const { accountAddress } = useSelector(state => state.network)
@@ -84,6 +85,9 @@ export default ({ handleConnect }) => {
         </div>
         <Tabs handleConnect={handleConnect} />
       </div>
+      <button className='back-button' onClick={() => history.goBack()}>back</button>
     </div>
   )
 }
+
+export default withRouter(StakingContract)

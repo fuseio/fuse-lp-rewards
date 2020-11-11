@@ -5,14 +5,14 @@ import { push } from 'connected-react-router'
 import { selectContractVersion } from '@/actions/staking'
 
 const options = [
-  {
-    value: 'v1',
-    title: 'Round 1',
-    Text: () => (
-      <div className='option__text cell shrink'>This round of rewards <strong>has ended on Saturday, November 7th at 4pm GMT</strong>. If you participated in this round of rewards please withdraw your funds.</div>
-    ),
-    btnText: 'Withdraw'
-  },
+  // {
+  //   value: 'v1',
+  //   title: 'Round 1',
+  //   Text: () => (
+  //     <div className='option__text cell shrink'>This round of rewards <strong>has ended on Saturday, November 7th at 4pm GMT</strong>. If you participated in this round of rewards please withdraw your funds.</div>
+  //   ),
+  //   btnText: 'Withdraw'
+  // },
   {
     value: 'v2',
     title: 'Round 2',

@@ -1,16 +1,19 @@
 import React from 'react'
+import Countdown from 'react-countdown'
+import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
+import InfoIcon from '@/components/common/InfoIcon.jsx'
 
 const Stats = () => {
   const {
     totalReward = 0,
     lockedRewards = 0,
     unlockedReward = 0,
-    globalTotalStake = 0
-    // stakingStartTime = 0,
-    // stakingPeriod = 0
+    globalTotalStake = 0,
+    stakingStartTime = 0,
+    stakingPeriod = 0
   } = useSelector(state => state.staking)
 
   return (
@@ -47,7 +50,7 @@ const Stats = () => {
           end={formatWeiToNumber(unlockedReward)}
         />
       </div>
-      {/* <div className='medium-12 small-24 cell'>
+      <div className='medium-12 small-24 cell'>
         <div className='gray_container'>
           <div className='grid-x align-justify align-middle'>
             <div className='title'>Program Duration</div>
@@ -55,7 +58,7 @@ const Stats = () => {
           </div>
           <div className='grid-x align-justify align-middle'>
             <div className='value'>
-              <CountdownTimer size='15' backgroundColor='#EEF3F6' count={parseInt(diff)} />
+              <Countdown date={Date.now() + moment.unix(stakingStartTime + stakingPeriod).diff(moment())} />
             </div>
           </div>
         </div>

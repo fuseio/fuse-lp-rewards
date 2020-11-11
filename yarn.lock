@@ -9777,6 +9777,13 @@ react-component-countdown-timer@^0.1.8:
   resolved "https://registry.yarnpkg.com/react-component-countdown-timer/-/react-component-countdown-timer-0.1.8.tgz#64cfb4c9212f3f5349b490a3458cae6f32e4271a"
   integrity sha512-pqJGRF9RjRDLCvRExF4Id+sQ4ORPFFn8ZLDoHMlgMrPDxfGRz6gdbHnvIxU0VyejWE2zeaXxgkxpvl8ghuTD5A==
 
+react-countdown@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.1.tgz#6914538705075c74ac8f97fd8c31b29eadf44cbd"
+  integrity sha512-h66prF+Wwj3Ru4tDeqvXsW8iqaCyC54pjwTAlUUmUQ11EUqIO34xV4pO4q8MGT6917ep47ntKmBW99ZVN1ozdQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-countup@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-4.3.3.tgz#143a8d854d47290b73d6915eac20a12d839153c2"

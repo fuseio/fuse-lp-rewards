@@ -76,7 +76,9 @@
 
     @include modifier(dark) {
       color: #083549;
+
       &:hover {
+        color: #083549;
         text-decoration: underline;
       }
     }

@@ -16,6 +16,9 @@ const Stats = () => {
     stakingPeriod = 0
   } = useSelector(state => state.staking)
 
+  const end = moment.unix(Number(stakingStartTime) + Number(stakingPeriod)).diff(moment())
+  const dateEnd = Date.now() + end
+
   return (
     <div className='stats grid-x grid-margin-x grid-margin-y'>
       <div className='medium-12 small-24 cell'>
@@ -58,7 +61,7 @@ const Stats = () => {
           </div>
           <div className='grid-x align-justify align-middle'>
             <div className='value'>
-              <Countdown date={Date.now() + moment.unix(stakingStartTime + stakingPeriod).diff(moment())} />
+              <Countdown date={dateEnd} />
             </div>
           </div>
         </div>

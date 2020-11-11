@@ -8,7 +8,6 @@ export const GET_TOKEN_ALLOWANCE = createRequestTypes('GET_TOKEN_ALLOWANCE')
 export const GET_STATS_DATA = createRequestTypes('GET_STATS_DATA')
 export const GET_STAKE_DATA = createRequestTypes('GET_STAKE_DATA')
 export const GET_STAKING_PERIOD = createRequestTypes('GET_STAKING_PERIOD')
-export const SELECT_CONTRACT = 'SELECT_CONTRACT'
 
 export const withdrawInterest = () => action(WITHDRAW_INTEREST.REQUEST)
 export const withdrawStakeAndInterest = (amount) => action(WITHDRAW_STAKE.REQUEST, { amount })
@@ -18,4 +17,3 @@ export const getStakerData = () => action(GET_STAKE_DATA.REQUEST)
 export const getTokenAllowance = () => requestAction(GET_TOKEN_ALLOWANCE)
 export const getStatsData = () => requestAction(GET_STATS_DATA)
 export const getStakingPeriod = () => requestAction(GET_STAKING_PERIOD)
-export const selectContractVersion = (stakingContract) => action(SELECT_CONTRACT, { stakingContract })

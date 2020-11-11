@@ -14,11 +14,10 @@ import { formatWeiToNumber } from '@/utils/format'
 function * approveToken ({ amount }) {
   const tokenAddress = CONFIG.stakeToken
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   const web3 = yield getWeb3()
   const basicToken = new web3.eth.Contract(BasicTokenABI, tokenAddress)
 
-  const transactionPromise = basicToken.methods.approve(stakingContract, amount).send({
+  const transactionPromise = basicToken.methods.approve(CONFIG.stakingContract, amount).send({
     from: accountAddress
   })
 
@@ -28,12 +27,11 @@ function * approveToken ({ amount }) {
 
 function * getAllowance () {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const tokenAddress = CONFIG.stakeToken
     const web3 = yield getWeb3()
     const basicToken = new web3.eth.Contract(BasicTokenABI, tokenAddress)
-    const allowance = yield call(basicToken.methods.allowance(accountAddress, stakingContract).call)
+    const allowance = yield call(basicToken.methods.allowance(accountAddress, CONFIG.stakingContract).call)
     yield put({
       type: actions.GET_TOKEN_ALLOWANCE.SUCCESS,
       accountAddress,
@@ -47,10 +45,9 @@ function * getAllowance () {
 
 function * depositStake ({ amount }) {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const transactionPromise = basicTokenContract.methods.stake(amount).send({
       from: accountAddress
@@ -63,10 +60,9 @@ function * depositStake ({ amount }) {
 
 function * withdrawStake ({ amount }) {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const transactionPromise = basicTokenContract.methods.withdrawStakeAndInterest(amount).send({
       from: accountAddress
@@ -79,10 +75,9 @@ function * withdrawStake ({ amount }) {
 
 function * getStakingData () {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const stakeData = yield call(basicTokenContract.methods.getStakerData(accountAddress).call)
     yield put({
@@ -98,10 +93,10 @@ function * getStakingData () {
 
 function * getStatsData () {
   const { accountAddress } = yield select(state => state.network)
-  const { totalStaked = 0, stakingContract } = yield select(state => state.staking)
+  const { totalStaked = 0 } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
     const { data } = yield call(fetchPairInfo, { address: CONFIG.stakeToken })
@@ -141,10 +136,9 @@ function * getStatsData () {
 
 function * withdrawInterest () {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const transactionPromise = basicTokenContract.methods.withdrawInterest().send({
       from: accountAddress
@@ -171,10 +165,9 @@ function * withdrawInterestSuccess () {
 
 function * getStakingPeriod () {
   const { accountAddress } = yield select(state => state.network)
-  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
 
     const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
     const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)

@@ -57,7 +57,6 @@ const Stats = () => {
         <div className='gray_container'>
           <div className='grid-x align-justify align-middle'>
             <div className='title'>Program Duration</div>
-            <InfoIcon fill='#869AAC' />
           </div>
           <div className='grid-x align-justify align-middle'>
             <div className='value'>

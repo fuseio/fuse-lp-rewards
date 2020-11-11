@@ -1,5 +1,5 @@
 import React from 'react'
-import Countdown from 'react-countdown'	
+import Countdown from 'react-countdown'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { formatWeiToNumber } from '@/utils/format'

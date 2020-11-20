@@ -39,8 +39,6 @@ function * approveToken ({ amount }) {
 
 function * getAllowance ({ stakingContract, tokenAddress, networkId }) {
   const { accountAddress } = yield select(state => state.network)
-  // const { stakingContract } = yield select(state => state.staking)
-  // const { stakingContract, lpToken: tokenAddress } = yield select(state => state.staking)
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
@@ -129,7 +127,6 @@ function * getStakingData ({ stakingContract, networkId }) {
 
 function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const { accountAddress } = yield select(state => state.network)
-  // const { totalStaked = 0, stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })

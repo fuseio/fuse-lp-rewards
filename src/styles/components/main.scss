@@ -131,7 +131,6 @@
 }
 
 @include block(form) {
-  // width: 352px;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -330,7 +329,6 @@
     font-size: 0.938em;
     line-height: 16px;
     color: $color-black;
-    // margin-top: 1em;
 
     @include modifier(disabled) {
       color: $color-dark-gray;

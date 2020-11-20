@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router'
 import Header from '@/components/common/Header.jsx'
 import Footer from '@/components/common/Footer.jsx'
 import ChooseStakingContract from '@/pages/ChooseStakingContract.jsx'
-import StakingContract from '@/pages/StakingContract'
+import StakingContract from '@/pages/StakingContract.jsx'
 import { getWeb3 } from '@/services/web3'
 import useWeb3Connect from '@/hooks/useWeb3Connect'
 import { connectToWallet } from '@/actions/network'
@@ -35,7 +35,7 @@ export default () => {
         <Route path='/staking-contract'>
           <StakingContract />
         </Route>
-        <Route exact path='/'>
+        <Route path='/'>
           <ChooseStakingContract handleConnect={handleConnect} />
         </Route>
       </Switch>

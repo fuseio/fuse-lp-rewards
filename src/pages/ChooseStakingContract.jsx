@@ -47,9 +47,7 @@ export default () => {
               </div>
               <div className='rewards__cards-container grid-x align-justify'>
                 {
-                  map(items, (contract, address) => {
-                    return <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />
-                  })
+                  map(items, (contract, address) => <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
                 }
               </div>
             </div>

@@ -38,7 +38,7 @@
 
 @include block(info-modal) {
   @include xy-grid(vertical);
-  @include flex-align(justify, center);
+  @include flex-align(justify, top);
   height: 100%;
 
   > div {

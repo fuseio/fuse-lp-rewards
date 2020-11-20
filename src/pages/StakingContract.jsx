@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Redirect } from 'react-router'
 import { BigNumber } from 'bignumber.js'
+import replace from 'lodash/replace'
+import get from 'lodash/get'
 import InfoBox from '@/components/common/InfoBox.jsx'
 import Tabs from '@/components/Tabs'
 import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
@@ -11,24 +14,23 @@ import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWeiToNumber } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
-// import { getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
-// import ChooseStakingContract from '@/pages/ChooseStakingContract'
+import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
-  // const dispatch = useDispatch()
-  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0, stakingContract } = useSelector(state => state.staking)
+  const dispatch = useDispatch()
+  const { stakingContract, pairName, lpToken, networkId } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
+  const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
+  const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
   const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const symbol = replace(pairName, '/', '-')
 
-  useEffect(() => {
-    if (accountAddress && stakingContract) {
-      // dispatch(getTokenAllowance())
-      // dispatch(getStakerData())
-      // dispatch(getStatsData())
-      // dispatch(getStakingPeriod())
-    }
-  }, [accountAddress, stakingContract])
+  if (!stakingContract) {
+    return <Redirect to='/' />
+  }
 
   useEffect(() => {
     if (accountAddress) {
@@ -37,7 +39,7 @@ export default ({ handleConnect }) => {
   }, [accountAddress])
 
   useInterval(() => {
-    // dispatch(getStatsData())
+    dispatch(getStatsData(stakingContract, lpToken, networkId))
   }, isRunning ? 5000 : null)
 
   return (
@@ -49,16 +51,15 @@ export default ({ handleConnect }) => {
             name='apy'
             modalText='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
             withSymbol={false}
-            end={parseInt(apyPercent)}
+            end={parseInt(0)}
             title='Deposit APY'
             Icon={() => (
               <img src={accountAddress ? percentageIcon : percentageIcongray} />
             )}
           />
           <InfoBox
-            link='https://app.uniswap.org/#/add/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d/ETH'
             name='deposits'
-            symbol='FUSE-ETH'
+            symbol={symbol}
             modalText='Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract.'
             title='Your deposits'
             end={formatWeiToNumber(totalStaked)}

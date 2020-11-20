@@ -20,12 +20,12 @@ const pairsIcons = {
 const stakingContracts = [
   {
     icon: ethIcon,
-    network: 'Ethereum mainnet',
+    network: 'Ethereum',
     items: CONFIG.contracts.main
   },
   {
     icon: fuseIcon,
-    network: 'Fuse blockchain',
+    network: 'Fuse',
     items: CONFIG.contracts.fuse
   }
 ]

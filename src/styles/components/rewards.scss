@@ -89,6 +89,11 @@
     &:hover {
       background: #283e52;
     }
+    &:disabled {
+      background-color: $color-disabled;
+      cursor: not-allowed;
+      color: $color-primary-dark;
+    }
   }
 }
 

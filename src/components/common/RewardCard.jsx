@@ -10,7 +10,7 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, btnText, isHot, LPToken }) => {
+export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LPToken, networkId }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
 
@@ -38,13 +38,15 @@ export default ({ icon, pairName, stakingContract, btnText, isHot, LPToken }) =>
   }, [get(stakingContracts, [stakingContract, 'totalReward'], 0)])
 
   const dateEnd = useMemo(() => {
-    const end = moment.unix(Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0)) + Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))).diff(moment())
+    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
+    const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
+    const end = moment.unix(stakingStartTime + stakingPeriod).diff(moment())
     const dateEnd = Date.now() + end
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
   const handleClick = () => {
-    dispatch(selectStakingContract(stakingContract, LPToken))
+    dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName }))
     dispatch(push('/staking-contract'))
   }
 
@@ -53,6 +55,7 @@ export default ({ icon, pairName, stakingContract, btnText, isHot, LPToken }) =>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
         {isHot && <img src={hotLabel} />}
+        {isExpired && <span>Expired</span>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>
@@ -74,7 +77,7 @@ export default ({ icon, pairName, stakingContract, btnText, isHot, LPToken }) =>
         <h1 className='card-section__label'>APY</h1>
         <h1 className='card-section__apy'>{apy}</h1>
       </div> */}
-      <button className='button' onClick={handleClick}>{btnText || 'Submit'}</button>
+      <button className='button' disabled={btnText?.includes('soon')} onClick={handleClick}>{btnText || 'Submit'}</button>
     </div>
   )
 }

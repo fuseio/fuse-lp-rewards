@@ -1,20 +1,25 @@
 import React, { useMemo } from 'react'
+import replace from 'lodash/replace'
+import { useSelector } from 'react-redux'
 import get from 'lodash/get'
 import Countdown from 'react-countdown'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
 import { formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 
 const Stats = () => {
-  const { stakingContract } = useSelector(state => state.staking)
+  const { stakingContract, pairName } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
 
   const dateEnd = useMemo(() => {
-    const end = moment.unix(Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0)) + Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))).diff(moment())
+    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
+    const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
+    const end = moment.unix(stakingStartTime + stakingPeriod).diff(moment())
     const dateEnd = Date.now() + end
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
+
+  const symbol = replace(pairName, '/', '-')
 
   return (
     <div className='stats grid-x grid-margin-x grid-margin-y'>
@@ -30,7 +35,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Total Deposits are the total LP tokens deposited across all participants.'
           title='Total Deposits'
-          symbol='UNI FUSE-ETH'
+          symbol={`UNI ${symbol}`}
           end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))}
         />
       </div>

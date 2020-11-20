@@ -74,13 +74,20 @@ export default ({ Icon, name, title, end, withSymbol = true, modalText, symbol, 
             ? (
               <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>
                 {countUp}&nbsp;
-                <a
-                  rel='noreferrer noopener'
-                  target='_blank'
-                  href={link}
-                >
-                  {symbol}
-                </a>
+
+                {
+                  link ? (
+                    <a
+                      rel='noreferrer noopener'
+                      target='_blank'
+                      href={link}
+                    >
+                      {symbol}
+                    </a>
+                  ) : (
+                    <span>{symbol}</span>
+                  )
+                }
               </div>
             )
             : <div className={classNames('info_box__value', { 'info_box__value--disabled': !accountAddress })}>{countUp} %</div>

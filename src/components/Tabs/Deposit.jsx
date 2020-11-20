@@ -5,6 +5,7 @@ import { Formik, Field, Form } from 'formik'
 import { BigNumber } from 'bignumber.js'
 import classNames from 'classnames'
 import get from 'lodash/get'
+import replace from 'lodash/replace'
 
 import { toWei, formatWei, formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
@@ -23,7 +24,7 @@ const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumb
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { accountAddress } = useSelector(state => state.network)
-  const { stakingContract, lpToken } = useSelector(state => state.staking)
+  const { stakingContract, lpToken, pairName } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)
   const accounts = useSelector(state => state.accounts)
@@ -48,10 +49,11 @@ const DepositForm = ({ handleConnect }) => {
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
+    const symbol = replace(pairName, '/', '-')
     return (
       <Form className='form form--deposit'>
         <div className='input__wrapper'>
-          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} UNI FUSE-ETH</span></div>
+          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} UNI {symbol}</span></div>
           <div className='input'>
             <Field name='amount'>
               {({
@@ -64,7 +66,7 @@ const DepositForm = ({ handleConnect }) => {
                 />
               )}
             </Field>
-            <span className='symbol'>UNI FUSE-ETH</span>
+            <span className='symbol'>UNI {symbol}</span>
           </div>
         </div>
         <PercentageSelector balance={balance} />

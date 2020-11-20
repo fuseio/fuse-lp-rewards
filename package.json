@@ -10,7 +10,7 @@
   ],
   "standard": {
     "parser": "babel-eslint",
-    "ignore": "src/constants/abi",
+    "ignore": ["src/constants/abi", "solidity"],
     "globals": [
       "CONFIG"
     ]

@@ -10,7 +10,6 @@ import discordIcon from '@/assets/images/discord.svg'
 import discordIconHover from '@/assets/images/discord_footer_hover.svg'
 import telegramIcon from '@/assets/images/tele.svg'
 import telegramIconHover from '@/assets/images/telegram_footer_hover.svg'
-import explorerIcon from '@/assets/images/explorer-footer.svg'
 
 const HoverIcon = ({ Icon, Hover, link }) => {
   const [isHover, setHover] = useState(false)

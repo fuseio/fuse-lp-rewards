@@ -3,7 +3,7 @@ import { toChecksumAddress } from 'web3-utils'
 import { getWeb3 as getWeb3Service } from '@/services/web3'
 import * as actions from '@/actions/network'
 import { balanceOfNative, balanceOfToken } from '@/actions/accounts'
-import { getStakingContractsData, getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
+import { getStakingContractsData } from '@/actions/staking'
 import { getProviderInfo } from 'web3modal'
 import { eventChannel } from 'redux-saga'
 

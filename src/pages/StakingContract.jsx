@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router'
 import { BigNumber } from 'bignumber.js'
+import ReactModal from 'react-modal'
+import { useModal } from 'react-modal-hook'
 import replace from 'lodash/replace'
 import get from 'lodash/get'
 import InfoBox from '@/components/common/InfoBox.jsx'
@@ -18,9 +20,9 @@ import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { stakingContract, pairName, lpToken, networkId } = useSelector(state => state.staking)
+  const { stakingContract, pairName, lpToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const { accountAddress } = useSelector(state => state.network)
+  const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
@@ -41,6 +43,36 @@ export default ({ handleConnect }) => {
   useInterval(() => {
     dispatch(getStatsData(stakingContract, lpToken, networkId))
   }, isRunning ? 5000 : null)
+
+  const [modalStatus, setModalStatus] = useState(false)
+
+  const [showModal] = useModal(() => (
+    <ReactModal isOpen={modalStatus} overlayClassName='modal__overlay' className='modal__content'>
+      <div className='info-modal'>
+        <div className='title center'>
+          Switch to {networkId === 1 ? 'Fuse' : 'Mainnet'} network
+        </div>
+        <button
+          className='close'
+          onClick={() => { setModalStatus(false) }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+  ), [modalStatus])
+
+  useEffect(() => {
+    if (networkId) {
+      if (networkId !== stakingNetworkId) {
+        showModal()
+        setModalStatus(true)
+      }
+      if (networkId === stakingNetworkId) {
+        setModalStatus(false)
+      }
+    }
+  }, [networkId])
 
   return (
     <div className='main__wrapper'>

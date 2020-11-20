@@ -1,17 +1,20 @@
 import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
+import get from 'lodash/get'
 import { withRouter } from 'react-router'
 import { useSelector } from 'react-redux'
-// import AddLiquidity from '@/components/common/AddLiquidity'
+import AddLiquidity from '@/components/common/AddLiquidity'
 import useOutsideClick from '@/hooks/useOutsideClick.jsx'
 import { addressShortener } from '@/utils/format'
 import walletIcon from '@/assets/images/wallet.svg'
 import fuseLogoWhite from '@/assets/images/FuseLogo.png'
 import explorerIcon from '@/assets/images/explorer.svg'
 import stakingIcon from '@/assets/images/staking-icon.svg'
-// import get from 'lodash/get'
 
 const NavBar = ({ history, handleConnect }) => {
+  const { stakingContract, lpToken } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
+  const { accountAddress } = useSelector(state => state.network)
   const [isOpen, setMenuOpen] = useState(false)
   const hamburgerRef = useRef(null)
 
@@ -22,10 +25,10 @@ const NavBar = ({ history, handleConnect }) => {
   })
 
   const homePage = () => history.push('/')
-  const { accountAddress } = useSelector(state => state.network)
-  // const { totalStaked = 0 } = useSelector(state => state.staking)
-  // const accounts = useSelector(state => state.accounts)
-  // const balance = get(accounts, [accountAddress, 'balances', CONFIG.stakeToken], 0)
+
+  const accounts = useSelector(state => state.accounts)
+  const balance = get(accounts, [accountAddress, 'balances', lpToken], 0)
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -81,7 +84,7 @@ const NavBar = ({ history, handleConnect }) => {
           </div>
         </div>
       </header>
-      {/* {(!balance || balance === '0') && (!totalStaked || totalStaked === '0') && <AddLiquidity />} */}
+      {stakingContract && (!balance || balance === '0') && (!totalStaked || totalStaked === '0') && <AddLiquidity />}
     </div>
   )
 }

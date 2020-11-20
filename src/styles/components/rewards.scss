@@ -25,6 +25,7 @@
   }
 
   @include element(section) {
+    width: 100%;
     margin-bottom: 3em;
     @include element(title) {
       display: flex;
@@ -50,11 +51,19 @@
 @include block(reward-card) {
   position: relative;
   padding: 1em;
-  &:not(:last-child) {
-    margin-right: 2em;
+  @include breakpoint(medium up) {
+    min-width: 256px;
+    max-width: 256px;
+    &:not(:last-child) {
+      margin-right: 2em;
+    }
   }
-  min-width: 256px;
-  max-width: 256px;
+  @include breakpoint(medium down) {
+    &:not(:last-child) {
+      margin-bottom: 2em;
+    }
+  }
+
   min-height: 339px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);

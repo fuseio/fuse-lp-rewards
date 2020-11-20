@@ -45,7 +45,7 @@ export default () => {
                 <img className='rewards__section__icon' src={icon} />
                 <h3 className='rewards__section__label'>Rewards on {network}</h3>
               </div>
-              <div className='rewards__cards-container grid-x align-justify'>
+              <div className='rewards__cards-container grid-x align-middle'>
                 {
                   map(items, (contract, address) => <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
                 }

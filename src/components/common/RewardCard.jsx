@@ -51,7 +51,7 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
   }
 
   return (
-    <div className='reward-card cell medium-10'>
+    <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
         {isHot && <img src={hotLabel} />}
@@ -66,7 +66,7 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
         {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
       </div>
       <div className='card-section'>
-        <h1 className='card-section__label'>TOTAL LOCKED VALUE</h1>
+        <h1 className='card-section__label'>TOTAL DEPOSITS</h1>
         <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
       </div>
       <div className='card-section'>

@@ -2,6 +2,10 @@ import { put, takeEvery, delay } from 'redux-saga/effects'
 
 export const createEntityPut = (entity) => (action) => put({ ...action, entity })
 
+export const entityKeys = {
+  stakingContracts: 'address'
+}
+
 function * tryClause (args, error, action, numberOfTries = 1) {
   yield put({
     ...args,

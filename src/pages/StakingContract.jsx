@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import ReactModal from 'react-modal'
-import { useModal } from 'react-modal-hook'
 import { BigNumber } from 'bignumber.js'
-import InfoBox from '@/components/common/InfoBox'
-import Tabs from '@/components/home/Tabs'
+import InfoBox from '@/components/common/InfoBox.jsx'
+import Tabs from '@/components/Tabs'
 import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
 import briefcaseIcon from '@/assets/images/briefcase-check.svg'
 import walletIcon from '@/assets/images/wallet-plus.svg'
@@ -13,15 +11,24 @@ import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWeiToNumber } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
-import { getStatsData } from '@/actions/staking'
+// import { getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
+// import ChooseStakingContract from '@/pages/ChooseStakingContract'
 
 export default ({ handleConnect }) => {
-  const dispatch = useDispatch()
-  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0 } = useSelector(state => state.staking)
-  const { accountAddress, networkId } = useSelector(state => state.network)
+  // const dispatch = useDispatch()
+  const { withdrawnToDate = 0, accruedRewards = 0, totalStaked = 0, apyPercent = 0, stakingContract } = useSelector(state => state.staking)
+  const { accountAddress } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
-
   const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
+
+  useEffect(() => {
+    if (accountAddress && stakingContract) {
+      // dispatch(getTokenAllowance())
+      // dispatch(getStakerData())
+      // dispatch(getStatsData())
+      // dispatch(getStakingPeriod())
+    }
+  }, [accountAddress, stakingContract])
 
   useEffect(() => {
     if (accountAddress) {
@@ -30,38 +37,8 @@ export default ({ handleConnect }) => {
   }, [accountAddress])
 
   useInterval(() => {
-    dispatch(getStatsData())
+    // dispatch(getStatsData())
   }, isRunning ? 5000 : null)
-
-  const [modalStatus, setModalStatus] = useState(false)
-
-  const [showModal] = useModal(() => (
-    <ReactModal isOpen={modalStatus} overlayClassName='modal__overlay' className='modal__content'>
-      <div className='info-modal'>
-        <div className='title center'>
-          Switch to Mainnet network
-        </div>
-        <button
-          className='close'
-          onClick={() => { setModalStatus(false) }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-  ), [modalStatus])
-
-  useEffect(() => {
-    if (networkId) {
-      if (networkId !== 1) {
-        showModal()
-        setModalStatus(true)
-      }
-      if (networkId === 1) {
-        setModalStatus(false)
-      }
-    }
-  }, [networkId])
 
   return (
     <div className='main__wrapper'>

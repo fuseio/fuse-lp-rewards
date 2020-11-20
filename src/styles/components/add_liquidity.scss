@@ -37,7 +37,7 @@
     font-weight: normal;
     font-size: 0.875em;
     line-height: 18px;
-    color: #333333;
+    color: $color-black;
     margin-left: 1em;
 
     @include breakpoint(medium down) {

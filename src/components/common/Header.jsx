@@ -2,13 +2,14 @@ import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
 import { withRouter } from 'react-router'
 import { useSelector } from 'react-redux'
-import AddLiquidity from '@/components/common/AddLiquidity'
+// import AddLiquidity from '@/components/common/AddLiquidity'
 import useOutsideClick from '@/hooks/useOutsideClick.jsx'
 import { addressShortener } from '@/utils/format'
 import walletIcon from '@/assets/images/wallet.svg'
 import fuseLogoWhite from '@/assets/images/FuseLogo.png'
 import explorerIcon from '@/assets/images/explorer.svg'
-import get from 'lodash/get'
+import stakingIcon from '@/assets/images/staking-icon.svg'
+// import get from 'lodash/get'
 
 const NavBar = ({ history, handleConnect }) => {
   const [isOpen, setMenuOpen] = useState(false)
@@ -22,9 +23,9 @@ const NavBar = ({ history, handleConnect }) => {
 
   const homePage = () => history.push('/')
   const { accountAddress } = useSelector(state => state.network)
-  const { totalStaked = 0 } = useSelector(state => state.staking)
-  const accounts = useSelector(state => state.accounts)
-  const balance = get(accounts, [accountAddress, 'balances', CONFIG.stakeToken], 0)
+  // const { totalStaked = 0 } = useSelector(state => state.staking)
+  // const accounts = useSelector(state => state.accounts)
+  // const balance = get(accounts, [accountAddress, 'balances', CONFIG.stakeToken], 0)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -40,6 +41,14 @@ const NavBar = ({ history, handleConnect }) => {
           </button>
           <div className={classNames('header__nav', { header__nav__open: isOpen })}>
             <div className='header__link__wrapper'>
+              <a
+                rel='noreferrer noopener'
+                className={classNames('header__link', { 'header__link--dark': isOpen })}
+                target='_blank'
+                href='https://staking.fuse.io/'
+              >
+                <img src={stakingIcon} /> Staking
+              </a>
               <a
                 rel='noreferrer noopener'
                 className={classNames('header__link', { 'header__link--dark': isOpen })}
@@ -72,7 +81,7 @@ const NavBar = ({ history, handleConnect }) => {
           </div>
         </div>
       </header>
-      {(!balance || balance === '0') && (!totalStaked || totalStaked === '0') && <AddLiquidity />}
+      {/* {(!balance || balance === '0') && (!totalStaked || totalStaked === '0') && <AddLiquidity />} */}
     </div>
   )
 }

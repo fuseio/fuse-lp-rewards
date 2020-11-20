@@ -1,0 +1,133 @@
+@include block(rewards) {
+  @include element(wrapper) {
+    background-color: #fbfafc;
+  }
+  padding: 5em 0;
+  @include xy-grid-container();
+  @include xy-grid(vertical);
+  @include flex-align(null, top);
+  width: 100%;
+  @include element(headline) {
+    h1 {
+      font-weight: bold;
+      font-size: 1.875em;
+      line-height: 29px;
+      margin-bottom: 0.5em;
+      color: $color-black;
+    }
+
+    p {
+      max-width: 544px;
+      height: 125px;
+      font-size: 1.125em;
+      line-height: 25px;
+    }
+  }
+
+  @include element(section) {
+    margin-bottom: 3em;
+    @include element(title) {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+    }
+    @include element(icon) {
+      width: 48px;
+      margin-right: 0.5em;
+    }
+    @include element(label) {
+      font-size: 1.375em;
+      font-weight: 500;
+      line-height: 21px;
+      color: $color-black;
+    }
+  }
+  @include element(cards-container) {
+    width: 100%;
+  }
+}
+
+@include block(reward-card) {
+  position: relative;
+  padding: 1em;
+  &:not(:last-child) {
+    margin-right: 2em;
+  }
+  min-width: 256px;
+  max-width: 256px;
+  min-height: 339px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  @include element(icons) {
+    padding: 1em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  @include element(icon) {
+    height: 64px;
+    width: 112px;
+  }
+  @include element(title) {
+    // padding: 0 1em;
+    margin: 0.5em 0em;
+    font-size: 1.375em;
+    font-weight: 500;
+    color: $color-black;
+  }
+
+  @include block(button) {
+    width: 100%;
+    height: 48px;
+    left: 16px;
+    top: 375px;
+    color: #fff;
+    background: #0f273c;
+    border-radius: 100px;
+    transition: 0.5s;
+    &:hover {
+      background: #283e52;
+    }
+  }
+}
+
+@include block(card-section) {
+  // padding: 0 1em;
+  margin: 1em 0;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 12px;
+  @include element(label) {
+    font-size: 9px;
+    line-height: 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: #869aac;
+  }
+  @include element(info) {
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    color: $color-black;
+  }
+  @include element(apy) {
+    font-size: 15px;
+    line-height: 16px;
+    color: #42b051;
+  }
+}
+
+@include block(card-calender) {
+  @include element(label) {
+    display: flex;
+  }
+  @include element(icon) {
+    width: 12px;
+    margin-right: 0.2em;
+  }
+}

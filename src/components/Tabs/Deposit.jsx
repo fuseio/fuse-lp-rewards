@@ -23,11 +23,15 @@ const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumb
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { accountAddress } = useSelector(state => state.network)
-  const { globalTotalStake, lockedRewards, totalStaked = 0 } = useSelector(state => state.staking)
+  const { stakingContract, lpToken } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)
   const accounts = useSelector(state => state.accounts)
-  const balance = get(accounts, [accountAddress, 'balances', CONFIG.stakeToken], 0)
-  const amountApprove = get(accounts, [accountAddress, 'allowance', CONFIG.stakeToken], 0)
+  const balance = get(accounts, [accountAddress, 'balances', lpToken], 0)
+  const amountApprove = get(accounts, [accountAddress, 'allowance', lpToken], 0)
+  const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
+  const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values

@@ -21,7 +21,7 @@ const CustomTabPanel = ({ children, className, ...otherProps }) => (
 
 CustomTabPanel.tabsRole = 'TabPanel'
 
-const TabsWrapper = ({ handleConnect }) => {
+export default ({ handleConnect }) => {
   const { accountAddress } = useSelector(state => state.network)
   return (
     <Tabs className='tabs' selectedTabClassName={accountAddress ? 'tabs__tab--selected' : 'tabs__tab--disabled'}>
@@ -42,5 +42,3 @@ const TabsWrapper = ({ handleConnect }) => {
     </Tabs>
   )
 }
-
-export default TabsWrapper

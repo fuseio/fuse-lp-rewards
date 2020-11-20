@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import get from 'lodash/get'
 import Countdown from 'react-countdown'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
@@ -6,17 +7,14 @@ import { formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 
 const Stats = () => {
-  const {
-    totalReward = 0,
-    lockedRewards = 0,
-    unlockedReward = 0,
-    globalTotalStake = 0,
-    stakingStartTime = 0,
-    stakingPeriod = 0
-  } = useSelector(state => state.staking)
+  const { stakingContract } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
 
-  const end = moment.unix(Number(stakingStartTime) + Number(stakingPeriod)).diff(moment())
-  const dateEnd = Date.now() + end
+  const dateEnd = useMemo(() => {
+    const end = moment.unix(Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0)) + Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))).diff(moment())
+    const dateEnd = Date.now() + end
+    return dateEnd
+  }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
   return (
     <div className='stats grid-x grid-margin-x grid-margin-y'>
@@ -25,7 +23,7 @@ const Stats = () => {
           tootlipText='Total Rewards are the total $FUSE to be rewarded for the program duration.'
           title='Total Rewards'
           symbol='FUSE'
-          end={formatWeiToNumber(totalReward)}
+          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0))}
         />
       </div>
       <div className='medium-12 small-24 cell'>
@@ -33,7 +31,7 @@ const Stats = () => {
           tootlipText='Total Deposits are the total LP tokens deposited across all participants.'
           title='Total Deposits'
           symbol='UNI FUSE-ETH'
-          end={formatWeiToNumber(globalTotalStake)}
+          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))}
         />
       </div>
       <div className='medium-12 small-24 cell'>
@@ -41,7 +39,7 @@ const Stats = () => {
           tootlipText='Locked Rewards are the $FUSE yet to be rewarded.'
           title='Locked Rewards'
           symbol='FUSE'
-          end={formatWeiToNumber(lockedRewards)}
+          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'lockedRewards'], 0))}
         />
       </div>
       <div className='medium-12 small-24 cell'>
@@ -49,7 +47,7 @@ const Stats = () => {
           tootlipText='Unlocked Rewards are the $FUSE rewarded to LP token depositors.'
           title='Unlocked Rewards'
           symbol='FUSE'
-          end={formatWeiToNumber(unlockedReward)}
+          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'unlockedReward'], 0))}
         />
       </div>
       <div className='medium-12 small-24 cell'>

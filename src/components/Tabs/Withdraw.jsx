@@ -1,4 +1,5 @@
 import React from 'react'
+import get from 'lodash/get'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import { withdrawStakeAndInterest, withdrawInterest } from '@/actions/staking'
@@ -18,8 +19,13 @@ const Scheme = object().noUnknown(false).shape({
 const WithdrawForm = ({ handleConnect }) => {
   const { accountAddress } = useSelector(state => state.network)
   const dispatch = useDispatch()
-  const { totalStaked = 0, accruedRewards = 0, withdrawnToDate = 0 } = useSelector(state => state.staking)
+  const { stakingContract, lpToken } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
+  // const { totalStaked = 0, accruedRewards = 0, withdrawnToDate = 0 } = useSelector(state => state.staking)
   const { isWithdraw } = useSelector(state => state.screens.withdraw)
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
+  const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -97,7 +103,6 @@ const WithdrawForm = ({ handleConnect }) => {
       </Form>
     )
   }
-
   return (
     <Formik
       initialValues={{
@@ -111,5 +116,4 @@ const WithdrawForm = ({ handleConnect }) => {
     />
   )
 }
-
 export default WithdrawForm

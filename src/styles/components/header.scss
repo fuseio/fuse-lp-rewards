@@ -71,7 +71,7 @@
       @include breakpoint(medium down) {
         margin: 4em 0 2em;
         @include xy-grid(vertical);
-        @include flex-align(null, center);
+        @include flex-align(null, top);
       }
     }
 

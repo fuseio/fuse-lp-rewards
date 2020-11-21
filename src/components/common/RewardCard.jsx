@@ -66,15 +66,19 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
         {isExpired && <div className='icon'><span>Expired</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
+      {
+        networkId === 1 && (
+          <div className='card-section'>
+            <div className='card-calender__label'>
+              <img className='card-calender__icon' src={calendar} />
+              <h1 className='card-section__label'>Expiration date</h1>
+            </div>
+            {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
+          </div>
+        )
+      }
       <div className='card-section'>
-        <div className='card-calender__label'>
-          <img className='card-calender__icon' src={calendar} />
-          <h1 className='card-section__label'>Expiration date</h1>
-        </div>
-        {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
-      </div>
-      <div className='card-section'>
-        <h1 className='card-section__label'>TOTAL DEPOSITS - UNI {symbol}</h1>
+        <h1 className='card-section__label'>TOTAL DEPOSITS - {networkId === 1 ? 'UNI' : 'FS'} {symbol}</h1>
         <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
       </div>
       <div className='card-section'>

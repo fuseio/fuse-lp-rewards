@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactGA from 'react-ga'
 import replace from 'lodash/replace'
 import get from 'lodash/get'
 import classNames from 'classnames'
@@ -35,6 +36,11 @@ const WithdrawForm = ({ handleConnect }) => {
     } else if (submitType === 'withdrawStakeAndInterest') {
       dispatch(withdrawStakeAndInterest(toWei(amount)))
     }
+    ReactGA.event({
+      category: 'action',
+      action: `Action - ${submitType}`,
+      label: `${submitType} ${amount} into staking contract: ${stakingContract} `
+    })
   }
 
   const renderForm = ({ setFieldValue, dirty, isValid }) => {

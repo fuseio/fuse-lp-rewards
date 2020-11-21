@@ -10,7 +10,10 @@
   ],
   "standard": {
     "parser": "babel-eslint",
-    "ignore": ["src/constants/abi", "solidity"],
+    "ignore": [
+      "src/constants/abi",
+      "solidity"
+    ],
     "globals": [
       "CONFIG"
     ]
@@ -48,7 +51,9 @@
     "react-component-countdown-timer": "^0.1.8",
     "react-countdown": "^2.3.1",
     "react-countup": "^4.3.3",
+    "react-device-detect": "^1.14.0",
     "react-dom": "^16.14.0",
+    "react-ga": "^3.2.1",
     "react-hot-loader": "^4.13.0",
     "react-modal": "^3.11.2",
     "react-modal-hook": "^3.0.0",

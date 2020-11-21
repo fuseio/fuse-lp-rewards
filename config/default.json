@@ -59,5 +59,12 @@
         "v2": "/uniswap-v2"
       }
     }
+  },
+  "reactGA": {
+    "trackingId": "UA-145420511-7",
+    "gaOptions": {
+      "testMode": true,
+      "debug": true
+    }
   }
 }

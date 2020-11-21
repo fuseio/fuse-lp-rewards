@@ -41,7 +41,6 @@ export default ({ handleConnect }) => {
   }, [accountAddress])
 
   useInterval(() => {
-    console.log({ lpToken: stakingNetworkId === 1 ? lpToken : uniPairToken })
     dispatch(getStatsData(stakingContract, stakingNetworkId === 1 ? lpToken : uniPairToken, networkId))
   }, isRunning ? 5000 : null)
 

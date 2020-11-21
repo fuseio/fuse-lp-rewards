@@ -22,7 +22,6 @@ window.addEventListener('error', error => {
   })
 });
 
-
 // imports all images so webpack can compile them
 ((ctx) => {
   const keys = ctx.keys()

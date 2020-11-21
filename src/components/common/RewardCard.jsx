@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
+import ReactGA from 'react-ga'
 import { useCountUp } from 'react-countup'
 import moment from 'moment'
 import replace from 'lodash/replace'
@@ -48,6 +49,11 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
   const handleClick = () => {
+    ReactGA.event({
+      category: 'action',
+      action: 'Action - Select staking contract',
+      label: `Selected ${stakingContract}`
+    })
     dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName }))
     dispatch(push('/staking-contract'))
   }

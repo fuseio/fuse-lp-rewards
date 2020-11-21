@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactGA from 'react-ga'
 import { useDispatch, useSelector } from 'react-redux'
 import { object, number, mixed } from 'yup'
 import { Formik, Field, Form } from 'formik'
@@ -41,6 +42,11 @@ const DepositForm = ({ handleConnect }) => {
     } else {
       dispatch(depositStake(toWei(amount)))
     }
+    ReactGA.event({
+      category: 'action',
+      action: `Action - ${submitType}`,
+      label: `${submitType} ${amount} into staking contract: ${stakingContract} `
+    })
   }
 
   const renderForm = ({ values, setFieldValue, dirty, isValid }) => {

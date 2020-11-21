@@ -40,6 +40,12 @@
     color: $color-black;
     margin-left: 1em;
 
+    > a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     @include breakpoint(medium down) {
       margin: 0.5em 0;
     }

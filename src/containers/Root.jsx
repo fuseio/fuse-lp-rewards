@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router'
 import Header from '@/components/common/Header.jsx'
 import Footer from '@/components/common/Footer.jsx'
-import HomePage from '@/components/home'
+import ChooseStakingContract from '@/pages/ChooseStakingContract.jsx'
+import StakingContract from '@/pages/StakingContract.jsx'
 import { getWeb3 } from '@/services/web3'
 import useWeb3Connect from '@/hooks/useWeb3Connect'
 import { connectToWallet } from '@/actions/network'
@@ -31,8 +32,11 @@ export default () => {
     <>
       <Header handleConnect={handleConnect} />
       <Switch>
+        <Route path='/staking-contract'>
+          <StakingContract />
+        </Route>
         <Route path='/'>
-          <HomePage handleConnect={handleConnect} />
+          <ChooseStakingContract handleConnect={handleConnect} />
         </Route>
       </Switch>
       <Footer />

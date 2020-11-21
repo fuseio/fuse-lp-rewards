@@ -3,7 +3,7 @@ import { toChecksumAddress } from 'web3-utils'
 import { getWeb3 as getWeb3Service } from '@/services/web3'
 import * as actions from '@/actions/network'
 import { balanceOfNative, balanceOfToken } from '@/actions/accounts'
-import { getStakerData, getStatsData, getTokenAllowance, getStakingPeriod } from '@/actions/staking'
+import { getStakingContractsData } from '@/actions/staking'
 import { getProviderInfo } from 'web3modal'
 import { eventChannel } from 'redux-saga'
 
@@ -94,12 +94,8 @@ function * checkNetworkType ({ web3, accountAddress }) {
       response
     })
     yield put(balanceOfNative(accountAddress))
+    yield put(getStakingContractsData())
     yield put(balanceOfToken(CONFIG.rewardToken))
-    yield put(balanceOfToken(CONFIG.stakeToken))
-    yield put(getTokenAllowance())
-    yield put(getStakerData())
-    yield put(getStatsData())
-    yield put(getStakingPeriod())
   } catch (error) {
     yield put({ type: actions.CHECK_NETWORK_TYPE.FAILURE, error })
     yield put({

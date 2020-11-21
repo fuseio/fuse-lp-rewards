@@ -11,13 +11,25 @@ import { getTokenPrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { formatWeiToNumber } from '@/utils/format'
 
+function * getStakingContractsData () {
+  const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse }
+  for (const stakingContract in object) {
+    const { LPToken, networkId, uniPairToken } = object[stakingContract]
+    yield put(actions.getTokenAllowance(stakingContract, LPToken, networkId))
+    yield put(actions.getStakerData(stakingContract, networkId))
+    yield put(actions.getStatsData(stakingContract, networkId === 1 ? LPToken : uniPairToken, networkId))
+    yield put(actions.getStakingPeriod(stakingContract, networkId))
+    yield put(balanceOfToken(LPToken))
+  }
+}
+
 function * approveToken ({ amount }) {
-  const tokenAddress = CONFIG.stakeToken
   const { accountAddress } = yield select(state => state.network)
+  const { stakingContract, lpToken: tokenAddress } = yield select(state => state.staking)
   const web3 = yield getWeb3()
   const basicToken = new web3.eth.Contract(BasicTokenABI, tokenAddress)
 
-  const transactionPromise = basicToken.methods.approve(CONFIG.stakingContract, amount).send({
+  const transactionPromise = basicToken.methods.approve(stakingContract, amount).send({
     from: accountAddress
   })
 
@@ -25,13 +37,13 @@ function * approveToken ({ amount }) {
   yield call(transactionFlow, { transactionPromise, action, tokenAddress })
 }
 
-function * getAllowance () {
+function * getAllowance ({ stakingContract, tokenAddress, networkId }) {
   const { accountAddress } = yield select(state => state.network)
   if (accountAddress) {
-    const tokenAddress = CONFIG.stakeToken
-    const web3 = yield getWeb3()
+    const networkState = yield select(state => state.network)
+    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
     const basicToken = new web3.eth.Contract(BasicTokenABI, tokenAddress)
-    const allowance = yield call(basicToken.methods.allowance(accountAddress, CONFIG.stakingContract).call)
+    const allowance = yield call(basicToken.methods.allowance(accountAddress, stakingContract).call)
     yield put({
       type: actions.GET_TOKEN_ALLOWANCE.SUCCESS,
       accountAddress,
@@ -45,9 +57,10 @@ function * getAllowance () {
 
 function * depositStake ({ amount }) {
   const { accountAddress } = yield select(state => state.network)
+  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const transactionPromise = basicTokenContract.methods.stake(amount).send({
       from: accountAddress
@@ -60,9 +73,10 @@ function * depositStake ({ amount }) {
 
 function * withdrawStake ({ amount }) {
   const { accountAddress } = yield select(state => state.network)
+  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const transactionPromise = basicTokenContract.methods.withdrawStakeAndInterest(amount).send({
       from: accountAddress
@@ -73,17 +87,36 @@ function * withdrawStake ({ amount }) {
   }
 }
 
-function * getStakingData () {
+function * withdrawInterest () {
   const { accountAddress } = yield select(state => state.network)
+  const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+
+    const transactionPromise = basicTokenContract.methods.withdrawInterest().send({
+      from: accountAddress
+    })
+
+    const action = actions.WITHDRAW_INTEREST
+    yield call(transactionFlow, { transactionPromise, action })
+  }
+}
+
+function * getStakingData ({ stakingContract, networkId }) {
+  const { accountAddress } = yield select(state => state.network)
+  if (accountAddress) {
+    const networkState = yield select(state => state.network)
+    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const stakeData = yield call(basicTokenContract.methods.getStakerData(accountAddress).call)
     yield put({
       type: actions.GET_STAKE_DATA.SUCCESS,
       accountAddress,
+      entity: 'stakingContracts',
       response: {
+        address: stakingContract,
         totalStaked: stakeData[0],
         withdrawnToDate: stakeData[1]
       }
@@ -91,15 +124,15 @@ function * getStakingData () {
   }
 }
 
-function * getStatsData () {
+function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const { accountAddress } = yield select(state => state.network)
-  const { totalStaked = 0 } = yield select(state => state.staking)
   if (accountAddress) {
-    const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+    const networkState = yield select(state => state.network)
+    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
-    const { data } = yield call(fetchPairInfo, { address: CONFIG.stakeToken })
+    const { data } = yield call(fetchPairInfo, { address: tokenAddress })
     const tokenPrice = yield call(getTokenPrice, CONFIG.rewardToken)
 
     const globalTotalStake = statsData[0]
@@ -112,13 +145,15 @@ function * getStatsData () {
     const totalSupply = get(data, 'pair.totalSupply', 0)
     const fusePrice = tokenPrice[CONFIG.rewardToken].usd
     const lpPrice = reserveUSD / totalSupply
-    const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
+    const totalStakeUSD = formatWeiToNumber(0) * lpPrice
     const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
     const apyPercent = (totalRewardInUSD / totalStakeUSD) * 26.07145 * 100
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
       accountAddress,
+      entity: 'stakingContracts',
       response: {
+        address: stakingContract,
         globalTotalStake,
         totalReward,
         estimatedReward,
@@ -134,23 +169,10 @@ function * getStatsData () {
   }
 }
 
-function * withdrawInterest () {
-  const { accountAddress } = yield select(state => state.network)
-  if (accountAddress) {
-    const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
-
-    const transactionPromise = basicTokenContract.methods.withdrawInterest().send({
-      from: accountAddress
-    })
-
-    const action = actions.WITHDRAW_INTEREST
-    yield call(transactionFlow, { transactionPromise, action })
-  }
-}
 function * refetchBalance () {
+  const { lpToken } = yield select(state => state.staking)
   yield put(balanceOfToken(CONFIG.rewardToken))
-  yield put(balanceOfToken(CONFIG.stakeToken))
+  yield put(balanceOfToken(lpToken))
   yield put(actions.getStakerData())
   yield put(actions.getStatsData())
 }
@@ -163,18 +185,22 @@ function * withdrawInterestSuccess () {
   yield put(actions.getStakerData())
 }
 
-function * getStakingPeriod () {
+function * getStakingPeriod ({ stakingContract, networkId }) {
   const { accountAddress } = yield select(state => state.network)
+  // const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
-    const web3 = yield getWeb3()
-    const basicTokenContract = new web3.eth.Contract(StakingABI, CONFIG.stakingContract)
+    const networkState = yield select(state => state.network)
+    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
+    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
     const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
     yield put({
       type: actions.GET_STAKING_PERIOD.SUCCESS,
       accountAddress,
+      entity: 'stakingContracts',
       response: {
+        address: stakingContract,
         stakingPeriod,
         stakingStartTime
       }
@@ -184,6 +210,7 @@ function * getStakingPeriod () {
 
 export default function * accountsSaga () {
   yield all([
+    tryTakeEvery(actions.GET_STAKING_CONTRACTS_DATA, getStakingContractsData),
     tryTakeEvery(actions.WITHDRAW_INTEREST, withdrawInterest),
     tryTakeEvery(actions.DEPOSIT_STAKE, depositStake),
     tryTakeEvery(actions.WITHDRAW_STAKE, withdrawStake),

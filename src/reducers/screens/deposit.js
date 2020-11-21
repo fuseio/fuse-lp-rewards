@@ -1,5 +1,4 @@
 import { APPROVE_TOKEN, DEPOSIT_STAKE } from '@/actions/staking'
-// import { formatWei } from '@/utils/format'
 
 export default (state = {}, action) => {
   switch (action.type) {

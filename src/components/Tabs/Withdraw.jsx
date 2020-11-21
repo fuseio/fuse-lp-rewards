@@ -1,4 +1,6 @@
 import React from 'react'
+import replace from 'lodash/replace'
+import get from 'lodash/get'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import { withdrawStakeAndInterest, withdrawInterest } from '@/actions/staking'
@@ -18,8 +20,13 @@ const Scheme = object().noUnknown(false).shape({
 const WithdrawForm = ({ handleConnect }) => {
   const { accountAddress } = useSelector(state => state.network)
   const dispatch = useDispatch()
-  const { totalStaked = 0, accruedRewards = 0, withdrawnToDate = 0 } = useSelector(state => state.staking)
+  const { stakingContract, pairName } = useSelector(state => state.staking)
+  const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isWithdraw } = useSelector(state => state.screens.withdraw)
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
+  const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
+  const symbol = replace(pairName, '/', '-')
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -34,12 +41,12 @@ const WithdrawForm = ({ handleConnect }) => {
     return (
       <Form className='form form--withdraw'>
         <div className='input__wrapper'>
-          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Deposited balance - <span>{formatWei(totalStaked)} UNI FUSE-ETH</span></div>
+          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Deposited balance - <span>{formatWei(totalStaked)} UNI {symbol}</span></div>
           <div className='input'>
             <Field name='amount'>
               {({ field }) => <input {...field} placeholder='0.00' autoComplete='off' />}
             </Field>
-            <span className='symbol'>UNI FUSE-ETH</span>
+            <span className='symbol'>UNI {symbol}</span>
           </div>
         </div>
         <PercentageSelector balance={totalStaked} />
@@ -97,7 +104,6 @@ const WithdrawForm = ({ handleConnect }) => {
       </Form>
     )
   }
-
   return (
     <Formik
       initialValues={{
@@ -111,5 +117,4 @@ const WithdrawForm = ({ handleConnect }) => {
     />
   )
 }
-
 export default WithdrawForm

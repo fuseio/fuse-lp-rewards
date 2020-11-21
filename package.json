@@ -10,7 +10,7 @@
   ],
   "standard": {
     "parser": "babel-eslint",
-    "ignore": "src/constants/abi",
+    "ignore": ["src/constants/abi", "solidity"],
     "globals": [
       "CONFIG"
     ]
@@ -22,6 +22,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "standard",
+    "lint-fix": "standard --fix",
     "clean": "rm -rf ./dist",
     "build:dist": "npm run clean && cross-env NODE_ENV=production webpack -p",
     "start:dist": "npm run clean && cross-env NODE_ENV=production webpack-dev-server --hot && http-server ./dist -o",

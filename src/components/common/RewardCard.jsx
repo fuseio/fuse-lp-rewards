@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import { useCountUp } from 'react-countup'
 import moment from 'moment'
+import replace from 'lodash/replace'
 import Countdown from 'react-countdown'
 import get from 'lodash/get'
-import hotLabel from '@/assets/images/hot-label.svg'
+import fireLabel from '@/assets/images/fire.svg'
 import calendar from '@/assets/images/calendar.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
@@ -13,6 +14,7 @@ import { formatWeiToNumber, formatNumber } from '@/utils/format'
 export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LPToken, networkId }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
+  const symbol = replace(pairName, '/', '-')
 
   const { countUp: globalTotalStakeCounter, start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
@@ -54,8 +56,8 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
-        {isHot && <img src={hotLabel} />}
-        {isExpired && <span>Expired</span>}
+        {isHot && <div className='icon'><img src={fireLabel} /><span>4X</span> </div>}
+        {isExpired && <div className='icon'><span>Expired</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>
@@ -66,17 +68,13 @@ export default ({ icon, pairName, stakingContract, isExpired, btnText, isHot, LP
         {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
       </div>
       <div className='card-section'>
-        <h1 className='card-section__label'>TOTAL DEPOSITS</h1>
+        <h1 className='card-section__label'>TOTAL DEPOSITS - UNI {symbol}</h1>
         <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
-        <h1 className='card-section__info'>{totalRewardCounter}</h1>
+        <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
-      {/* <div className='card-section'>
-        <h1 className='card-section__label'>APY</h1>
-        <h1 className='card-section__apy'>{apy}</h1>
-      </div> */}
       <button className='button' disabled={btnText?.includes('soon')} onClick={handleClick}>{btnText || 'Submit'}</button>
     </div>
   )

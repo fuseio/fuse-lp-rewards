@@ -22,25 +22,29 @@
         "networkId": 122,
         "pairName": "WETH/USDC",
         "LPToken": "0x20a680D69a5aE2677B8CF43aBF63aAD6D8d5119A",
-        "btnText": "Coming soon"
+        "btnText": "Coming soon",
+        "uniPairToken": "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc"
       },
       "0x3e1DE36098965f09836028354e13Ad945dDB84f0": {
         "networkId": 122,
         "pairName": "WBTC/WETH",
         "LPToken": "0x067A7db4B5a4291B79D999b8104021653be4611f",
-        "btnText": "Coming soon"
+        "btnText": "Coming soon",
+        "uniPairToken": "0xBb2b8038a1640196FbE3e38816F3e67Cba72D940"
       },
       "0x4957d310D6704DbdAb18F7D651F655aa59C6059a": {
         "networkId": 122,
         "pairName": "USDC/USDT",
         "LPToken": "0x55251a974ad10ed5BB5d48688EB544c29c99800A",
-        "btnText": "Coming soon"
+        "btnText": "Coming soon",
+        "uniPairToken": "0x3041CbD36888bECc7bbCBc0045E3B1f144466f5f"
       },
       "0x49aE27DCB1A7621073e6Cb23Ce4A16423993DD95": {
         "networkId": 122,
         "pairName": "DAI/USDT",
         "LPToken": "0x38EBDa3998815dAD9c01Eb0Becfb937F4C3E5461",
-        "btnText": "Coming soon"
+        "btnText": "Coming soon",
+        "uniPairToken": "0xB20bd5D04BE54f870D5C0d3cA85d82b34B836405"
       }
     }
   },

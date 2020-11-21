@@ -20,7 +20,7 @@ import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { stakingContract, pairName, lpToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
+  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
@@ -41,7 +41,8 @@ export default ({ handleConnect }) => {
   }, [accountAddress])
 
   useInterval(() => {
-    dispatch(getStatsData(stakingContract, lpToken, networkId))
+    console.log({ lpToken: stakingNetworkId === 1 ? lpToken : uniPairToken })
+    dispatch(getStatsData(stakingContract, stakingNetworkId === 1 ? lpToken : uniPairToken, networkId))
   }, isRunning ? 5000 : null)
 
   const [modalStatus, setModalStatus] = useState(false)

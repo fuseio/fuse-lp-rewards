@@ -3,7 +3,7 @@
     background-color: #fbfafc;
   }
   padding: 5em 0;
-  @include xy-grid-container();
+  @include xy-grid-container(1200px);
   @include xy-grid(vertical);
   @include flex-align(null, top);
   width: 100%;
@@ -70,9 +70,27 @@
   border-radius: 16px;
   @include element(icons) {
     padding: 1em 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    @include xy-grid();
+    @include flex-align(justify, top);
+
+    @include block(icon) {
+      width: 64px;
+      height: 24px;
+      background: #fef2ef;
+      border-radius: 8px;
+      background-color: #fef2ef;
+      @include flex-align(center, middle);
+      @include xy-grid();
+
+      > span {
+        font-weight: 500;
+        font-style: normal;
+        font-size: 12px;
+        line-height: 12px;
+        text-transform: uppercase;
+        color: #fc6e4c;
+      }
+    }
   }
   @include element(icon) {
     height: 64px;

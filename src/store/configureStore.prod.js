@@ -22,7 +22,6 @@ export default function configureStore (initialState) {
       persistConfig,
       createRootReducer(history)
     ),
-    initialState,
     applyMiddleware(
       routerMiddleware(history),
       sagaMiddleware

@@ -6,9 +6,9 @@ import alertIcon from '@/assets/images/alert.svg'
 
 const getSwapLink = (pairs, networkId) => {
   if (networkId === 1) {
-    return `https://app.uniswap.org/#/add/${pairs.toString().split(',').join('/')}`
+    return `https://app.uniswap.org/#/add/${pairs?.toString()?.split(',')?.join('/')}`
   } else if (networkId === 122) {
-    return `https://beta.fuseswap.com/#/add/${pairs.toString().split(',').join('/')}`
+    return `https://beta.fuseswap.com/#/add/${pairs?.toString()?.split(',')?.join('/')}`
   }
 }
 

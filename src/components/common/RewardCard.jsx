@@ -12,7 +12,7 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, btnText = 'Submit' }) => {
+export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const symbol = replace(pairName, '/', '-')
@@ -54,7 +54,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
       action: 'Action - Select staking contract',
       label: `Selected ${stakingContract}`
     })
-    dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, pairs }))
+    dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, uniPairToken, pairs }))
     dispatch(push('/staking-contract'))
   }
 

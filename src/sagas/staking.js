@@ -178,7 +178,8 @@ function * refetchBalance () {
 }
 
 function * approveTokenSuccess () {
-  yield put(actions.getTokenAllowance())
+  const { lpToken, stakingContract, networkId } = yield select(state => state.staking)
+  yield put(actions.getTokenAllowance(stakingContract, lpToken, networkId))
 }
 
 function * withdrawInterestSuccess () {
@@ -187,7 +188,6 @@ function * withdrawInterestSuccess () {
 
 function * getStakingPeriod ({ stakingContract, networkId }) {
   const { accountAddress } = yield select(state => state.network)
-  // const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })

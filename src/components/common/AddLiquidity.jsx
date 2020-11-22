@@ -20,6 +20,7 @@ const AddLiquidity = () => {
   })
   const { pairs, pairName, networkId } = useSelector(state => state.staking)
   const symbol = replace(pairName, '/', '-')
+  const swapName = networkId === 1 ? 'Uniswap' : 'FuseSwap'
 
   return (
     <animated.div style={props}>
@@ -30,7 +31,7 @@ const AddLiquidity = () => {
               <img src={alertIcon} />
               <div className='text'>
                 <div className='beta'>Beta - use at your own risk.</div>
-                Please add liquidity to the {networkId === 1 ? 'Uniswap' : 'FuseSwap'} {symbol} pool and deposit the LP token received here to mine more FUSE.
+                Please add liquidity to the {swapName} {symbol} pool and deposit the LP token received here to mine more FUSE.
                 <br />
                 <a
                   rel='noreferrer noopener'
@@ -48,7 +49,7 @@ const AddLiquidity = () => {
               href={(getSwapLink(pairs, networkId))}
             >
               <button className='button'>
-                Add liquidity on Uniswap
+                Add liquidity on {swapName}
               </button>
             </a>
           </div>

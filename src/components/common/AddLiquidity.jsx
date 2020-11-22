@@ -4,13 +4,21 @@ import replace from 'lodash/replace'
 import { useSpring, animated } from 'react-spring'
 import alertIcon from '@/assets/images/alert.svg'
 
+const getSwapLink = (pairs, networkId) => {
+  if (networkId === 1) {
+    return `https://app.uniswap.org/#/add/${pairs.toString().split(',').join('/')}`
+  } else if (networkId === 122) {
+    return `https://beta.fuseswap.com/#/add/${pairs.toString().split(',').join('/')}`
+  }
+}
+
 const AddLiquidity = () => {
   const props = useSpring({
     opacity: 1,
     transform: 'translate(0px, 0px)',
     from: { opacity: 0, transform: 'translate(-20px, -20px)' }
   })
-  const { lpToken, pairName, networkId } = useSelector(state => state.staking)
+  const { pairs, pairName, networkId } = useSelector(state => state.staking)
   const symbol = replace(pairName, '/', '-')
 
   return (
@@ -33,12 +41,11 @@ const AddLiquidity = () => {
                 </a>
               </div>
             </div>
-            {/* TODO - add FuseSwap pair link after release */}
             <a
               rel='noreferrer noopener'
               target='_blank'
               className='cell medium-6 small-24'
-              href={`https://app.uniswap.org/#/add/${lpToken}/ETH`}
+              href={(getSwapLink(pairs, networkId))}
             >
               <button className='button'>
                 Add liquidity on Uniswap

@@ -132,21 +132,21 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
     const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
+    const fuseToken = CONFIG.rewardTokens['1']
     const { data } = yield call(fetchPairInfo, { address: tokenAddress })
-    const tokenPrice = yield call(getTokenPrice, CONFIG.rewardToken)
-
+    const tokenPrice = yield call(getTokenPrice, fuseToken)
     const globalTotalStake = statsData[0]
     const totalReward = statsData[1]
     const estimatedReward = statsData[2]
     const unlockedReward = statsData[3]
     const accruedRewards = statsData[4]
     const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
+    const fusePrice = tokenPrice[fuseToken].usd
+    const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
     const reserveUSD = get(data, 'pair.reserveUSD', 0)
     const totalSupply = get(data, 'pair.totalSupply', 0)
-    const fusePrice = tokenPrice[CONFIG.rewardToken].usd
     const lpPrice = reserveUSD / totalSupply
     const totalStakeUSD = formatWeiToNumber(0) * lpPrice
-    const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
     const apyPercent = (totalRewardInUSD / totalStakeUSD) * 26.07145 * 100
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
@@ -170,11 +170,11 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
 }
 
 function * refetchBalance () {
-  const { lpToken } = yield select(state => state.staking)
+  const { lpToken, stakingContract, networkId, uniPairToken } = yield select(state => state.staking)
   yield put(balanceOfToken(CONFIG.rewardToken))
   yield put(balanceOfToken(lpToken))
-  yield put(actions.getStakerData())
-  yield put(actions.getStatsData())
+  yield put(actions.getStakerData(stakingContract, networkId))
+  yield put(actions.getStatsData(stakingContract, networkId === 1 ? lpToken : uniPairToken))
 }
 
 function * approveTokenSuccess () {

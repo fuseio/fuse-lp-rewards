@@ -25,7 +25,7 @@ const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumb
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { accountAddress } = useSelector(state => state.network)
-  const { stakingContract, lpToken, pairName } = useSelector(state => state.staking)
+  const { stakingContract, lpToken, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)
   const accounts = useSelector(state => state.accounts)
@@ -34,6 +34,7 @@ const DepositForm = ({ handleConnect }) => {
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -55,11 +56,10 @@ const DepositForm = ({ handleConnect }) => {
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
-    const symbol = replace(pairName, '/', '-')
     return (
       <Form className='form form--deposit'>
         <div className='input__wrapper'>
-          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} UNI {symbol}</span></div>
+          <div className={classNames('balance', { 'balance--disabled': !accountAddress })}>Balance - <span>{formatWei(balance)} {symbol}</span></div>
           <div className='input'>
             <Field name='amount'>
               {({
@@ -72,11 +72,12 @@ const DepositForm = ({ handleConnect }) => {
                 />
               )}
             </Field>
-            <span className='symbol'>UNI {symbol}</span>
+            <span className='symbol'>{symbol}</span>
           </div>
         </div>
         <PercentageSelector balance={balance} />
         <GrayContainer
+          decimals={2}
           tootlipText='Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits.'
           modifier='gray_container--fix-width'
           symbol='FUSE' title='your estimated rewards'

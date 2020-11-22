@@ -8,8 +8,9 @@ import { formatWeiToNumber } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 
 const Stats = () => {
-  const { stakingContract, pairName } = useSelector(state => state.staking)
+  const { stakingContract, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
+  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
 
   const dateEnd = useMemo(() => {
     const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
@@ -18,8 +19,6 @@ const Stats = () => {
     const dateEnd = Date.now() + end
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
-
-  const symbol = replace(pairName, '/', '-')
 
   return (
     <div className='stats grid-x grid-margin-x grid-margin-y'>
@@ -35,7 +34,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Total Deposits are the total LP tokens deposited across all participants.'
           title='Total Deposits'
-          symbol={`UNI ${symbol}`}
+          symbol={symbol}
           end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))}
         />
       </div>

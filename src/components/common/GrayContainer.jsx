@@ -7,12 +7,13 @@ import InfoIcon from '@/components/common/InfoIcon.jsx'
 import InfoIconHover from '@/components/common/InfoIconHover.jsx'
 import { formatNumber } from '@/utils/format'
 
-const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, modifier, symbol, tootlipText }) => {
+const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, modifier, symbol, tootlipText, decimals }) => {
   const [isHover, setHover] = useState(false)
   const { accountAddress } = useSelector(state => state.network)
   const { countUp, start, update } = useCountUp({
     formattingFn: formatNumber,
-    end
+    end,
+    decimals
   })
 
   useEffect(() => {

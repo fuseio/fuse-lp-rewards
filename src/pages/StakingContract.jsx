@@ -93,6 +93,7 @@ export default ({ handleConnect }) => {
             name='deposits'
             symbol={symbol}
             modalText='Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract.'
+            decimals={2}
             title='Your deposits'
             end={formatWeiToNumber(totalStaked)}
             Icon={() => (

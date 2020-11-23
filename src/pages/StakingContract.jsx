@@ -11,6 +11,9 @@ import Tabs from '@/components/Tabs'
 import briefcaseIcongray from '@/assets/images/briefcase-check-gray.svg'
 import briefcaseIcon from '@/assets/images/briefcase-check.svg'
 import walletIcon from '@/assets/images/wallet-plus.svg'
+import SwitchToFuse from '@/assets/images/step_1.png'
+import SwitchToFuseGuide from '@/assets/images/step_2.png'
+import SwitchToMainnet from '@/assets/images/Switch_To_Main.png'
 import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
@@ -45,6 +48,50 @@ export default ({ handleConnect }) => {
   }, isRunning ? 5000 : null)
 
   const [modalStatus, setModalStatus] = useState(false)
+  const [secondModalStatus, setSecondModalStatus] = useState(false)
+
+  const [showSecondModal] = useModal(() => (
+    <ReactModal isOpen={secondModalStatus} overlayClassName='modal__overlay' className='modal__content'>
+      <div className='info-modal'>
+        <div className='title'>
+          Add Fuse network to Metamask
+        </div>
+        <div>
+          <img src={SwitchToFuseGuide} />
+        </div>
+        <div className='text grid-y'>
+          <div className='grid-x cell align-middle shrink'>
+            <strong>Network name: </strong>
+            &nbsp;Fuse network
+          </div>
+          <div className='grid-x cell align-middle shrink'>
+            <strong>RPC Url: </strong>
+            &nbsp;https://rpc.fuse.io
+          </div>
+          <div className='grid-x cell align-middle shrink'>
+            <strong>ChainID: </strong>
+            &nbsp;0x7a
+          </div>
+          <div className='grid-x cell align-middle shrink'>
+            <strong>Symbol: </strong>
+            &nbsp;FUSE
+          </div>
+          <div className='grid-x cell align-middle shrink'>
+            <strong>Explorer: </strong>
+            &nbsp;https://explorer.fuse.io
+          </div>
+        </div>
+        <button
+          className='close'
+          onClick={() => {
+            setSecondModalStatus(false)
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+  ), [secondModalStatus])
 
   const [showModal] = useModal(() => (
     <ReactModal isOpen={modalStatus} overlayClassName='modal__overlay' className='modal__content'>
@@ -52,6 +99,33 @@ export default ({ handleConnect }) => {
         <div className='title center'>
           Switch to {networkId === 1 ? 'Fuse' : 'Mainnet'} network
         </div>
+        {
+          networkId === 1 ? (
+            <>
+              <div>
+                <img src={SwitchToFuse} />
+              </div>
+              <div className='text'>
+                Click
+                <strong
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setModalStatus(false)
+                    showSecondModal()
+                    setSecondModalStatus(true)
+                  }}
+                >
+                  {' here '}
+                </strong>
+              to learn how to add Fuse network to Metamask
+              </div>
+            </>
+          ) : (
+            <div>
+              <img src={SwitchToMainnet} />
+            </div>
+          )
+        }
         <button
           className='close'
           onClick={() => { setModalStatus(false) }}

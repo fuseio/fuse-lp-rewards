@@ -11,6 +11,9 @@ const Stats = () => {
   const { stakingContract, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
+  const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
+  const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
+  const unlockedReward = get(stakingContracts, [stakingContract, 'unlockedReward'], 0)
 
   const dateEnd = useMemo(() => {
     const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
@@ -35,7 +38,7 @@ const Stats = () => {
           tootlipText='Total Deposits are the total LP tokens deposited across all participants.'
           title='Total Deposits'
           symbol={symbol}
-          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))}
+          end={formatWeiToNumber(globalTotalStake)}
         />
       </div>
       <div className='medium-12 small-24 cell'>
@@ -43,7 +46,7 @@ const Stats = () => {
           tootlipText='Locked Rewards are the $FUSE yet to be rewarded.'
           title='Locked Rewards'
           symbol='FUSE'
-          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'lockedRewards'], 0))}
+          end={formatWeiToNumber(lockedRewards)}
         />
       </div>
       <div className='medium-12 small-24 cell'>
@@ -51,7 +54,7 @@ const Stats = () => {
           tootlipText='Unlocked Rewards are the $FUSE rewarded to LP token depositors.'
           title='Unlocked Rewards'
           symbol='FUSE'
-          end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'unlockedReward'], 0))}
+          end={formatWeiToNumber(unlockedReward)}
         />
       </div>
       <div className='medium-12 small-24 cell'>

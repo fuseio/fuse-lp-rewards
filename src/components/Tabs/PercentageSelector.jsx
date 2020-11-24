@@ -34,13 +34,7 @@ const PercentOption = ({ value, balance }) => {
 const PercentageSelector = ({ balance }) => {
   return (
     <div className='percent_wrapper grid-x align-middle align-justify'>
-      {
-        percentValues.map((value) => {
-          return (
-            <PercentOption key={value} value={value} balance={balance} />
-          )
-        })
-      }
+      {percentValues.map((value) => <PercentOption key={value} value={value} balance={balance} />)}
     </div>
   )
 }

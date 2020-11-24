@@ -39,7 +39,7 @@ const WithdrawForm = ({ handleConnect }) => {
     ReactGA.event({
       category: 'action',
       action: `Action - ${submitType}`,
-      label: `${submitType} ${amount} into staking contract: ${stakingContract} `
+      label: `${submitType} ${amount} from staking contract: ${stakingContract} `
     })
   }
 

@@ -137,6 +137,7 @@ const DepositForm = ({ handleConnect }) => {
       validationSchema={Scheme}
       render={renderForm}
       onSubmit={onSubmit}
+      enableReinitialize
       validateOnChange
     />
   )

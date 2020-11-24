@@ -1,4 +1,7 @@
 import { BigNumber } from 'bignumber.js'
+import replace from 'lodash/replace'
+
+export const symbolFromPair = (pairName) => replace(pairName, '/', '-')
 
 export const ROUND_PRECISION = 2
 export const MAX_PRECISION = 18

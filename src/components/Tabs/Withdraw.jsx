@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactGA from 'react-ga'
-import replace from 'lodash/replace'
 import get from 'lodash/get'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import { withdrawStakeAndInterest, withdrawInterest } from '@/actions/staking'
 import { object, number, mixed } from 'yup'
 import { Formik, Field, Form } from 'formik'
-import { toWei, formatWei, formatWeiToNumber } from '@/utils/format'
+import { toWei, formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 import walletIcon from '@/assets/images/wallet.svg'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
@@ -27,7 +26,7 @@ const WithdrawForm = ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
+  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values

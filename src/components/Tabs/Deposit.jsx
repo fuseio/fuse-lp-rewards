@@ -6,9 +6,8 @@ import { Formik, Field, Form } from 'formik'
 import { BigNumber } from 'bignumber.js'
 import classNames from 'classnames'
 import get from 'lodash/get'
-import replace from 'lodash/replace'
 
-import { toWei, formatWei, formatWeiToNumber } from '@/utils/format'
+import { toWei, formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 import { depositStake, approveToken } from '@/actions/staking'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
@@ -34,7 +33,7 @@ const DepositForm = ({ handleConnect }) => {
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
+  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values

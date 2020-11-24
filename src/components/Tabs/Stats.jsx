@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react'
-import replace from 'lodash/replace'
 import { useSelector } from 'react-redux'
 import get from 'lodash/get'
 import Countdown from 'react-countdown'
 import moment from 'moment'
-import { formatWeiToNumber } from '@/utils/format'
+import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 
 const Stats = () => {
   const { stakingContract, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${replace(pairName, '/', '-')}`
+  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const unlockedReward = get(stakingContracts, [stakingContract, 'unlockedReward'], 0)

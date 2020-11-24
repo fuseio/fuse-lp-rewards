@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import replace from 'lodash/replace'
 import { useSpring, animated } from 'react-spring'
 import alertIcon from '@/assets/images/alert.svg'
+import { symbolFromPair } from '@/utils/format'
 
 const getSwapLink = (pairs, networkId) => {
   if (networkId === 1) {
@@ -19,7 +19,7 @@ const AddLiquidity = () => {
     from: { opacity: 0, transform: 'translate(-20px, -20px)' }
   })
   const { pairs, pairName, networkId } = useSelector(state => state.staking)
-  const symbol = replace(pairName, '/', '-')
+  const symbol = symbolFromPair(pairName)
   const swapName = networkId === 1 ? 'Uniswap' : 'FuseSwap'
 
   return (

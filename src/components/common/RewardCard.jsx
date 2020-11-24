@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { useCountUp } from 'react-countup'
 import moment from 'moment'
-import replace from 'lodash/replace'
 import Countdown from 'react-countdown'
 import get from 'lodash/get'
 import fireLabel from '@/assets/images/fire.svg'
@@ -10,12 +9,12 @@ import calendar from '@/assets/images/calendar.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
-import { formatWeiToNumber, formatNumber } from '@/utils/format'
+import { formatWeiToNumber, formatNumber, symbolFromPair } from '@/utils/format'
 
 export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const symbol = replace(pairName, '/', '-')
+  const symbol = symbolFromPair(pairName)
 
   const { countUp: globalTotalStakeCounter, start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,

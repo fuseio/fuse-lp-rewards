@@ -4,7 +4,6 @@ import { Redirect } from 'react-router'
 import { BigNumber } from 'bignumber.js'
 import ReactModal from 'react-modal'
 import { useModal } from 'react-modal-hook'
-import replace from 'lodash/replace'
 import get from 'lodash/get'
 import InfoBox from '@/components/common/InfoBox.jsx'
 import Tabs from '@/components/Tabs'
@@ -17,7 +16,7 @@ import SwitchToMainnet from '@/assets/images/Switch_To_Main.png'
 import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
-import { formatWeiToNumber } from '@/utils/format'
+import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 
@@ -31,7 +30,7 @@ export default ({ handleConnect }) => {
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
   const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
-  const symbol = replace(pairName, '/', '-')
+  const symbol = symbolFromPair(pairName)
 
   if (!stakingContract) {
     return <Redirect to='/' />

@@ -33,8 +33,12 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
   }, [])
 
   useEffect(() => {
-    globalTotalStakeUpdate(formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)))
-  }, [get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)])
+    globalTotalStakeUpdate(networkId === 1
+      ? formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))
+      : formatWeiToNumber(get(stakingContracts, [stakingContract, 'accruedRewards'], 0)))
+  }, [networkId === 1
+    ? formatWeiToNumber(get(stakingContracts, [stakingContract, 'globalTotalStake'], 0))
+    : formatWeiToNumber(get(stakingContracts, [stakingContract, 'accruedRewards'], 0))])
 
   useEffect(() => {
     totalRewardUpdate(formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0)))
@@ -74,7 +78,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
         {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
       </div>
       <div className='card-section'>
-        <h1 className='card-section__label'>TOTAL DEPOSITS - {networkId === 1 ? 'UNI' : 'FS'} {symbol}</h1>
+        <h1 className='card-section__label'>{networkId === 1 ? 'TOTAL DEPOSITS - UNI' : 'Accrued Rewards - FS'} {symbol}</h1>
         <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
       </div>
       <div className='card-section'>

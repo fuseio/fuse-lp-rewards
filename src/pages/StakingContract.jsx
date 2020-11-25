@@ -17,12 +17,13 @@ import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
+import { getBlockExplorerUrl } from '@/utils/network'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
+  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId, apyPercent = 0 } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
@@ -156,7 +157,7 @@ export default ({ handleConnect }) => {
             name='apy'
             modalText='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
             withSymbol={false}
-            end={parseInt(0)}
+            end={parseInt(apyPercent)}
             title='Deposit APY'
             Icon={() => (
               <img src={accountAddress ? percentageIcon : percentageIcongray} />
@@ -174,9 +175,9 @@ export default ({ handleConnect }) => {
             )}
           />
           <InfoBox
-            link='https://etherscan.io/token/0x970B9bB2C0444F5E81e9d0eFb84C8ccdcdcAf84d'
+            link={`${getBlockExplorerUrl(stakingNetworkId)}/address/${CONFIG.rewardTokens[stakingNetworkId]}`}
             name='rewards'
-            symbol='FUSE'
+            symbol={stakingNetworkId === 1 ? 'FUSE' : 'WFUSE'}
             modalText={"Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"}
             end={formatWeiToNumber(accrued)}
             title='Accrued rewards'

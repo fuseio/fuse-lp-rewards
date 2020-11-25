@@ -171,7 +171,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
 
 function * refetchBalance () {
   const { lpToken, stakingContract, networkId, uniPairToken } = yield select(state => state.staking)
-  yield put(balanceOfToken(CONFIG.rewardToken))
+  yield put(balanceOfToken(CONFIG.rewardTokens[`${networkId}`]))
   yield put(balanceOfToken(lpToken))
   yield put(actions.getStakerData(stakingContract, networkId))
   yield put(actions.getStatsData(stakingContract, networkId === 1 ? lpToken : uniPairToken))

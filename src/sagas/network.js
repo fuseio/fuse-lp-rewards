@@ -94,6 +94,8 @@ function * checkNetworkType ({ web3, accountAddress }) {
       response
     })
     yield put(balanceOfNative(accountAddress))
+    yield put(balanceOfToken(CONFIG.rewardTokens['1']))
+    yield put(balanceOfToken(CONFIG.rewardTokens['122']))
     yield put(getStakingContractsData())
   } catch (error) {
     yield put({ type: actions.CHECK_NETWORK_TYPE.FAILURE, error })

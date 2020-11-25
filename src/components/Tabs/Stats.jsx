@@ -28,7 +28,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Total Rewards are the total $FUSE to be rewarded for the program duration.'
           title='Total Rewards'
-          symbol='FUSE'
+          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
           end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0))}
         />
       </div>
@@ -44,7 +44,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Locked Rewards are the $FUSE yet to be rewarded.'
           title='Locked Rewards'
-          symbol='FUSE'
+          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
           end={formatWeiToNumber(lockedRewards)}
         />
       </div>
@@ -52,7 +52,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Unlocked Rewards are the $FUSE rewarded to LP token depositors.'
           title='Unlocked Rewards'
-          symbol='FUSE'
+          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
           end={formatWeiToNumber(unlockedReward)}
         />
       </div>

@@ -9,6 +9,7 @@ import { formatNumber } from '@/utils/format'
 
 const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, modifier, symbol, tootlipText, decimals }) => {
   const [isHover, setHover] = useState(false)
+  const { networkId } = useSelector(state => state.staking)
   const { accountAddress } = useSelector(state => state.network)
   const { countUp, start, update } = useCountUp({
     formattingFn: formatNumber,
@@ -55,7 +56,7 @@ const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, mo
         {
           showWithdrawBtn && (
             <button onClick={handleWithdraw} className='withdraw_stake'>
-              Claim FUSE
+              Claim {networkId === 1 ? 'FUSE' : 'WFUSE'}
             </button>
           )
         }

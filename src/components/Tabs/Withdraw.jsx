@@ -57,7 +57,7 @@ const WithdrawForm = ({ handleConnect }) => {
         <PercentageSelector balance={totalStaked} />
         <div className='gray_container__wrapper'>
           <GrayContainer
-            symbol='FUSE'
+            symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
             tootlipText='Rewarded FUSEs available for claim.'
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
@@ -67,7 +67,7 @@ const WithdrawForm = ({ handleConnect }) => {
             }}
           />
           <GrayContainer
-            symbol='FUSE'
+            symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
             tootlipText='Rewarded FUSEs already claimed.'
             title='rewards claimed'
             end={isNaN(formatWeiToNumber(withdrawnToDate))

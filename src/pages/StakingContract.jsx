@@ -126,12 +126,12 @@ export default ({ handleConnect }) => {
             </div>
           )
         }
-        <button
+        {/* <button
           className='close'
           onClick={() => { setModalStatus(false) }}
         >
           Close
-        </button>
+        </button> */}
       </div>
     </ReactModal>
   ), [modalStatus])

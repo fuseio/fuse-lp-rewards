@@ -124,7 +124,7 @@
 
 @include block(card-section) {
   margin: 1em 0;
-  height: 36px;
+  min-height: 36px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

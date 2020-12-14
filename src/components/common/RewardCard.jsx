@@ -25,10 +25,32 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     end: 0
   })
 
+  const { countUp: reserve0Counter, start: reserve0dStarter, update: reserve0Update } = useCountUp({
+    formattingFn: formatNumber,
+    end: 0,
+    decimals: 2
+  })
+
+  const { countUp: reserve1Counter, start: reserve1dStarter, update: reserve1Update } = useCountUp({
+    formattingFn: formatNumber,
+    end: 0,
+    decimals: 2
+  })
+
   useEffect(() => {
     globalTotalStakeStarter()
     totalRewardStarter()
+    reserve1dStarter()
+    reserve0dStarter()
   }, [])
+
+  useEffect(() => {
+    reserve0Update(formatWeiToNumber(get(stakingContracts, [stakingContract, 'reserve0'], 0)))
+  }, [get(stakingContracts, [stakingContract, 'reserve0'], 0)])
+
+  useEffect(() => {
+    reserve1Update(formatWeiToNumber(get(stakingContracts, [stakingContract, 'reserve1'], 0)))
+  }, [get(stakingContracts, [stakingContract, 'reserve1'], 0)])
 
   useEffect(() => {
     globalTotalStakeUpdate(networkId === 1
@@ -59,10 +81,9 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, uniPairToken, pairs }))
     dispatch(push('/staking-contract'))
   }
+
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
-  const reserve0 = formatWei(get(stakingContracts, [stakingContract, 'reserve0'], 0))
-  const reserve1 = formatWei(get(stakingContracts, [stakingContract, 'reserve1'], 0))
 
   return (
     <div className='reward-card cell medium-10 small-24'>
@@ -81,8 +102,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>
-        <h1 className='card-section__info'>{reserve0} {token0.symbol}</h1>
-        <h1 className='card-section__info'>{reserve1} {token1.symbol}</h1>
+        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter} {token0.symbol}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>

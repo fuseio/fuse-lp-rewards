@@ -75,9 +75,17 @@
   },
   "api": {
     "graph": {
-      "url": "https://api.thegraph.com/subgraphs/name/uniswap",
-      "subgraphs": {
-        "v2": "/uniswap-v2"
+      "uniswap": {
+        "url": "https://api.thegraph.com/subgraphs/name/uniswap",
+        "subgraphs": {
+          "v2": "/uniswap-v2"
+        }
+      },
+      "fuseswap": {
+        "url": "https://graph.fuse.io/subgraphs/name/fuseio",
+        "subgraphs": {
+          "fuseswap": "/fuseswap"
+        }
       }
     }
   },

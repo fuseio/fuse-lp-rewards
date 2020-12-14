@@ -9,14 +9,13 @@ import calendar from '@/assets/images/calendar.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
-import { formatWeiToNumber, formatNumber, symbolFromPair } from '@/utils/format'
+import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
 
 export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const symbol = symbolFromPair(pairName)
 
-  const { countUp: globalTotalStakeCounter, start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
+  const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
     end: 0
   })
@@ -26,10 +25,32 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     end: 0
   })
 
+  const { countUp: reserve0Counter, start: reserve0dStarter, update: reserve0Update } = useCountUp({
+    formattingFn: formatNumber,
+    end: 0,
+    decimals: 2
+  })
+
+  const { countUp: reserve1Counter, start: reserve1dStarter, update: reserve1Update } = useCountUp({
+    formattingFn: formatNumber,
+    end: 0,
+    decimals: 2
+  })
+
   useEffect(() => {
     globalTotalStakeStarter()
     totalRewardStarter()
+    reserve1dStarter()
+    reserve0dStarter()
   }, [])
+
+  useEffect(() => {
+    reserve0Update(formatWeiToNumber(get(stakingContracts, [stakingContract, 'reserve0'], 0)))
+  }, [get(stakingContracts, [stakingContract, 'reserve0'], 0)])
+
+  useEffect(() => {
+    reserve1Update(formatWeiToNumber(get(stakingContracts, [stakingContract, 'reserve1'], 0)))
+  }, [get(stakingContracts, [stakingContract, 'reserve1'], 0)])
 
   useEffect(() => {
     globalTotalStakeUpdate(networkId === 1
@@ -61,6 +82,9 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     dispatch(push('/staking-contract'))
   }
 
+  const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
+  const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
+
   return (
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
@@ -77,8 +101,8 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
         {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
       </div>
       <div className='card-section'>
-        <h1 className='card-section__label'>{networkId === 1 ? 'TOTAL DEPOSITS - UNI' : 'Accrued Rewards - FS'} {symbol}</h1>
-        <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
+        <h1 className='card-section__label'>Pool Size</h1>
+        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter} {token0.symbol}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>

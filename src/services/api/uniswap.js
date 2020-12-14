@@ -19,10 +19,12 @@ const GET_PAIR_INFO = (address) => {
         token0 {
           id
           name
+          symbol
         }
         token1 {
           id
           name
+          symbol
         }
       }
     }

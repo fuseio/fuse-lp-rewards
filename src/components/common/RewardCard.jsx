@@ -9,14 +9,13 @@ import calendar from '@/assets/images/calendar.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
-import { formatWeiToNumber, formatNumber, symbolFromPair } from '@/utils/format'
+import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
 
 export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const symbol = symbolFromPair(pairName)
 
-  const { countUp: globalTotalStakeCounter, start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
+  const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
     end: 0
   })
@@ -60,6 +59,10 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, uniPairToken, pairs }))
     dispatch(push('/staking-contract'))
   }
+  const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
+  const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
+  const reserve0 = formatWei(get(stakingContracts, [stakingContract, 'reserve0'], 0))
+  const reserve1 = formatWei(get(stakingContracts, [stakingContract, 'reserve1'], 0))
 
   return (
     <div className='reward-card cell medium-10 small-24'>
@@ -77,8 +80,9 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
         {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
       </div>
       <div className='card-section'>
-        <h1 className='card-section__label'>{networkId === 1 ? 'TOTAL DEPOSITS - UNI' : 'Accrued Rewards - FS'} {symbol}</h1>
-        <h1 className='card-section__info'>{globalTotalStakeCounter}</h1>
+        <h1 className='card-section__label'>Pool Size</h1>
+        <h1 className='card-section__info'>{reserve0} {token0.symbol}</h1>
+        <h1 className='card-section__info'>{reserve1} {token1.symbol}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>

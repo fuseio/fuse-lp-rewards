@@ -6,7 +6,7 @@ import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI, Staking as StakingABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { BigNumber } from 'bignumber.js'
-import { fetchPairInfo } from '@/services/api/uniswap'
+import { fetchPairInfoUniswap, fetchPairInfoFuseswap } from '@/services/api/uniswap'
 import { getTokenPrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { formatWeiToNumber } from '@/utils/format'
@@ -133,7 +133,8 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
 
     const statsData = yield call(basicTokenContract.methods.getStatsData(accountAddress).call)
     const fuseToken = CONFIG.rewardTokens['1']
-    const { data } = yield call(fetchPairInfo, { address: tokenAddress })
+    const pairInfoFetcher = networkId === 122 ? fetchPairInfoFuseswap : fetchPairInfoUniswap
+    const { data } = yield call(pairInfoFetcher, { address: tokenAddress })
     const tokenPrice = yield call(getTokenPrice, fuseToken)
     const globalTotalStake = statsData[0]
     const totalReward = statsData[1]

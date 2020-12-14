@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { client } from '@/services/graphql'
+import { uniswapClient, fuseswapClient } from '@/services/graphql'
 
 const GET_PAIR_INFO = (address) => {
   return gql`
@@ -29,6 +29,10 @@ const GET_PAIR_INFO = (address) => {
   `
 }
 
-export const fetchPairInfo = ({ address }) => client.query({
+export const fetchPairInfoUniswap = ({ address }) => uniswapClient.query({
+  query: GET_PAIR_INFO(address)
+})
+
+export const fetchPairInfoFuseswap = ({ address }) => fuseswapClient.query({
   query: GET_PAIR_INFO(address)
 })

@@ -11,10 +11,9 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, isExpired, totalReward, isUpcoming, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
     end: 0
@@ -61,7 +60,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     : formatWeiToNumber(get(stakingContracts, [stakingContract, 'accruedRewards'], 0))])
 
   useEffect(() => {
-    totalRewardUpdate(formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0)))
+    totalRewardUpdate(totalReward || formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0)))
   }, [get(stakingContracts, [stakingContract, 'totalReward'], 0)])
 
   const dateEnd = useMemo(() => {
@@ -91,6 +90,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
         <img src={icon} className='reward-card__icon' />
         {isHot && <div className='icon'><img src={fireLabel} /><span>4X</span> </div>}
         {isExpired && <div className='icon'><span>Expired</span></div>}
+        {isUpcoming && <div className='icon'><span>Upcoming</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>

@@ -30,7 +30,8 @@
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
-        ]
+        ],
+        "totalReward": 100000
       }
     },
     "fuse": {

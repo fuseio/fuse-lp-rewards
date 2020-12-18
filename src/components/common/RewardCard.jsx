@@ -11,10 +11,9 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, isExpired, totalReward, isUpcoming, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  console.log()
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
     end: 0
@@ -61,7 +60,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
     : formatWeiToNumber(get(stakingContracts, [stakingContract, 'accruedRewards'], 0))])
 
   useEffect(() => {
-    totalRewardUpdate(formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0)))
+    totalRewardUpdate(totalReward || formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0)))
   }, [get(stakingContracts, [stakingContract, 'totalReward'], 0)])
 
   const dateEnd = useMemo(() => {
@@ -84,12 +83,7 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
 
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
-  const stakingStartTime = get(stakingContracts, [stakingContract, 'stakingStartTime'], {})
-  const secondsToStart = parseInt(stakingStartTime) - Date.now() / 1000
-  const isUpcoming = secondsToStart > 0
-  // console.log({ isStarted })
 
-  console.log({ stakingStartTime })
   return (
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>

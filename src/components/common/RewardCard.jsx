@@ -14,7 +14,7 @@ import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
 export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-
+  console.log()
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
     formattingFn: formatNumber,
     end: 0
@@ -84,13 +84,19 @@ export default ({ icon, pairName, stakingContract, isExpired, isHot, LPToken, ne
 
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
+  const stakingStartTime = get(stakingContracts, [stakingContract, 'stakingStartTime'], {})
+  const secondsToStart = parseInt(stakingStartTime) - Date.now() / 1000
+  const isUpcoming = secondsToStart > 0
+  // console.log({ isStarted })
 
+  console.log({ stakingStartTime })
   return (
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
         {isHot && <div className='icon'><img src={fireLabel} /><span>4X</span> </div>}
         {isExpired && <div className='icon'><span>Expired</span></div>}
+        {isUpcoming && <div className='icon'><span>Upcoming</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>

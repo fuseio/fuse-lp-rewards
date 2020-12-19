@@ -15,7 +15,7 @@
         "networkId": 1,
         "pairName": "ETH/FUSE",
         "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
-        "isHot": false,
+        "isExpired": true,
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
@@ -26,7 +26,7 @@
         "pairName": "ETH/FUSE",
         "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
         "isHot": false,
-        "isUpcoming": true,
+        "isUpcoming": false,
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"

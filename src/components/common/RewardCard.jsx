@@ -9,9 +9,9 @@ import calendar from '@/assets/images/calendar.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
-import { formatWeiToNumber, formatNumber, formatWei } from '@/utils/format'
+import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, isExpired, totalReward, isUpcoming, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
@@ -71,6 +71,12 @@ export default ({ icon, pairName, stakingContract, isExpired, totalReward, isUpc
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
+  const isExpired = useMemo(() => {
+    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
+    const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
+    return moment().isAfter(moment.unix(stakingStartTime + stakingPeriod))
+  }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
+
   const handleClick = () => {
     ReactGA.event({
       category: 'action',
@@ -88,9 +94,8 @@ export default ({ icon, pairName, stakingContract, isExpired, totalReward, isUpc
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
-        {isHot && <div className='icon'><img src={fireLabel} /><span>4X</span> </div>}
-        {isExpired && <div className='icon'><span>Expired</span></div>}
-        {isUpcoming && <div className='icon'><span>Upcoming</span></div>}
+        {isHot && <div className='icon'><img src={fireLabel} /><span>New</span> </div>}
+        {isExpired && !isHot && <div className='icon'><span>Expired</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>

@@ -93,7 +93,11 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
   return (
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
-        <img src={icon} className='reward-card__icon' />
+        <div className="reward-card__icons-wrapper">
+        {isExpired && !isHot &&<div className="reward-card__icons-overlay"></div>}
+          
+          <img src={icon} className='reward-card__icon' />
+        </div>
         {isHot && <div className='icon'><img src={fireLabel} /><span>New</span> </div>}
         {isExpired && !isHot && <div className='icon'><span>Expired</span></div>}
       </div>
@@ -113,7 +117,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
-      <button className='button' onClick={handleClick}>{btnText}</button>
+      <button className='button'  onClick={handleClick}>{btnText} </button>
     </div>
   )
 }

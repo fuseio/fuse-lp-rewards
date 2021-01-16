@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import map from 'lodash/map'
 import RewardCard from '@/components/common/RewardCard'
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
@@ -17,6 +17,8 @@ const pairsIcons = {
   'DAI/USDT': daiUSDTIcon
 }
 
+
+
 const stakingContracts = [
   {
     icon: ethIcon,
@@ -31,12 +33,22 @@ const stakingContracts = [
 ]
 
 export default () => {
+  const handleClick = (e) => {
+    console.log(e.target.name);
+    setFilter(e.target.name);
+  }
+  const [filter, setFilter] = useState('all');
   return (
     <div className='rewards__wrapper'>
       <div className='rewards'>
         <div className='rewards__headline'>
           <h1>Fuse LP rewards</h1>
           <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) then deposit your LP tokens and start earning Fuse.</p>
+        </div>
+        <div  className='rewards__filter-chips'>
+        <button className='chip' disabled = {filter=="all"} name="all"  onClick={handleClick}>All </button>
+        <button className='chip' disabled = {filter=="hot"} name="hot" onClick={handleClick}>New </button>
+        <button className='chip' disabled = {filter=="expired"} name="expired" onClick={handleClick}>Expired </button>
         </div>
         {
           stakingContracts.map(({ icon, network, items }, index) => (
@@ -47,10 +59,13 @@ export default () => {
               </div>
               <div className='rewards__cards-container grid-x align-middle'>
                 {
-                  map(items, (contract, address) => !contract.isExpired && <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
+                  (filter=="all") && map(items, (contract, address) => !contract.isExpired && <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
                 }
                 {
-                  map(items, (contract, address) => contract.isExpired && <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
+                  (filter!="hot") && map(items, (contract, address) => contract.isExpired && <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
+                }
+                {
+                  (filter=="hot") && map(items, (contract, address) => contract.isHot && <RewardCard icon={pairsIcons[contract.pairName]} key={address} {...contract} stakingContract={address} />)
                 }
               </div>
             </div>

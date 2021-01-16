@@ -5,6 +5,7 @@
         "networkId": 1,
         "pairName": "ETH/FUSE",
         "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+        "isExpired" : false,
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
@@ -14,6 +15,7 @@
         "networkId": 1,
         "pairName": "ETH/FUSE",
         "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+        "isExpired" : true,
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
@@ -23,6 +25,7 @@
         "networkId": 1,
         "pairName": "ETH/FUSE",
         "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+        "isExpired" : false,
         "isHot": true,
         "pairs": [
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
@@ -37,6 +40,7 @@
         "pairName": "WETH/USDC",
         "LPToken": "0x20a680D69a5aE2677B8CF43aBF63aAD6D8d5119A",
         "uniPairToken": "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+        "isExpired" : false,
         "pairs": [
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670",
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"
@@ -47,6 +51,7 @@
         "pairName": "WBTC/WETH",
         "LPToken": "0x067A7db4B5a4291B79D999b8104021653be4611f",
         "uniPairToken": "0xBb2b8038a1640196FbE3e38816F3e67Cba72D940",
+        "isExpired" : true,
         "pairs": [
           "0x33284f95ccb7B948d9D352e1439561CF83d8d00d",
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
@@ -57,6 +62,7 @@
         "pairName": "USDC/USDT",
         "LPToken": "0x55251a974ad10ed5BB5d48688EB544c29c99800A",
         "uniPairToken": "0x3041CbD36888bECc7bbCBc0045E3B1f144466f5f",
+        "isExpired" : true,
         "pairs": [
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5",
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"
@@ -67,6 +73,7 @@
         "pairName": "DAI/USDT",
         "LPToken": "0x38EBDa3998815dAD9c01Eb0Becfb937F4C3E5461",
         "uniPairToken": "0xB20bd5D04BE54f870D5C0d3cA85d82b34B836405",
+        "isExpired" : false,
         "pairs": [
           "0x94Ba7A27c7A95863d1bdC7645AC2951E0cca06bA",
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"

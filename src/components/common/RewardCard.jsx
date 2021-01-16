@@ -11,7 +11,7 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, totalReward,isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
@@ -71,12 +71,12 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
-  const isExpired = useMemo(() => {
+  /*const isExpired = useMemo(() => {
     const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
     const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
     return moment().isAfter(moment.unix(stakingStartTime + stakingPeriod))
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
-
+*/
   const handleClick = () => {
     ReactGA.event({
       category: 'action',

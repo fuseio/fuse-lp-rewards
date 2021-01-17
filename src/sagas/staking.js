@@ -1,4 +1,5 @@
 import { all, call, select, put, takeEvery } from 'redux-saga/effects'
+import moment from 'moment'
 import * as actions from '@/actions/staking'
 import { tryTakeEvery } from './utils'
 import { getWeb3 } from '@/services/web3'
@@ -9,8 +10,7 @@ import { BigNumber } from 'bignumber.js'
 import { fetchPairInfoUniswap, fetchPairInfoFuseswap } from '@/services/api/uniswap'
 import { getTokenPrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
-import { toWei } from '@/utils/format'
-import { formatWeiToNumber } from '@/utils/format'
+import { toWei, formatWeiToNumber } from '@/utils/format'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse }
@@ -209,6 +209,8 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
 
     const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
     const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
+    const isExpired = moment().isAfter(moment.unix(Number(stakingStartTime) + Number(stakingPeriod)))
+
     yield put({
       type: actions.GET_STAKING_PERIOD.SUCCESS,
       accountAddress,
@@ -216,6 +218,7 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
       response: {
         address: stakingContract,
         stakingPeriod,
+        isExpired,
         stakingStartTime
       }
     })

@@ -98,7 +98,6 @@
       height: 24px;
       background: #fef2ef;
       border-radius: 8px;
-      background-color: #fef2ef;
       @include flex-align(center, middle);
       @include xy-grid();
 
@@ -108,23 +107,26 @@
         font-size: 12px;
         line-height: 12px;
         text-transform: uppercase;
-        color: #fc6e4c;
+      }
+
+      @include modifier(new) {
+        background-color: #fef2ef;
+        > span {
+          color: #fc6e4c;
+        }
+      }
+
+      @include modifier(expired) {
+        background-color: #eef3f6;
+        > span {
+          color: #869aac;
+        }
       }
     }
   }
   @include element(icon) {
     height: 64px;
     width: 112px;
-  }
-  @include element(icons-wrapper) {
-  }
-  @include element(icons-overlay) {
-    position: absolute;
-    background-color: #eef3f6;
-    mix-blend-mode: color;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
   }
   @include element(title) {
     margin: 0.5em 0em;

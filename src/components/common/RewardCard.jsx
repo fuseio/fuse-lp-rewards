@@ -11,7 +11,7 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, totalReward,isExpired, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
@@ -71,12 +71,6 @@ export default ({ icon, pairName, stakingContract, totalReward,isExpired, isHot,
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
-  /*const isExpired = useMemo(() => {
-    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
-    const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
-    return moment().isAfter(moment.unix(stakingStartTime + stakingPeriod))
-  }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
-*/
   const handleClick = () => {
     ReactGA.event({
       category: 'action',
@@ -87,19 +81,16 @@ export default ({ icon, pairName, stakingContract, totalReward,isExpired, isHot,
     dispatch(push('/staking-contract'))
   }
 
+  const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
 
   return (
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
-        <div className="reward-card__icons-wrapper">
-        {isExpired && !isHot &&<div className="reward-card__icons-overlay"></div>}
-          
-          <img src={icon} className='reward-card__icon' />
-        </div>
-        {isHot && <div className='icon'><img src={fireLabel} /><span>New</span> </div>}
-        {isExpired && !isHot && <div className='icon'><span>Expired</span></div>}
+        <img src={icon} className='reward-card__icon' />
+        {isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
+        {isExpired && <div className='icon icon--expired'><span>Expired</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>
@@ -117,7 +108,7 @@ export default ({ icon, pairName, stakingContract, totalReward,isExpired, isHot,
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
-      <button className='button'  onClick={handleClick}>{btnText} </button>
+      <button className='button' onClick={handleClick}>{btnText}</button>
     </div>
   )
 }

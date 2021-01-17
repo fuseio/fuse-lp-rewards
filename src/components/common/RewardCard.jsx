@@ -71,12 +71,6 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
-  const isExpired = useMemo(() => {
-    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
-    const stakingPeriod = Number(get(stakingContracts, [stakingContract, 'stakingPeriod'], 0))
-    return moment().isAfter(moment.unix(stakingStartTime + stakingPeriod))
-  }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
-
   const handleClick = () => {
     ReactGA.event({
       category: 'action',
@@ -87,6 +81,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     dispatch(push('/staking-contract'))
   }
 
+  const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
 
@@ -94,8 +89,8 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
-        {isHot && <div className='icon'><img src={fireLabel} /><span>New</span> </div>}
-        {isExpired && !isHot && <div className='icon'><span>Expired</span></div>}
+        {isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
+        {isExpired && <div className='icon icon--expired'><span>Expired</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>

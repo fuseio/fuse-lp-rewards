@@ -23,14 +23,16 @@ import { getStatsData } from '@/actions/staking'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId, apyPercent = 0 } = useSelector(state => state.staking)
+  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
+  const apyPercent = get(stakingContracts, [stakingContract, 'apyPercent'], 0)
   const accrued = new BigNumber(withdrawnToDate).plus(new BigNumber(accruedRewards))
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const isExpired = get(stakingContracts, [stakingContract, 'isExpired'])
   const symbol = symbolFromPair(pairName)
 
   if (!stakingContract) {
@@ -157,7 +159,7 @@ export default ({ handleConnect }) => {
             name='apy'
             modalText='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
             withSymbol={false}
-            end={parseInt(apyPercent)}
+            end={!isExpired ? parseInt(apyPercent) : 0}
             title='Deposit APY'
             Icon={() => (
               <img src={accountAddress ? percentageIcon : percentageIcongray} />

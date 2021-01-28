@@ -127,6 +127,7 @@ function * getStakingData ({ stakingContract, networkId }) {
 
 function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const { accountAddress } = yield select(state => state.network)
+  const { totalStaked = 0 } = yield select(state => state.staking)
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
@@ -137,6 +138,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
     const pairInfoFetcher = networkId === 122 ? fetchPairInfoFuseswap : fetchPairInfoUniswap
     const { data } = yield call(pairInfoFetcher, { address: tokenAddress })
 
+    const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
     const tokenPrice = yield call(getTokenPrice, fuseToken)
     const globalTotalStake = statsData[0]
     const totalReward = statsData[1]
@@ -156,8 +158,10 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
     const reserve1 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve1))
 
     const lpPrice = reserveUSD / totalSupply
-    const totalStakeUSD = formatWeiToNumber(0) * lpPrice
-    const apyPercent = (totalRewardInUSD / totalStakeUSD) * 26.07145 * 100
+    const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
+    const globalTotalStakeUSD = formatWeiToNumber(globalTotalStake) * lpPrice
+    const stakingPeriodInDays = Number(stakingPeriod) / (3600 * 24)
+    const apyPercent = (totalRewardInUSD / globalTotalStakeUSD) * (365 / stakingPeriodInDays) * 100
     yield put({
       type: actions.GET_STATS_DATA.SUCCESS,
       accountAddress,
@@ -171,6 +175,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
         accruedRewards,
         lockedRewards,
         totalStakeUSD,
+        globalTotalStakeUSD,
         lpPrice,
         totalRewardInUSD,
         apyPercent,

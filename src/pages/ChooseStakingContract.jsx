@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
+import reverse from 'lodash/reverse'
 import get from 'lodash/get'
 import RewardCard from '@/components/common/RewardCard'
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
@@ -84,10 +85,10 @@ export default () => {
                 </div>
                 <div className='rewards__cards-container grid-x align-middle'>
                   {
-                    map(data, (contract) => {
+                    reverse(map(data, (contract) => {
                       const { contractAddress } = contract
                       return <RewardCard icon={pairsIcons[contract.pairName]} key={contractAddress} {...contract} stakingContract={contractAddress} />
-                    })
+                    }))
                   }
                 </div>
               </div>

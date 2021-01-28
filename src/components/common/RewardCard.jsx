@@ -6,6 +6,7 @@ import Countdown from 'react-countdown'
 import get from 'lodash/get'
 import fireLabel from '@/assets/images/fire.svg'
 import calendar from '@/assets/images/calendar.svg'
+import hourglass from '@/assets/images/hourglass-solid.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
@@ -71,6 +72,11 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     return dateEnd
   }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0), get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)])
 
+  const dateStart = useMemo(() => {
+    const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
+    return moment.unix(stakingStartTime)
+  })
+
   const handleClick = () => {
     ReactGA.event({
       category: 'action',
@@ -82,6 +88,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
   }
 
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
+  const isComingSoon = get(stakingContracts, [stakingContract, 'isComingSoon'], false)
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
 
@@ -91,14 +98,19 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
         <img src={icon} className='reward-card__icon' />
         {isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
         {isExpired && <div className='icon icon--expired'><span>Expired</span></div>}
+        {isComingSoon && <div className='icon icon--soon'><img src={hourglass} /><span>Soon</span></div>}
       </div>
       <h1 className='reward-card__title'>{pairName}</h1>
       <div className='card-section'>
         <div className='card-calender__label'>
           <img className='card-calender__icon' src={calendar} />
-          <h1 className='card-section__label'>Expiration date</h1>
+          <h1 className='card-section__label'>{!isComingSoon ? 'Expiration date' : 'Start date'}</h1>
         </div>
-        {dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0}
+        {
+          !isComingSoon ?
+            dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0
+            : dateStart ? <div className='card-section-info'>{<Countdown date={dateStart} />}</div> : 0
+        }
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>
@@ -108,7 +120,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
-      <button className='button' onClick={handleClick}>{btnText}</button>
+      <button className='button' disabled={isComingSoon} onClick={handleClick}>{btnText}</button>
     </div>
   )
 }

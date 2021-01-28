@@ -215,6 +215,7 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
     const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
     const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
     const isExpired = moment().isAfter(moment.unix(Number(stakingStartTime) + Number(stakingPeriod)))
+    const isComingSoon = moment().isBefore(moment.unix(Number(stakingStartTime)))
 
     yield put({
       type: actions.GET_STAKING_PERIOD.SUCCESS,
@@ -224,7 +225,8 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
         address: stakingContract,
         stakingPeriod,
         isExpired,
-        stakingStartTime
+        stakingStartTime,
+        isComingSoon
       }
     })
   }

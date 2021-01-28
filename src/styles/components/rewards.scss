@@ -71,6 +71,7 @@
 @include block(reward-card) {
   position: relative;
   padding: 1em;
+  margin-bottom: 2em;
   @include breakpoint(medium up) {
     min-width: 256px;
     max-width: 256px;
@@ -120,6 +121,13 @@
         background-color: #eef3f6;
         > span {
           color: #869aac;
+        }
+      }
+
+      @include modifier(soon) {
+        background-color: #ebf8fc;
+        > span {
+          color: #80a8b4;
         }
       }
     }

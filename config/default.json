@@ -85,6 +85,7 @@
         "LPToken": "0x9f17b1895633E855b8b1C1D0Ade9B3B72EB0590C",
         "uniPairToken": "0x611805ce4071c096f5b44557b45685802d8a46fe",
         "contractAddress": "0x57095EcA8B76f26DB5E95A00EEbdaeEdC62a5ee9",
+        "isHot": true,
         "pairs": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629",
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"

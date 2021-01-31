@@ -38,6 +38,7 @@ const Stats = () => {
           title='Total Deposits'
           symbol={symbol}
           end={formatWeiToNumber(globalTotalStake)}
+          decimals={2}
         />
       </div>
       <div className='medium-12 small-24 cell'>

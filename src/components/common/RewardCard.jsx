@@ -75,7 +75,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
   const dateStart = useMemo(() => {
     const stakingStartTime = Number(get(stakingContracts, [stakingContract, 'stakingStartTime'], 0))
     return moment.unix(stakingStartTime)
-  })
+  }, [get(stakingContracts, [stakingContract, 'stakingStartTime'], 0)])
 
   const handleClick = () => {
     ReactGA.event({
@@ -107,9 +107,13 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
           <h1 className='card-section__label'>{!isComingSoon ? 'Expiration date' : 'Start date'}</h1>
         </div>
         {
-          !isComingSoon ?
-            dateEnd ? <div className='card-section-info'>{<Countdown date={dateEnd} />}</div> : 0
-            : dateStart ? <div className='card-section-info'>{<Countdown date={dateStart} />}</div> : 0
+          !isComingSoon
+            ? dateEnd
+                ? <div className='card-section-info'><Countdown date={dateEnd} /></div>
+                : 0
+            : dateStart
+              ? <div className='card-section-info'><Countdown date={dateStart} /></div>
+              : 0
         }
       </div>
       <div className='card-section'>

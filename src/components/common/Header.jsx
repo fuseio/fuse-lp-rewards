@@ -84,7 +84,7 @@ const NavBar = ({ history, handleConnect }) => {
           </div>
         </div>
       </header>
-      {stakingContract && (!balance || balance === '0') && (!totalStaked || totalStaked === '0') && <AddLiquidity />}
+      {stakingContract && (!!Number(balance)) && (!!Number(totalStaked)) ? <AddLiquidity /> : null}
     </div>
   )
 }

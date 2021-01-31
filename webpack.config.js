@@ -76,7 +76,7 @@ module.exports = {
               publicPath: './images'
             }
           },
-          isDev ? {
+          {
             loader: 'image-webpack-loader',
             options: {
               bypassOnDebug: true,
@@ -93,8 +93,8 @@ module.exports = {
                 progressive: true
               }
             }
-          } : null
-        ].filter(Boolean)
+          }
+        ]
       },
       {
         test: /\.svg$/,

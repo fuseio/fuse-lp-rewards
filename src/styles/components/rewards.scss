@@ -2,7 +2,7 @@
   @include element(wrapper) {
     background-color: #fbfafc;
   }
-  padding: 5em 0;
+  padding: 5em 0 0;
   @include xy-grid-container(1200px);
   @include xy-grid(vertical);
   @include flex-align(null, top);
@@ -24,8 +24,12 @@
     }
   }
   @include element(filter-chips) {
+    margin: 1.5em 0;
+    @include xy-grid(horizontal, false);
     @include block(chip) {
-      margin: 0 0.5em;
+      &:nth-of-type(2) {
+        margin: 0 0.5em;
+      }
       padding: 0 2em;
       height: 48px;
       color: #333333;
@@ -42,7 +46,6 @@
         border: 2px solid #0f273c;
       }
     }
-    margin: 1.5em 0;
   }
   @include element(section) {
     width: 100%;
@@ -132,10 +135,13 @@
       }
     }
   }
+
   @include element(icon) {
     height: 64px;
-    width: 112px;
+    min-width: 112px;
+    max-width: 120px;
   }
+
   @include element(title) {
     margin: 0.5em 0em;
     font-size: 1.375em;

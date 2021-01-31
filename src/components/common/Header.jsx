@@ -69,17 +69,19 @@ const NavBar = ({ history, handleConnect }) => {
               </a>
             </div>
             {
-              accountAddress ? (
-                <div className='header__wallet header__wallet--logged-in'>
-                  <span className='dot' />
-                  <span className='text'>{addressShortener(accountAddress)}</span>
-                </div>
-              ) : (
-                <div className='header__wallet header__wallet--logged-out' onClick={handleConnect}>
-                  <img className='icon' src={walletIcon} />
-                  <span className='text'>Connect wallet</span>
-                </div>
-              )
+              accountAddress
+                ? (
+                  <div className='header__wallet header__wallet--logged-in'>
+                    <span className='dot' />
+                    <span className='text'>{addressShortener(accountAddress)}</span>
+                  </div>
+                  )
+                : (
+                  <div className='header__wallet header__wallet--logged-out' onClick={handleConnect}>
+                    <img className='icon' src={walletIcon} />
+                    <span className='text'>Connect wallet</span>
+                  </div>
+                  )
             }
           </div>
         </div>

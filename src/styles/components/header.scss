@@ -7,17 +7,12 @@
   @include element(nav) {
     @include xy-grid(horizontal, false);
     @include flex-align(right, middle);
+    @include xy-cell(auto);
     color: #0a2f40;
     font-size: 1em;
 
     @include breakpoint(medium down) {
       display: none;
-    }
-
-    @include xy-cell(8, null, 0);
-
-    @include breakpoint(medium down) {
-      @include xy-cell(12, null, 0);
     }
 
     @include element(open) {

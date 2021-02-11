@@ -37,7 +37,6 @@ const Stats = () => {
           tootlipText='Total Deposits are the total LP tokens deposited across all participants.'
           title='Total Deposits'
           symbol={symbol}
-          decimals={2}
           end={formatWeiToNumber(globalTotalStake)}
           decimals={2}
         />

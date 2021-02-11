@@ -96,7 +96,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
-        {isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
+        {!isComingSoon && !isExpired && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
         {isExpired && <div className='icon icon--expired'><span>Expired</span></div>}
         {isComingSoon && <div className='icon icon--soon'><img src={hourglass} /><span>Soon</span></div>}
       </div>

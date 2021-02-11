@@ -87,7 +87,8 @@ export default ({ icon, pairName, stakingContract, totalReward, LPToken, network
     dispatch(push('/staking-contract'))
   }
 
-  const isHot = Boolean(dateStart._i)
+  console.log(dateStart.unix())
+  const isHot = Boolean(dateStart.unix())
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const isComingSoon = get(stakingContracts, [stakingContract, 'isComingSoon'], false)
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})

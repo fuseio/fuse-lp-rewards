@@ -32,6 +32,17 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 100000
+      },
+      "0x9640B393a016ba171a15BB2E68A8B3327Ef7ee29": {
+        "networkId": 1,
+        "pairName": "ETH/FUSE",
+        "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+        "contractAddress": "0x9640B393a016ba171a15BB2E68A8B3327Ef7ee29",
+        "pairs": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
+        ],
+        "totalReward": 300000
       }
     },
     "fuse": {
@@ -99,7 +110,7 @@
   },
   "web3": {
     "fuseProvider": "https://rpc.fuse.io",
-    "ethereumProvider": "https://mainnet.infura.io/v3/0880f583bc5844fe92dbf0ed7a6adb67"
+    "ethereumProvider": "https://eth-mainnet.gateway.pokt.network/v1/5f7cca33b90218002e9ce9be"
   },
   "api": {
     "graph": {

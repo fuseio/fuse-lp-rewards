@@ -169,12 +169,13 @@ export default ({ handleConnect }) => {
             name='deposits'
             symbol={symbol}
             modalText='Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract.'
-            decimals={2}
+            decimals={8}
             title='Your deposits'
             end={formatWeiToNumber(totalStaked)}
             Icon={() => (
               <img src={accountAddress ? briefcaseIcon : briefcaseIcongray} />
             )}
+            format={false}
           />
           <InfoBox
             link={`${getBlockExplorerUrl(stakingNetworkId)}/address/${CONFIG.rewardTokens[stakingNetworkId]}`}

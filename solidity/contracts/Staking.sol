@@ -16,7 +16,7 @@ import "./external/openzeppelin-solidity/math/SafeMath.sol";
 import "./external/openzeppelin-solidity/token/ERC20/ERC20.sol";
 
 
-contract Staking {
+contract Staking{
     
     using SafeMath for uint256;
 
@@ -41,19 +41,26 @@ contract Staking {
         uint256 stakeBuyinRate;  
     }
 
+    /**
+     * @dev Structure to store Rewards details.
+     * Contains the address of the rewards tokens and amount of rewards distribution
+     */
+    struct RewardsTokens {
+        address token;
+        uint256 totalReward; 
+    }
+
+    // A dynamically-sized array of `RewardsTokens` structs.
+    RewardsTokens[] public RewardsTokens;
 
     // Token address
     ERC20 private stakeToken;
-
-    // Reward token
-    ERC20 private rewardToken;
 
     // Interest and staker data
     InterestData public interestData;
 
     uint public stakingStartTime;
 
-    uint public totalReward;
 
     // unclaimed reward will be trasfered to this account
     address public vaultAddress; 
@@ -63,6 +70,7 @@ contract Staking {
 
     //Total time (in sec) over which reward will be distributed
     uint256 public stakingPeriod;
+
 
     /**
      * @dev Emitted when `staker` stake `value` tokens.
@@ -87,15 +95,15 @@ contract Staking {
     /**     
      * @dev Constructor     
      * @param _stakeToken The address of stake Token       
-     * @param _rewardToken The address of reward Token   
+     * @param _rewardTokens The address of reward Tokens   
      * @param _stakingPeriod valid staking time after staking starts
-     * @param _totalRewardToBeDistributed total amount to be distributed as reward
+     * @param _totalRewardToBeDistributed total amount to be distributed as rewards
      */
     constructor(
         address _stakeToken,
-        address _rewardToken,
+        address[] memory _rewardTokens,
         uint256 _stakingPeriod,
-        uint256 _totalRewardToBeDistributed,
+        uint256[] memory _totalRewardToBeDistributed,
         uint256 _stakingStart,
         address _vaultAdd
     ) public {
@@ -103,14 +111,20 @@ contract Staking {
         require(_totalRewardToBeDistributed > 0, "Total reward can not be 0");
         require(_stakingStart >= now, "Can not be past time");
         require(_stakeToken != address(0), "Can not be null address");
-        require(_rewardToken != address(0), "Can not be null address");
+        require(_rewardTokens != address(0), "Can not be null address");
         require(_vaultAdd != address(0), "Can not be null address");
         stakeToken = ERC20(_stakeToken);
-        rewardToken = ERC20(_rewardToken);
+        
+        for (uint i = 0; i < _rewardTokens.length; i++) {
+            rewards.push(RewardsTokens({
+                token: ERC20(_rewardTokens[i]),
+                totalReward: _totalRewardToBeDistributed[i]
+            }));
+        }
+
         stakingStartTime = _stakingStart;
         interestData.lastUpdated = _stakingStart;
         stakingPeriod = _stakingPeriod;
-        totalReward = _totalRewardToBeDistributed;
         vaultAddress = _vaultAdd;
     }
 
@@ -229,7 +243,9 @@ contract Staking {
         uint256 interest = calculateInterest(msg.sender);
         Staker storage stakerData = interestData.stakers[msg.sender];
         stakerData.withdrawnToDate = stakerData.withdrawnToDate.add(interest);
-        require(rewardToken.transfer(msg.sender, interest), "Withdraw interest transfer failed");
+        for (uint r = 0; r < RewardsTokens.length; r++) {
+            require(RewardsTokens[r].token.transfer(msg.sender, interest), "Withdraw interest transfer failed");
+        }
         emit InterestCollected(msg.sender, interest, interestData.globalYieldPerToken);
     }
 
@@ -397,7 +413,7 @@ contract Staking {
             estimatedReward = estimatedReward.sub(stakerData.withdrawnToDate.add(stakerData.stakeBuyinRate));
         }
 
-        return (interestData.globalTotalStaked, totalReward, estimatedReward, unlockedReward, accruedReward);
+        return (interestData.globalTotalStaked, RewardsTokens, estimatedReward, unlockedReward, accruedReward);
 
     }
 }

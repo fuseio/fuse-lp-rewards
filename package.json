@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
+    "@openzeppelin/contracts": "^3.4.0",
     "@toruslabs/torus-embed": "^1.9.8",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.2.6",

@@ -113,6 +113,18 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 50000
+      },
+      "0x835b51352f906ff7632A38F20137218309895506": {
+        "networkId": 122,
+        "pairName": "USDC/OM",
+        "contractAddress": "0x835b51352f906ff7632A38F20137218309895506",
+        "LPToken": "0x8c7538099a4f5e21752CAd6632f35161800e85C9",
+        "uniPairToken": "",
+        "pairs": [
+          "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5",
+          "0x7f59ae3a787c0d1d640f99883d0e48c22188c54f"
+        ],
+        "totalReward": 35000
       }
     }
   },

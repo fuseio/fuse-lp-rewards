@@ -46,7 +46,7 @@ contract Staking {
     ERC20 private stakeToken;
 
     // Reward token
-    ERC20 private rewardToken;
+    ERC20[2] private rewardToken;
 
     // Interest and staker data
     InterestData public interestData;
@@ -93,7 +93,8 @@ contract Staking {
      */
     constructor(
         address _stakeToken,
-        address _rewardToken,
+        address _rewardToken1,
+        address _rewardToken2,
         uint256 _stakingPeriod,
         uint256 _totalRewardToBeDistributed,
         uint256 _stakingStart,
@@ -103,10 +104,12 @@ contract Staking {
         require(_totalRewardToBeDistributed > 0, "Total reward can not be 0");
         require(_stakingStart >= now, "Can not be past time");
         require(_stakeToken != address(0), "Can not be null address");
-        require(_rewardToken != address(0), "Can not be null address");
+        require(_rewardToken1 != address(0), "Can not be null address");
+        require(_rewardToken2 != address(0), "Can not be null address");
         require(_vaultAdd != address(0), "Can not be null address");
         stakeToken = ERC20(_stakeToken);
-        rewardToken = ERC20(_rewardToken);
+        rewardToken[0] = ERC20(_rewardToken1);
+        rewardToken[1] = ERC20(_rewardToken2);
         stakingStartTime = _stakingStart;
         interestData.lastUpdated = _stakingStart;
         stakingPeriod = _stakingPeriod;
@@ -229,7 +232,8 @@ contract Staking {
         uint256 interest = calculateInterest(msg.sender);
         Staker storage stakerData = interestData.stakers[msg.sender];
         stakerData.withdrawnToDate = stakerData.withdrawnToDate.add(interest);
-        require(rewardToken.transfer(msg.sender, interest), "Withdraw interest transfer failed");
+        require(rewardToken[0].transfer(msg.sender, interest.div(2)), "Withdraw interest transfer failed");
+        require(rewardToken[1].transfer(msg.sender, interest.div(2)), "Withdraw interest transfer failed");
         emit InterestCollected(msg.sender, interest, interestData.globalYieldPerToken);
     }
 
@@ -309,7 +313,8 @@ contract Staking {
         uint256 _interestGenerated
     ) internal {
         if (interestData.globalTotalStaked == 0) {
-            require(rewardToken.transfer(vaultAddress, _interestGenerated), "Transfer failed while trasfering to vault");
+            require(rewardToken[0].transfer(vaultAddress, _interestGenerated.div(2)), "Transfer failed while trasfering to vault");
+            require(rewardToken[1].transfer(vaultAddress, _interestGenerated.div(2)), "Transfer failed while trasfering to vault");
             return;
         }
         interestData.globalYieldPerToken = interestData.globalYieldPerToken.add(

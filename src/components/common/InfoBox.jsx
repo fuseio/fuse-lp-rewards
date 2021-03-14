@@ -9,14 +9,14 @@ import { useModal } from 'react-modal-hook'
 import { formatNumber } from '@/utils/format'
 import InfoIconModal from '@/assets/images/info-icon-modal.svg'
 
-export default ({ Icon, name, title, end, withSymbol = true, modalText, symbol, link, decimals }) => {
+export default ({ Icon, name, title, end, withSymbol = true, modalText, symbol, link, decimals, format = true }) => {
   const { accountAddress } = useSelector(state => state.network)
   const [isHover, setHover] = useState(false)
   const [modalStatus, setModalStatus] = useState(false)
   const { countUp, start, update } = useCountUp({
-    formattingFn: formatNumber,
     end,
-    decimals
+    decimals,
+    ...(format && { formattingFn: formatNumber })
   })
 
   const [showModal] = useModal(() => (

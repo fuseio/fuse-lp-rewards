@@ -12,6 +12,8 @@ import wbtcWethIcon from '@/assets/images/coins-pair-wbtc-weth.svg'
 import daiUSDTIcon from '@/assets/images/coins-pair-dai-usdt.svg'
 import usdcUsdtIcon from '@/assets/images/coins-pair-usdc-usdt.svg'
 import usdcFuseIcon from '@/assets/images/coins-pair-usdc-fuse.svg'
+import kncusdc from '@/assets/images/coins-pair-knc-usdc.svg'
+import omusdc from '@/assets/images/coins-pair-om-usdc.svg'
 import ethIcon from '@/assets/images/eth.svg'
 import fuseIcon from '@/assets/images/fuse-token.svg'
 
@@ -21,7 +23,9 @@ const pairsIcons = {
   'WBTC/WETH': wbtcWethIcon,
   'USDC/USDT': usdcUsdtIcon,
   'DAI/USDT': daiUSDTIcon,
-  'USDC/FUSE': usdcFuseIcon
+  'USDC/FUSE': usdcFuseIcon,
+  'KNC/USDC': kncusdc,
+  'OM/USDC': omusdc
 }
 
 const filters = ['All', 'New', 'Expired']

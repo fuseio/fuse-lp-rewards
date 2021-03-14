@@ -12,7 +12,7 @@ import { push } from 'connected-react-router'
 import { selectStakingContract } from '@/actions/staking'
 import { formatWeiToNumber, formatNumber } from '@/utils/format'
 
-export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
+export default ({ icon, pairName, stakingContract, totalReward, LPToken, networkId, pairs, uniPairToken, btnText = 'Select' }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { start: globalTotalStakeStarter, update: globalTotalStakeUpdate } = useCountUp({
@@ -87,6 +87,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     dispatch(push('/staking-contract'))
   }
 
+  const isHot = Boolean(dateStart.unix())
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const isComingSoon = get(stakingContracts, [stakingContract, 'isComingSoon'], false)
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
@@ -96,7 +97,7 @@ export default ({ icon, pairName, stakingContract, totalReward, isHot, LPToken, 
     <div className='reward-card cell medium-10 small-24'>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
-        {isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
+        {!isComingSoon && !isExpired && isHot && <div className='icon icon--new'><img src={fireLabel} /><span>New</span> </div>}
         {isExpired && <div className='icon icon--expired'><span>Expired</span></div>}
         {isComingSoon && <div className='icon icon--soon'><img src={hourglass} /><span>Soon</span></div>}
       </div>

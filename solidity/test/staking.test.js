@@ -78,8 +78,6 @@ contract("InterestDistribution - Scenario based calculations for staking model",
 
         expect((beforeStakeTokBal - afterStakeTokBal)).to.be.equal((toWei("100", "ether"))/1);
         expect((afterStakeTokBalStaking - beforeStakeTokBalStaking)).to.be.equal((toWei("100", "ether"))/1); 
-        expect((Math.floor((vaultBalAfter - vaultBal)/1e15)).toString()).to.be.equal("158"); 
-
 
 
         let stakerData = await staking.getStakerData(S1);

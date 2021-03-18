@@ -48,5 +48,5 @@ if [ "$SOLIDITY_COVERAGE" = true ]; then
   fi
 else
   echo "Now let's test truffle"
-  node_modules/.bin/truffle test "$@"
+  node_modules/.bin/truffle test
 fi

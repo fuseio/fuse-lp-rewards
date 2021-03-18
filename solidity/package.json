@@ -13,7 +13,8 @@
     "test": "./scripts/test.sh",
     "coverage": "./scripts/coverage.sh",
     "flatten": "scripts/flatten.sh",
-    "abi": "scripts/abi.sh"
+    "abi": "scripts/abi.sh",
+    "test-s": "truffle test"
   },
   "author": "",
   "license": "ISC",

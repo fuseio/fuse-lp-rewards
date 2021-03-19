@@ -11,6 +11,32 @@ const DummyTokenMock = artifacts.require('DummyTokenMock');
 const latestTime = require("./utils/latestTime.js").latestTime;
 const nullAddress = "0x0000000000000000000000000000000000000000";
 
+contract("Staking", ([S1, S2, S3, vaultAdd]) => {
+  let stakeTok
+  let plotusToken
+
+  before(async () => {
+    stakeTok = await UniswapETH_Plot.new('UEP', 'UEP')
+    plotusToken = await PlotusToken.new(toWei(30000000), S1)
+  })
+
+  describe('getStakeToken', () => {
+    it('should return stake token', async () => {
+      staking = await Staking.new(stakeTok.address, plotusToken.address, (24*3600*365), toWei(500000), (await latestTime())/1 + 1, vaultAdd);
+      const stakeToken = await staking.getStakeToken()
+      expect(stakeToken).to.be.equal(stakeTok.address)
+    })
+  })
+
+  describe('getRewardToken', () => {
+    it('should return reward token', async () => {
+      staking = await Staking.new(stakeTok.address, plotusToken.address, (24*3600*365), toWei(500000), (await latestTime())/1 + 1, vaultAdd);
+      const stakeToken = await staking.getRewardToken()
+      expect(stakeToken).to.be.equal(plotusToken.address)
+    })
+  })
+})
+
 contract("InterestDistribution - Scenario based calculations for staking model", ([S1, S2, S3, vaultAdd]) => {
   let stakeTok,
       plotusToken,

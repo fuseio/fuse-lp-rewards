@@ -400,4 +400,12 @@ contract Staking {
         return (interestData.globalTotalStaked, totalReward, estimatedReward, unlockedReward, accruedReward);
 
     }
+
+    function getStakeToken() external view returns (ERC20) {
+        return stakeToken;
+    }
+
+    function getRewardToken() external view returns (ERC20) {
+        return rewardToken;
+    }
 }

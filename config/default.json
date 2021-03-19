@@ -125,6 +125,42 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 35000
+      },
+      "0x9091D40Ed50842BE9BDEDA5fEF6CfF82485De741": {
+        "networkId": 122,
+        "pairName": "LINK/WETH",
+        "contractAddress": "0x9091D40Ed50842BE9BDEDA5fEF6CfF82485De741",
+        "LPToken": "0x43BEB6dE261279ca9910Bb45956d083CB9c8101e",
+        "uniPairToken": "0xa2107fa5b38d9bbd2c461d6edf11b11a50f6b974",
+        "pairs": [
+          "0x0972F26e8943679b043de23df2fD3852177A7c48",
+          "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
+        ],
+        "totalReward": 25000
+      },
+      "0x1795AC4015CA9E818371Ed22f1bf913f596d204F": {
+        "networkId": 122,
+        "pairName": "GRT/WETH",
+        "contractAddress": "0x1795AC4015CA9E818371Ed22f1bf913f596d204F",
+        "LPToken": "0x752ef07fBe94398b93Fcbf25ffc3B222602CBA85",
+        "uniPairToken": "0x2e81ec0b8b4022fac83a21b2f2b4b8f5ed744d70",
+        "pairs": [
+          "0x025a4c577198D116Ea499193E6D735FDb2e6E841",
+          "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
+        ],
+        "totalReward": 25000
+      },
+      "0x471C46C37958EB26FE4EB57D3FBd387172cB7434": {
+        "networkId": 122,
+        "pairName": "KNC/USDC",
+        "contractAddress": "0x471C46C37958EB26FE4EB57D3FBd387172cB7434",
+        "LPToken": "0xb5FCFfc23771500A097E47e94D92b7691536ad82",
+        "uniPairToken": "0xa14c9aa1337f25135ce6917464fc5f01cc3c9ca9",
+        "pairs": [
+          "0x43b17749b246fd2a96de25d9e4184e27e09765b0",
+          "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
+        ],
+        "totalReward": 25000
       }
     }
   },

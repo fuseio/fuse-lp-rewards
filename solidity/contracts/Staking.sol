@@ -471,7 +471,13 @@ contract Staking{
     * @dev reward token getter.
     * @return reward token.
     */
-    function getRewardToken() external view returns(address){
-        return address(rewardToken);
+    function getRewardsToken() external view returns(address[] memory){
+        address[] memory rewardTokensAddresses = new address[](rewardsTokens.length);
+
+        for (uint r = 0; r < rewardsTokens.length; r++) {
+            // 2 Loops : cause got "CompilerError: Stack too deep, try removing local variables."
+            rewardTokensAddresses[r] = address(rewardsTokens[r].token);
+        }
+        return rewardTokensAddresses;
     }
 }

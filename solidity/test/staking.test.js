@@ -100,8 +100,10 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         expect(rewardTokenAddressFromStaking).to.be.equal(plotusToken.address);
 
         // the stake token balance and reward token balance shall be retrieved
-        let stakeTokenFromStaking = MockStaking.at(stakeTok.address);
-        let rewardTokenFromStaking = PlotusToken.at(plotusToken.address);
+        let stakeTokenFromStaking = await UniswapETH_Plot.at(stakeTokenAddressFromStaking);
+        let rewardTokenFromStaking = await PlotusToken.at(rewardTokenAddressFromStaking);
+
+        console.log("stakeTokenFromStaking : " + stakeTokenFromStaking);
 
         let stakeTokenBalance = await stakeTok.balanceOf(S1);
         let stakeTokenBalanceRetreived = await stakeTokenFromStaking.balanceOf(S1);

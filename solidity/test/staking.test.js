@@ -49,12 +49,9 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       });
 
       stakeStartTime = (await staking.stakingStartTime())/1;
-      console.log("starttime: ", stakeStartTime);
       
     });
   describe('Multiple Staker stakes, no withdrawal', function() {
-
-    //console.log(JSON.stringify(ERCcontract.abi));
     
     it("Staker 1 stakes 100 Token after 10 seconds", async () => {
       let beforeStakeTokBal = await stakeTok.balanceOf(S1);
@@ -99,10 +96,6 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         // the stake token and reward token shall be retrieved
         let stakeTokenAddressFromStaking = await staking.getStakeToken();
         let rewardTokenAddressFromStaking = await staking.getRewardToken();
-        console.log("StakeToken Address From Staking" + stakeTokenAddressFromStaking )
-        console.log("StakeToken Address From Input" + stakeTok.address)
-        console.log("RewardToken Address From Staking" + rewardTokenAddressFromStaking )
-        console.log("RewardToken Address From Input" + plotusToken.address)
         expect(stakeTokenAddressFromStaking).to.be.equal(stakeTok.address);
         expect(rewardTokenAddressFromStaking).to.be.equal(plotusToken.address);
 
@@ -111,9 +104,9 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         let rewardTokenFromStaking = PlotusToken.at(plotusToken.address);
 
         let stakeTokenBalance = await stakeTok.balanceOf(S1);
-        let stakeTokenBalanceRetreived = await stakeTok.balanceOf(S1);
+        let stakeTokenBalanceRetreived = await stakeTokenFromStaking.balanceOf(S1);
         let rewardTokenBalance = await plotusToken.balanceOf(vaultAdd);
-        let rewardTokenBalanceRetreived = await plotusToken.balanceOf(vaultAdd);
+        let rewardTokenBalanceRetreived = await rewardTokenFromStaking.balanceOf(vaultAdd);
        
         expect(stakeTokenBalanceRetreived-stakeTokenBalance).to.be.equal(0);
         expect(rewardTokenBalanceRetreived-rewardTokenBalance).to.be.equal(0);

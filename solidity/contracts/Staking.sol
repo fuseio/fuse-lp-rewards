@@ -402,7 +402,7 @@ contract Staking {
     }
 
     /**
-    * @dev staken token getter.
+    * @dev returns stake token address.
     * @return staken token.
     */
     function getStakeToken() external view returns(address){
@@ -410,7 +410,7 @@ contract Staking {
     }
 
     /**
-    * @dev reward token getter.
+    * @dev returns reward token address.
     * @return reward token.
     */
     function getRewardToken() external view returns(address){

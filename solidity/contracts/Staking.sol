@@ -400,4 +400,20 @@ contract Staking {
         return (interestData.globalTotalStaked, totalReward, estimatedReward, unlockedReward, accruedReward);
 
     }
+
+    /**
+    * @dev returns stake token address.
+    * @return staken token.
+    */
+    function getStakeToken() external view returns(address){
+        return address(stakeToken);
+    }
+
+    /**
+    * @dev returns reward token address.
+    * @return reward token.
+    */
+    function getRewardToken() external view returns(address){
+        return address(rewardToken);
+    }
 }

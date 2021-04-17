@@ -161,6 +161,18 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 25000
+      },
+      "0x04Ee5DE43332aF99eeC2D40de19962AA1cC583EC": {
+        "networkId": 122,
+        "pairName": "G$/USDC",
+        "contractAddress": "0x04Ee5DE43332aF99eeC2D40de19962AA1cC583EC",
+        "LPToken": "0x0bf36731724f0bAcEb0748A9E71CD4883B69c533",
+        "uniPairToken": "",
+        "pairs": [
+          "0x495d133B938596C9984d462F007B676bDc57eCEC",
+          "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
+        ],
+        "totalReward": 75000
       }
     }
   },

@@ -2,9 +2,7 @@ const Staking = artifacts.require("Staking");
 const UniswapETH_Plot = artifacts.require("TokenMock");
 const PlotusToken = artifacts.require('PlotXToken');
 const MockStaking = artifacts.require('MockStaking');
-const BN = web3.utils.BN;
 const { toHex, toWei } = require("./utils/ethTools.js");
-const expectEvent = require("./utils/expectEvent");
 const increaseTimeTo = require("./utils/increaseTime.js").increaseTimeTo;
 const assertRevert = require("./utils/assertRevert.js").assertRevert;
 const DummyTokenMock = artifacts.require('DummyTokenMock');
@@ -23,18 +21,18 @@ contract("InterestDistribution - Scenario based calculations for staking model",
     before(async () => {
       
       stakeTok = await UniswapETH_Plot.new("UEP","UEP");
-      plotusToken = await PlotusToken.new(toWei(30000000), S1);
+      plotusToken = await PlotusToken.new(toWei("30000000"), S1);
       dummystakeTok = await DummyTokenMock.new("UEP","UEP");
       dummyRewardTok = await DummyTokenMock.new("PLT","PLT");
       let nowTime = await latestTime();
-      staking = await Staking.new(stakeTok.address, plotusToken.address, (24*3600*365), toWei(500000), (await latestTime())/1 + 1, vaultAdd);
+      staking = await Staking.new(stakeTok.address, plotusToken.address, (24*3600*365), toWei("500000"), (await latestTime())/1 + 1, vaultAdd);
 
-      dummyStaking = await MockStaking.new(dummystakeTok.address, dummyRewardTok.address, (24*3600*365), toWei(500000), (await latestTime())/1+1500, vaultAdd);
+      dummyStaking = await MockStaking.new(dummystakeTok.address, dummyRewardTok.address, (24*3600*365), toWei("500000"), (await latestTime())/1+1500, vaultAdd);
 
-      await plotusToken.transfer(staking.address, toWei(500000));
+      await plotusToken.transfer(staking.address, toWei("500000"));
 
-      await dummyRewardTok.mint(dummyStaking.address, toWei(500000));
-      await dummystakeTok.mint(dummyStaking.address, toWei(100));
+      await dummyRewardTok.mint(dummyStaking.address, toWei("500000"));
+      await dummystakeTok.mint(dummyStaking.address, toWei("100"));
       
       await stakeTok.mint(S1, toWei("1000"));
       await stakeTok.mint(S2, toWei("1000"));
@@ -830,7 +828,7 @@ contract("InterestDistribution - Scenario based calculations for staking model",
     });
     it("Should revert if transer token failed while unstaking", async () => {
       await dummyStaking.addStake(S1, 200);
-      await dummyStaking.setInterestData(200, toWei(10));
+      await dummyStaking.setInterestData(200, toWei("10"));
       await dummyRewardTok.setRetBit(true);
       await dummyStaking.setStarttime();
       await assertRevert(dummyStaking.withdrawStakeAndInterest(100, {
@@ -838,14 +836,14 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       }));
     });
     it("Should revert if transer token failed while withdrawing interest", async () => {
-      await dummyStaking.setInterestData(200, toWei(10));
+      await dummyStaking.setInterestData(200, toWei("10"));
       await dummyRewardTok.setRetBit(false);
       await assertRevert(dummyStaking.withdrawInterest( {
         from: S1
       }));
     });
     it("Should return 0 if withdrawnTodate+stakebuin > globalyieldxstaked", async () => {
-      await dummyStaking.setBuyInRate(S1, toWei(2000000));
+      await dummyStaking.setBuyInRate(S1, toWei("2000000"));
       expect((Math.floor((await dummyStaking.calculateInterest(S1))/1e18)).toString()).to.be.equal("0");
       await dummyStaking.setInterestData(200, 0);
       let statsDta = await dummyStaking.getStatsData(S1);
@@ -854,7 +852,7 @@ contract("InterestDistribution - Scenario based calculations for staking model",
     });
     it("Should Revert if staking period pass as 0", async () => {
       let nowTime = await latestTime();
-      await assertRevert(Staking.new(stakeTok.address, plotusToken.address, 0, toWei(500000), nowTime,vaultAdd));
+      await assertRevert(Staking.new(stakeTok.address, plotusToken.address, 0, toWei("500000"), nowTime,vaultAdd));
     });
     it("Should Revert if reward pass as 0", async () => {
       let nowTime = await latestTime();
@@ -889,10 +887,10 @@ contract("InterestDistribution - Scenario5 All staker unstakes before stake peri
     before(async () => {
       
       stakeTok = await UniswapETH_Plot.new("UEP","UEP");
-      plotusToken = await PlotusToken.new(toWei(30000000), S1);
-      staking = await Staking.new(stakeTok.address, plotusToken.address, 3600*24*365, toWei(500000), (await latestTime())/1 + 1, vaultAdd);
+      plotusToken = await PlotusToken.new(toWei("30000000"), S1);
+      staking = await Staking.new(stakeTok.address, plotusToken.address, 3600*24*365, toWei("500000"), (await latestTime())/1 + 1, vaultAdd);
 
-      await plotusToken.transfer(staking.address, toWei(500000));
+      await plotusToken.transfer(staking.address, toWei("500000"));
 
       
       await stakeTok.mint(S1, toWei("1000"));

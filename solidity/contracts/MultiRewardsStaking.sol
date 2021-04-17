@@ -19,6 +19,7 @@ import "./IStaking.sol";
 contract MultiRewardsStaking is IStaking {
     
     using SafeMath for uint256;
+    using SafeMath for uint;
 
     /**
      * @dev Structure to store Interest details.
@@ -26,7 +27,7 @@ contract MultiRewardsStaking is IStaking {
      */
     struct InterestData {
         uint256 globalTotalStaked;
-        uint256 globalYieldPerToken; 
+        mapping(address => uint256) globalYieldPerToken; 
         uint256 lastUpdated;
         mapping(address => Staker) stakers;  
     }
@@ -37,8 +38,8 @@ contract MultiRewardsStaking is IStaking {
      */
     struct Staker {
         uint256 totalStaked;
-        uint256 withdrawnToDate;
-        uint256 stakeBuyinRate;  
+        mapping(address => uint256) withdrawnToDate;
+        mapping(address => uint256) stakeBuyinRate;  
     }
 
     /**
@@ -132,13 +133,18 @@ contract MultiRewardsStaking is IStaking {
         );
         require(now.sub(stakingStartTime) <= stakingPeriod, "Can not stake after staking period passed");
 
+        uint mixedTotalInterest = 0;
+
         for (uint r = 0; r < rewardsTokens.length; r++) {
             uint newlyInterestGenerated = now.sub(interestData.lastUpdated).mul(rewardsTokens[r].totalReward).div(stakingPeriod);
             interestData.lastUpdated = now;
             updateGlobalYieldPerToken(r, newlyInterestGenerated);
             updateStakeData(msg.sender, _amount);
+            mixedTotalInterest.add(newlyInterestGenerated);
         }
-        emit Staked(msg.sender, _amount, interestData.globalYieldPerToken);
+
+        emit Staked(msg.sender, _amount, mixedTotalInterest);
+        
     }
 
     /**
@@ -178,9 +184,9 @@ contract MultiRewardsStaking is IStaking {
 
         updateStakeBuyinRate(
             _stakerData,
-            interestData.globalYieldPerToken,
             _stake
         );
+        
 
         interestData.globalTotalStaked = interestData.globalTotalStaked.add(_stake);
     }
@@ -192,19 +198,24 @@ contract MultiRewardsStaking is IStaking {
      * StakeBuyinRate = [StakeBuyinRate(P) + (GlobalYield(P) x Stake)]
      *
      * @param _stakerData                  Staker's Data
-     * @param _globalYieldPerToken         Total yielding amount per token 
      * @param _stake                       Amount staked 
      *
      */
     function updateStakeBuyinRate(
         Staker storage _stakerData,
-        uint256 _globalYieldPerToken,
         uint256 _stake
     ) internal {
 
-        _stakerData.stakeBuyinRate = _stakerData.stakeBuyinRate.add(
-            _globalYieldPerToken.mul(_stake).div(DECIMAL1e18)
-        );
+        for (uint r = 0; r < rewardsTokens.length; r++) {
+            address tokenAddress = address(rewardsTokens[r].token);
+            uint256 globalYieldPerToken = interestData.globalYieldPerToken[tokenAddress];
+
+            _stakerData.stakeBuyinRate[tokenAddress] = _stakerData.stakeBuyinRate[tokenAddress].add(
+                globalYieldPerToken.mul(_stake).div(DECIMAL1e18)
+            );
+        }
+
+        
     }
 
     /**
@@ -217,7 +228,7 @@ contract MultiRewardsStaking is IStaking {
         this.withdrawInterest();
         updateStakeAndInterestData(msg.sender, _amount);
         require(stakeToken.transfer(msg.sender, _amount), "withdraw transfer failed");
-        emit StakeWithdrawn(msg.sender, _amount, interestData.globalYieldPerToken);
+        //emit StakeWithdrawn(msg.sender, _amount, interestData.globalYieldPerToken);
     }
     
     /**
@@ -237,11 +248,15 @@ contract MultiRewardsStaking is IStaking {
 
         interestData.globalTotalStaked = interestData.globalTotalStaked.sub(_amount);
 
-        _stakerData.stakeBuyinRate = 0;
-        _stakerData.withdrawnToDate = 0;
+        //_stakerData.stakeBuyinRate = 0;
+        //_stakerData.withdrawnToDate = 0;
+        for (uint r = 0; r < rewardsTokens.length; r++) {
+            _stakerData.stakeBuyinRate[address(rewardsTokens[r].token)] = 0;
+            _stakerData.withdrawnToDate[address(rewardsTokens[r].token)] = 0;
+        }
+
         updateStakeBuyinRate(
             _stakerData,
-            interestData.globalYieldPerToken,
             _stakerData.totalStaked
         );
     }
@@ -253,17 +268,16 @@ contract MultiRewardsStaking is IStaking {
         uint timeSinceLastUpdate = _timeSinceLastUpdate();
 
         Staker storage stakerData = interestData.stakers[msg.sender];
-        uint256 totalInterest = 0;
+        uint256[] memory interest = this.calculateInterest(msg.sender);
         
         for (uint r = 0; r < rewardsTokens.length; r++) {
             uint newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
             updateGlobalYieldPerToken(r, newlyInterestGenerated);
-            uint256 interest = this.calculateInterest(msg.sender);
-            stakerData.withdrawnToDate = stakerData.withdrawnToDate.add(interest);
-            require(rewardsTokens[r].token.transfer(msg.sender, interest), "Withdraw interest transfer failed");
-            totalInterest.add(interest);
+            stakerData.withdrawnToDate[address(rewardsTokens[r].token)] = stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(interest[r]);
+            require(rewardsTokens[r].token.transfer(msg.sender, interest[r]), "Withdraw interest transfer failed");
+            emit InterestCollected(msg.sender, interest[r], interestData.globalYieldPerToken[address(rewardsTokens[r].token)]);
         }
-        emit InterestCollected(msg.sender, totalInterest, interestData.globalYieldPerToken);
+        
         
     }
 
@@ -281,10 +295,17 @@ contract MultiRewardsStaking is IStaking {
     /**
      * @dev get Yield Data.
      */
-    function getYieldData(address _staker) external view returns(uint256, uint256)
+    function getYieldData(address _staker) external view returns(uint256[] memory, uint256[] memory)
     {
+        uint256[] memory globalYieldPerToken = new uint[](rewardsTokens.length);
+        uint256[] memory stakeBuyinRate = new uint[](rewardsTokens.length);
 
-      return (interestData.globalYieldPerToken, interestData.stakers[_staker].stakeBuyinRate);
+        for(uint r = 0; r < rewardsTokens.length; r++){
+            globalYieldPerToken[r]= interestData.globalYieldPerToken[address(rewardsTokens[r].token)];
+            stakeBuyinRate[r]= interestData.stakers[_staker].stakeBuyinRate[address(rewardsTokens[r].token)];
+        }
+
+        return (globalYieldPerToken, stakeBuyinRate);
     }
 
     /**
@@ -316,29 +337,32 @@ contract MultiRewardsStaking is IStaking {
     function calculateInterest(address _staker)
         external
         view
-        returns (uint256)
+        returns (uint256[] memory)
     {
         Staker storage stakerData = interestData.stakers[_staker];
 
-        
-        uint256 _withdrawnToDate = stakerData.withdrawnToDate;
+        uint[] memory totalInterests = new uint[](rewardsTokens.length);
 
-        uint256 intermediateInterest = stakerData
-            .totalStaked
-            .mul(interestData.globalYieldPerToken).div(DECIMAL1e18);
+        for (uint r = 0; r < rewardsTokens.length; r++) {
+            address rewardToken = address(rewardsTokens[r].token);
+            uint256 _withdrawnToDate = stakerData.withdrawnToDate[rewardToken];
+            uint256 intermediateInterest = stakerData
+                .totalStaked
+                .mul(interestData.globalYieldPerToken[rewardToken]).div(DECIMAL1e18);
 
-        uint256 intermediateVal = _withdrawnToDate.add(
-            stakerData.stakeBuyinRate
-        );
+            uint256 intermediateVal = _withdrawnToDate.add(
+                stakerData.stakeBuyinRate[rewardToken]
+            );
 
-        // will lead to -ve value
-        if (intermediateVal > intermediateInterest) {
-            return 0;
+            // will lead to -ve value
+            if (intermediateVal > intermediateInterest) {
+                totalInterests[r]=0;
+            }
+
+            totalInterests[r] = (intermediateInterest.sub(intermediateVal));
         }
 
-        uint _earnedInterest = (intermediateInterest.sub(intermediateVal));
-
-        return _earnedInterest;
+        return totalInterests;
     }
 
     /**
@@ -358,18 +382,57 @@ contract MultiRewardsStaking is IStaking {
             require(rewardsTokens[_tokenIndex].token.transfer(vaultAddress, _interestGenerated), "Transfer failed while trasfering to vault");
             return;
         }
-        interestData.globalYieldPerToken = interestData.globalYieldPerToken.add(
+        address rewardToken = address(rewardsTokens[_tokenIndex].token);
+
+        interestData.globalYieldPerToken[rewardToken] = interestData.globalYieldPerToken[rewardToken].add(
             _interestGenerated
                 .mul(DECIMAL1e18) 
                 .div(interestData.globalTotalStaked) 
         );
     }
 
-
-    function getStakerData(address _staker) external view returns(uint256, uint256)
+    /**
+    *  @dev returns stats data for a reward token
+    */
+    function getStakerData(address _staker) external view returns(uint256, uint256[] memory)
     {
+        uint256[] memory withdrawnToDate = new uint[](rewardsTokens.length);
+        for(uint r = 0; r < rewardsTokens.length; r++){
+            withdrawnToDate[r] = interestData.stakers[_staker].withdrawnToDate[address(rewardsTokens[r].token)];
+        }
+        return (interestData.stakers[_staker].totalStaked, withdrawnToDate);
+    }
 
-      return (interestData.stakers[_staker].totalStaked, interestData.stakers[_staker].withdrawnToDate);
+    /**
+    *  @dev returns stats data for a reward token
+    */
+    function getInterestGenerated(uint timeSinceLastUpdate) internal view returns(uint256[] memory, uint256[] memory){
+
+        uint256[] memory globalYieldEnd = new uint[](rewardsTokens.length);
+        uint256[] memory updatedGlobalYield = new uint[](rewardsTokens.length);
+
+        for(uint r = 0; r < rewardsTokens.length; r++){
+            address rewardToken = address(rewardsTokens[r].token);
+            uint256 newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
+            //uint updatedGlobalYield = 0;
+            updatedGlobalYield[r]=0;
+            uint256 stakingTimeLeft = 0;
+            if(now < stakingStartTime.add(stakingPeriod)){
+            stakingTimeLeft = stakingStartTime.add(stakingPeriod).sub(now);
+            }
+            uint256 interestGeneratedEnd = stakingTimeLeft.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
+            //uint globalYieldEnd;
+            globalYieldEnd[r] = 0;
+            if (interestData.globalTotalStaked != 0) {
+                updatedGlobalYield[r] = interestData.globalYieldPerToken[rewardToken].add(
+                newlyInterestGenerated
+                    .mul(DECIMAL1e18)
+                    .div(interestData.globalTotalStaked));
+
+                globalYieldEnd[r] = updatedGlobalYield[r].add(interestGeneratedEnd.mul(DECIMAL1e18).div(interestData.globalTotalStaked));
+            }
+        }
+        return (globalYieldEnd,updatedGlobalYield);
     }
 
 
@@ -385,6 +448,7 @@ contract MultiRewardsStaking is IStaking {
      */
     function getStatsData(address _staker) external view returns(uint, uint[] memory, uint[] memory, uint[] memory, uint[] memory)
     {
+        Staker storage stakerData = interestData.stakers[_staker];
 
         uint[] memory totalRewards = new uint[](rewardsTokens.length);
         uint[] memory estimatedRewards = new uint[](rewardsTokens.length);
@@ -396,72 +460,64 @@ contract MultiRewardsStaking is IStaking {
             totalRewards[r] = rewardsTokens[r].totalReward;
         }
 
-        for (uint r = 0; r < rewardsTokens.length; r++) {
-            Staker storage stakerData = interestData.stakers[_staker];
-            uint estimatedReward = 0;
-            uint unlockedReward = 0;
-            uint accruedReward = 0;
-            uint timeElapsed = now.sub(stakingStartTime);
 
-            if(timeElapsed > stakingPeriod)
-            {
-                timeElapsed = stakingPeriod;
-            }
+        uint timeElapsed = now.sub(stakingStartTime);
 
-            unlockedReward = timeElapsed.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
+        if(timeElapsed > stakingPeriod)
+        {
+            timeElapsed = stakingPeriod;
+        }
 
-            uint timeSinceLastUpdate;
-            if(timeElapsed == stakingPeriod)
-            {
-                timeSinceLastUpdate = stakingStartTime.add(stakingPeriod).sub(interestData.lastUpdated);
-            } else {
-                timeSinceLastUpdate = now.sub(interestData.lastUpdated);
-            }
-            uint newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            uint updatedGlobalYield = 0;
-            uint stakingTimeLeft = 0;
-            if(now < stakingStartTime.add(stakingPeriod)){
-            stakingTimeLeft = stakingStartTime.add(stakingPeriod).sub(now);
-            }
-            uint interestGeneratedEnd = stakingTimeLeft.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            uint globalYieldEnd;
-            if (interestData.globalTotalStaked != 0) {
-                updatedGlobalYield = interestData.globalYieldPerToken.add(
-                newlyInterestGenerated
-                    .mul(DECIMAL1e18)
-                    .div(interestData.globalTotalStaked));
-
-                globalYieldEnd = updatedGlobalYield.add(interestGeneratedEnd.mul(DECIMAL1e18).div(interestData.globalTotalStaked));
-            }
             
+        uint timeSinceLastUpdate;
+        if(timeElapsed == stakingPeriod)
+        {
+            timeSinceLastUpdate = stakingStartTime.add(stakingPeriod).sub(interestData.lastUpdated);
+        } else {
+            timeSinceLastUpdate = now.sub(interestData.lastUpdated);
+        }
+
+            
+        uint256[] memory globalYieldEnd;
+        uint256[] memory updatedGlobalYield;
+
+        (globalYieldEnd, updatedGlobalYield) = getInterestGenerated(timeSinceLastUpdate);
+
+        for (uint r = 0; r < rewardsTokens.length; r++){
+            uint accruedReward = 0;
+
             accruedReward = stakerData
                 .totalStaked
-                .mul(updatedGlobalYield).div(DECIMAL1e18);
+                .mul(updatedGlobalYield[r]).div(DECIMAL1e18);
 
-            if (stakerData.withdrawnToDate.add(stakerData.stakeBuyinRate) > stakerData
+            if (stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(stakerData.stakeBuyinRate[address(rewardsTokens[r].token)]) > stakerData
                 .totalStaked
-                .mul(updatedGlobalYield).div(DECIMAL1e18))
+                .mul(updatedGlobalYield[r]).div(DECIMAL1e18))
             {
                 accruedReward = 0;
             } else {
 
-                accruedReward = accruedReward.sub(stakerData.withdrawnToDate.add(stakerData.stakeBuyinRate));
+                accruedReward = accruedReward.sub(stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(stakerData.stakeBuyinRate[address(rewardsTokens[r].token)]));
             }
 
-            estimatedReward = stakerData
+            accruedRewards[r] = accruedReward;
+        }
+
+        for (uint r = 0; r < rewardsTokens.length; r++){
+            uint estimatedReward = 0;
+
+           estimatedReward = stakerData
                 .totalStaked
-                .mul(globalYieldEnd).div(DECIMAL1e18);
-            if (stakerData.withdrawnToDate.add(stakerData.stakeBuyinRate) > estimatedReward) {
+                .mul(globalYieldEnd[r]).div(DECIMAL1e18);
+            if (stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(stakerData.stakeBuyinRate[address(rewardsTokens[r].token)]) > estimatedReward) {
                 estimatedReward = 0;
             } else {
 
-                estimatedReward = estimatedReward.sub(stakerData.withdrawnToDate.add(stakerData.stakeBuyinRate));
+                estimatedReward = estimatedReward.sub(stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(stakerData.stakeBuyinRate[address(rewardsTokens[r].token)]));
             }
 
             estimatedRewards[r] = estimatedReward;
-            unlockedRewards[r]= unlockedReward;
-            accruedRewards[r] = accruedReward;
-            
+            unlockedRewards[r] = timeElapsed.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
         }
 
         return (interestData.globalTotalStaked, totalRewards, estimatedRewards, unlockedRewards, accruedRewards);

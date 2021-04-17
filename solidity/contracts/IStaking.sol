@@ -41,7 +41,7 @@ interface IStaking {
     /**
      * @dev get Yield Data.
      */
-    function getYieldData(address _staker) external view returns(uint256, uint256);
+    //function getYieldData(address _staker) external view returns(uint256, uint256);
 
 
     /**
@@ -54,13 +54,13 @@ interface IStaking {
      *
      * @return The amount of tokens credit for the staker.
      */
-    function calculateInterest(address _staker) external view returns (uint256);
+    //function calculateInterest(address _staker) external view returns (uint256);
 
 
     /**
      * @dev return the data of the staker.
      */
-    function getStakerData(address _staker) external view returns(uint256, uint256);
+    //function getStakerData(address _staker) external view returns(uint256, uint256);
 
 
 

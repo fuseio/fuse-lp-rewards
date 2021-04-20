@@ -14,6 +14,8 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       plotusToken,
       staking,
       stakeStartTime,
+      stakingPeriod,
+      rewardToBeDistributed1,
       dummystakeTok,
       dummyRewardTok,
       dummyStaking;
@@ -25,7 +27,9 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       dummystakeTok = await DummyTokenMock.new("UEP","UEP");
       dummyRewardTok = await DummyTokenMock.new("PLT","PLT");
       let nowTime = await latestTime();
-      staking = await MultiRewardsStaking.new(stakeTok.address, [plotusToken.address], (24*3600*365), [toWei("500000")], (await latestTime())/1 + 1, vaultAdd);
+      stakingPeriod = (24*3600*365);
+      rewardToBeDistributed1 = toWei("500000");
+      staking = await MultiRewardsStaking.new(stakeTok.address, [plotusToken.address], stakingPeriod, [rewardToBeDistributed1], (await latestTime())/1 + 1, vaultAdd);
 
       dummyStaking = await MockMultiRewardsStaking.new(dummystakeTok.address, [dummyRewardTok.address], (24*3600*365), [toWei("500000")], (await latestTime())/1+1500, vaultAdd);
 
@@ -75,8 +79,17 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         let afterStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
         expect((beforeStakeTokBal - afterStakeTokBal)).to.be.equal((toWei("100", "ether"))/1);
         expect((afterStakeTokBalStaking - beforeStakeTokBalStaking)).to.be.equal((toWei("100", "ether"))/1); 
-        //expect((Math.floor((vaultBalAfter - vaultBal)/1e15)).toString()).to.be.equal("158"); 
-        console.log("vaultBalAfter : " + vaultBalAfter + " vaultBal: " + vaultBal + " computed " + Math.floor((vaultBalAfter - vaultBal)/1e15))
+
+        // accuraccy is of 1 sec
+        let vaultbalanceExpectedInf = 10 * rewardToBeDistributed1 / stakingPeriod;
+        let vaultbalanceExpectedSup = 11 * rewardToBeDistributed1 / stakingPeriod;
+
+        /*console.log("vaultbalanceExpectedInf " + vaultbalanceExpectedInf);
+        console.log("vaultbalanceExpectedSup " + vaultbalanceExpectedSup);
+        console.log("vaultBalAfter " + vaultBalAfter);
+        console.log("vaultBal " + vaultBal);*/
+        
+        expect((Math.abs((vaultbalanceExpectedSup - (vaultBalAfter - vaultBal)))<(vaultbalanceExpectedSup-vaultbalanceExpectedInf)).toString()).to.be.equal("true"); 
 
         let stakerData = await staking.getStakerData(S1);
         let interestData = await staking.interestData();
@@ -124,8 +137,8 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         let interestData = await staking.interestData();
         let yieldData = await staking.getYieldData(S2);
       
-        expect((Math.floor(yieldData[0][0]/1e15)).toString()).to.be.equal("14");
-        expect(((Math.floor(yieldData[1][0]/1e16 - 71)).toString())/1).to.be.below(3);
+        expect((Math.round(yieldData[0][0]/1e15)-14)).to.be.below(2);
+        expect(((Math.round(yieldData[1][0]/1e16 - 71)).toString())/1).to.be.below(3);
 
         // globalTotalStake
         expect((interestData[0]).toString()).to.be.equal(toWei("150", "ether")); 
@@ -197,8 +210,8 @@ contract("InterestDistribution - Scenario based calculations for staking model",
         let interestData = await staking.interestData();
         let yieldData = await staking.getYieldData(S1);
 
-        expect((Math.floor(yieldData[0][0]/1e15)).toString()).to.be.equal("65");
-        expect((Math.floor(yieldData[1][0]/1e18)).toString()).to.be.equal("16");
+        expect((Math.abs(yieldData[0][0]/1e15) - 66)).to.be.below(2);
+        expect((Math.abs(yieldData[1][0]/1e18) - 16)).to.be.below(2);
 
         // globalTotalStake
         expect((interestData[0]).toString()).to.be.equal(toWei("760", "ether")); 
@@ -356,8 +369,10 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       let stakerData = await staking.getStakerData(S3);
       let interestData = await staking.interestData();
       let yieldData = await staking.getYieldData(S3);
+
+      console.log("interestData " + interestData);
         
-      expect((Math.round(yieldData[0]/1e15)).toString()).to.be.equal("110");
+      expect((Math.round(yieldData[0][0]/1e15)).toString()).to.be.equal("110");
 
       // globalTotalStake
       expect((interestData[0]).toString()).to.be.equal(toWei("820", "ether")); 
@@ -371,93 +386,107 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       expect((Math.round((stakerData[1])/1e18)).toString()).to.be.equal(interest); 
     });
 
-  //   it("Staker 2 stakes 100 Token at 4500 seconds", async () => {
+    it("Staker 2 stakes 100 Token at 4500 seconds", async () => {
 
-  //     let beforeStakeTokBal = await stakeTok.balanceOf(S2);
+      let beforeStakeTokBal = await stakeTok.balanceOf(S2);
 
-  //     let beforeStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
+      let beforeStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
 
-  //     // increase time
-  //     await increaseTimeTo(stakeStartTime + 4500);
+      // increase time
+      await increaseTimeTo(stakeStartTime + 4500);
 
 
       
-  //       await staking.stake(toWei("100"), {
-  //         from: S2
-  //       });
+        await staking.stake(toWei("100"), {
+          from: S2
+        });
 
-  //       let afterStakeTokBal = await stakeTok.balanceOf(S2);
+        let afterStakeTokBal = await stakeTok.balanceOf(S2);
 
-  //       let afterStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
+        let afterStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
 
-  //       expect((beforeStakeTokBal - afterStakeTokBal)).to.be.equal((toWei("100", "ether"))/1);
-  //       expect((afterStakeTokBalStaking - beforeStakeTokBalStaking)).to.be.equal((toWei("100", "ether"))/1);   
+        expect((beforeStakeTokBal - afterStakeTokBal)).to.be.equal((toWei("100", "ether"))/1);
+        expect((afterStakeTokBalStaking - beforeStakeTokBalStaking)).to.be.equal((toWei("100", "ether"))/1);   
 
-  //       let stakerData = await staking.getStakerData(S2);
-  //       let interestData = await staking.interestData();
-  //       let yieldData = await staking.getYieldData(S2);
+        let stakerData = await staking.getStakerData(S2);
+        let interestData = await staking.interestData();
+        let yieldData = await staking.getYieldData(S2);
 
              
-  //       expect((Math.floor(yieldData[0]/1e15)).toString()).to.be.equal("139");
-  //       expect((Math.floor(yieldData[1]/1e18)).toString()).to.be.equal("14");
+        expect((Math.floor(yieldData[0]/1e15)).toString()).to.be.equal("139");
+        expect((Math.floor(yieldData[1]/1e18)).toString()).to.be.equal("14");
 
-  //       // globalTotalStake
-  //       expect((interestData[0]).toString()).to.be.equal(toWei("920", "ether")); 
+        // globalTotalStake
+        expect((interestData[0]).toString()).to.be.equal(toWei("920", "ether")); 
         
-  //       // totalStake of S1
-  //       expect((stakerData[0]).toString()).to.be.equal(toWei("150", "ether")); 
-  //   });
+        // totalStake of S1
+        expect((stakerData[0]).toString()).to.be.equal(toWei("150", "ether")); 
+    });
 
-  //   it("Computing updated yield data at 10000 seconds", async () => {
 
-  //     // increase time
-  //     await increaseTimeTo(stakeStartTime + 10000);
 
-  //     let statsDta = await staking.getStatsData(S1);
 
-  //     expect((Math.floor((statsDta[0])/1e18)).toString()).to.be.equal("920");
-  //     expect((Math.floor((statsDta[1])/1e18)).toString()).to.be.equal("500000");
-  //     expect((Math.floor((statsDta[2])/1e18)).toString()).to.be.equal("222829");
-  //     expect((Math.floor((statsDta[3])/1e18)).toString()).to.be.equal("158");
-  //     expect((Math.floor((statsDta[4])/1e18)).toString()).to.be.equal("74");
 
-  //     statsDta = await staking.getStatsData(S2);
 
-  //     expect((Math.floor((statsDta[0])/1e18)).toString()).to.be.equal("920");
-  //     expect((Math.floor((statsDta[1])/1e18)).toString()).to.be.equal("500000");
-  //     expect((Math.floor((statsDta[2])/1e18)).toString()).to.be.equal("81512");
-  //     expect((Math.floor((statsDta[3])/1e18)).toString()).to.be.equal("158");
-  //     expect((Math.floor((statsDta[4])/1e18)).toString()).to.be.equal("16");
 
-  //     statsDta = await staking.getStatsData(S3);
 
-  //     expect((Math.floor((statsDta[0])/1e18)).toString()).to.be.equal("920");
-  //     expect((Math.floor((statsDta[1])/1e18)).toString()).to.be.equal("500000");
-  //     expect((Math.floor((statsDta[2])/1e18)).toString()).to.be.equal("195634");
-  //     expect((Math.floor((statsDta[3])/1e18)).toString()).to.be.equal("158");
-  //     expect((Math.floor((statsDta[4])/1e18)).toString()).to.be.equal("44");
+
+
+
+    it("Computing updated yield data at 10000 seconds", async () => {
+
+      // increase time
+      await increaseTimeTo(stakeStartTime + 10000);
+
+      let statsDta = await staking.getStatsData(S1);
+
+      expect((Math.abs((Math.round((statsDta[0])/1e18)-920)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[1][0])/1e18)-500000)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[2][0])/1e18)-222829)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[3][0])/1e18)-158)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[4][0])/1e18)-74)))).to.be.below(2);
+
+      statsDta = await staking.getStatsData(S2);
+
+      expect((Math.abs((Math.round((statsDta[0])/1e18)-920)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[1][0])/1e18)-500000)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[2][0])/1e18)-81512)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[3][0])/1e18)-158)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[4][0])/1e18)-16)))).to.be.below(2);
+
+      statsDta = await staking.getStatsData(S3);
+      console.log("statsDta[4][0] " + statsDta[4][0])
+
+      expect((Math.abs((Math.round((statsDta[0])/1e18)-920)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[1][0])/1e18)-500000)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[2][0])/1e18)-195634)))).to.be.below(20);
+      expect((Math.abs((Math.round((statsDta[3][0])/1e18)-158)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[4][0])/1e18)-44)))).to.be.below(5);
 
          
-  //     await staking
-  //         .updateGlobalYield()
-  //         .catch(e => e);
+      await staking
+          .updateGlobalYield()
+          .catch(e => e);
 
-  //     let interestData = await staking.interestData();
+      let interestData = await staking.interestData();
+      let globalYieldPerToken = await staking.getGlobalYieldPerToken(plotusToken.address);
       
-          
-  //     expect(((Math.floor(interestData[1]/1e15 - 234)).toString())/1).to.be.below(2);
-
-  //     // globalTotalStake
-  //     expect((interestData[0]).toString()).to.be.equal(toWei("920")); 
+      console.log("interestData[0] " + interestData[0] );
+      console.log("interestData[1] " + interestData[1] );
+      
+      expect(((Math.round(globalYieldPerToken/1e15 - 234)))/1).to.be.below(2);
+      
+      // globalTotalStake
+      expect(Math.abs(interestData[0]-toWei("920"))).to.be.below(100); 
       
       
-  //     expect((Math.floor((await staking.calculateInterest(S1))/1e18)).toString()).to.be.equal("74");
+      expect((Math.abs((await staking.calculateInterest(S1))/1e18) -74)).to.be.below(10);
       
-  //     expect((Math.floor((await staking.calculateInterest(S2))/1e18)).toString()).to.be.equal("16");
+      expect((Math.abs((await staking.calculateInterest(S2))/1e18) - 16)).to.be.below(10);
       
-  //     expect((Math.floor((await staking.calculateInterest(S3))/1e18)).toString()).to.be.equal("44");
-  //   });
-  // });
+      expect((Math.abs((await staking.calculateInterest(S3))/1e18) - 44)).to.be.below(10);
+    });
+  //});
 
   // describe('No one stakes in this cycle but time will increase so some interest will be generated', function() {
   //   it("Computing updated yield data at 20000 seconds", async () => {
@@ -877,6 +906,16 @@ contract("InterestDistribution - Scenario based calculations for staking model",
   // });
 
 });
+
+
+
+
+
+
+
+
+
+
 
 // contract("InterestDistribution - Scenario5 All staker unstakes before stake period and no one stakes.", ([S1, S2, S3, vaultAdd]) => {
 //   let stakeTok,

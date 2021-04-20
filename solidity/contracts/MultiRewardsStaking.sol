@@ -134,14 +134,11 @@ contract MultiRewardsStaking is IStaking {
         require(now.sub(stakingStartTime) <= stakingPeriod, "Can not stake after staking period passed");
 
         uint mixedTotalInterest = 0;
+        uint256 lastUpdated = now;
 
-        for (uint r = 0; r < rewardsTokens.length; r++) {
-            uint newlyInterestGenerated = now.sub(interestData.lastUpdated).mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            interestData.lastUpdated = now;
-            updateGlobalYieldPerToken(r, newlyInterestGenerated);
-            updateStakeData(msg.sender, _amount);
-            mixedTotalInterest.add(newlyInterestGenerated);
-        }
+        updateGlobalYieldPerToken(lastUpdated.sub(interestData.lastUpdated));
+        interestData.lastUpdated = lastUpdated;
+        updateStakeData(msg.sender, _amount);
 
         emit Staked(msg.sender, _amount, mixedTotalInterest);
         
@@ -269,27 +266,34 @@ contract MultiRewardsStaking is IStaking {
 
         Staker storage stakerData = interestData.stakers[msg.sender];
         uint256[] memory interest = this.calculateInterest(msg.sender);
+        //uint[] memory newlyInterestGenerated = new uint[](rewardsTokens.length);
+
+        updateGlobalYieldPerToken(timeSinceLastUpdate);
         
         for (uint r = 0; r < rewardsTokens.length; r++) {
-            uint newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            updateGlobalYieldPerToken(r, newlyInterestGenerated);
+            //newlyInterestGenerated[r] = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
             stakerData.withdrawnToDate[address(rewardsTokens[r].token)] = stakerData.withdrawnToDate[address(rewardsTokens[r].token)].add(interest[r]);
             require(rewardsTokens[r].token.transfer(msg.sender, interest[r]), "Withdraw interest transfer failed");
             emit InterestCollected(msg.sender, interest[r], interestData.globalYieldPerToken[address(rewardsTokens[r].token)]);
         }
-        
-        
+
+        //updateGlobalYieldPerToken(newlyInterestGenerated);
+
     }
 
     /**
      * @dev update Global Yield.
      */
     function updateGlobalYield() external {
-        for (uint r = 0; r < rewardsTokens.length; r++) {
-            uint timeSinceLastUpdate = _timeSinceLastUpdate();
-            uint newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            updateGlobalYieldPerToken(r, newlyInterestGenerated);
+        uint timeSinceLastUpdate = _timeSinceLastUpdate();
+        //uint[] memory newlyInterestGenerated = new uint[](rewardsTokens.length);
+        
+        /*for (uint r = 0; r < rewardsTokens.length; r++) {
+            newlyInterestGenerated[r] = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
         }
+        updateGlobalYieldPerToken(newlyInterestGenerated);*/
+
+        updateGlobalYieldPerToken(timeSinceLastUpdate);
     }
 
     /**
@@ -371,24 +375,33 @@ contract MultiRewardsStaking is IStaking {
      * Formula:
      * GlobalYield = GlobalYield(P) + newlyGeneratedInterest/GlobalTotalStake.
      *
-     * @param _interestGenerated  Interest token earned since last update.
+     * @param _lastUpdated  last update.
      *
      */
     function updateGlobalYieldPerToken(
-        uint256 _tokenIndex,
-        uint256 _interestGenerated
+        uint256 _lastUpdated
     ) internal {
+        uint[] memory newlyInterestGenerated = new uint[](rewardsTokens.length);
+
+        for (uint r = 0; r < rewardsTokens.length; r++) {
+            newlyInterestGenerated[r] = _lastUpdated.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
+        }
+
         if (interestData.globalTotalStaked == 0) {
-            require(rewardsTokens[_tokenIndex].token.transfer(vaultAddress, _interestGenerated), "Transfer failed while trasfering to vault");
+            for(uint r = 0; r < rewardsTokens.length; r++){
+                require(rewardsTokens[r].token.transfer(vaultAddress, newlyInterestGenerated[r]), "Transfer failed while trasfering to vault");
+            }
             return;
         }
-        address rewardToken = address(rewardsTokens[_tokenIndex].token);
+        for(uint r = 0; r < rewardsTokens.length; r++){
+            address rewardToken = address(rewardsTokens[r].token);
 
-        interestData.globalYieldPerToken[rewardToken] = interestData.globalYieldPerToken[rewardToken].add(
-            _interestGenerated
-                .mul(DECIMAL1e18) 
-                .div(interestData.globalTotalStaked) 
-        );
+            interestData.globalYieldPerToken[rewardToken] = interestData.globalYieldPerToken[rewardToken].add(
+                newlyInterestGenerated[r]
+                    .mul(DECIMAL1e18) 
+                    .div(interestData.globalTotalStaked) 
+            );
+        }
     }
 
     /**
@@ -522,5 +535,14 @@ contract MultiRewardsStaking is IStaking {
 
         return (interestData.globalTotalStaked, totalRewards, estimatedRewards, unlockedRewards, accruedRewards);
 
+    }
+
+    /**
+     * @dev returns global yield for a token
+     * @param token Address of staker.
+     */
+    function getGlobalYieldPerToken(address token) external view returns(uint256)
+    {
+        return interestData.globalYieldPerToken[token];
     }
 }

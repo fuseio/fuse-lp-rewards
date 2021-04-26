@@ -1,29 +1,39 @@
 {
-  "name": "solidity",
+  "name": "fuse-lp-rewards-contracts",
   "version": "1.0.0",
-  "description": "[![Build Status](https://travis-ci.org/plotx/smart-contracts.svg?branch=master)](https://travis-ci.org/plotx/smart-contracts)",
-  "main": "truffle-config.js",
+  "description": "",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "crypto-js": "^3.3.0",
-    "utf8": "^2.1.2",
-    "web3": "*"
-  },
   "scripts": {
-    "compile": "node_modules .\\bin\\truffle compile",
-    "startGanache": "scripts\\startGanache.sh",
-    "deploy": "node_modules bin\\truffle deploy",
-    "test": "scripts\\test.sh",
-    "coverage": "scripts\\coverage.sh",
-    "flatten": "truffle-flattener .\\contracts\\MultiRewardsStaking.sol --output .\\flats\\MultiRewardsStaking_flat.sol",
-    "abi": "scripts\\abi.sh",
+    "compile": "node_modules/.bin/truffle compile",
+    "startGanache": ". scripts/startGanache.sh",
+    "deploy": "node_modules/.bin/truffle deploy",
+    "test": "./scripts/test.sh",
+    "coverage": "./scripts/coverage.sh",
+    "flatten": "scripts/flatten.sh",
+    "abi": "scripts/abi.sh",
     "test-s": "truffle test"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.5.0",
+    "@openzeppelin/test-helpers": "^0.5.6",
+    "bignumber.js": "^9.0.0",
+    "coveralls": "^3.0.2",
+    "ethereumjs-abi": "^0.6.8",
+    "ganache-cli": "^6.9.0",
+    "node-jq": "^1.11.2",
+    "pify": "^5.0.0",
+    "solhint": "^3.2.0",
+    "solidity-coverage": "^0.7.1",
+    "truffle": "^5.1.18",
+    "web3": "^0.20.4"
+  },
   "devDependencies": {
-    "truffle": "^5.3.1"
+    "chai": "^4.2.0",
+    "truffle-flattener": "^1.5.0"
   }
 }

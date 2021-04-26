@@ -486,7 +486,23 @@ contract("InterestDistribution - Scenario based calculations for staking model",
       
       expect((Math.abs((await staking.calculateInterest(S3))/1e18) - 44)).to.be.below(10);
     });
-  //});
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // describe('No one stakes in this cycle but time will increase so some interest will be generated', function() {
   //   it("Computing updated yield data at 20000 seconds", async () => {
@@ -905,7 +921,7 @@ contract("InterestDistribution - Scenario based calculations for staking model",
   //   });
   // });
 
-});
+//});
 
 
 
@@ -1231,3 +1247,157 @@ contract("InterestDistribution - Scenario based calculations for staking model",
 //     });
 //   });
  });
+
+
+ contract("InterestDistribution - Scenario based calculations for staking model with 2 rewards token", ([S1, S2, S3, vaultAdd]) => {
+  let stakeTok,
+      rewardToken1,
+      rewardToken2,
+      staking,
+      stakeStartTime,
+      stakingPeriod,
+      rewardToBeDistributed1,
+      rewardToBeDistributed2;
+
+    before(async () => {
+      
+      stakeTok = await UniswapETH_Plot.new("UEP","UEP");
+      rewardToken1 = await PlotusToken.new(toWei("30000000"), S1);
+      rewardToken2 = await PlotusToken.new(toWei("50000000"), S1);
+      let nowTime = await latestTime();
+      stakingPeriod = (24*3600*365);
+      rewardToBeDistributed1 = toWei("500000");
+      rewardToBeDistributed2 = toWei("700000");
+      staking = await MultiRewardsStaking.new(stakeTok.address, [rewardToken1.address, rewardToken1.address], stakingPeriod, [rewardToBeDistributed1, rewardToBeDistributed2], (await latestTime())/1 + 1, vaultAdd);
+
+      await rewardToken1.transfer(staking.address, rewardToBeDistributed1);
+      await rewardToken2.transfer(staking.address, rewardToBeDistributed2);
+
+      
+      await stakeTok.mint(S1, toWei("1000"));
+      await stakeTok.mint(S2, toWei("1000"));
+      await stakeTok.mint(S3, toWei("1000"));
+      await stakeTok.approve(staking.address, toWei("10000", "ether"), {
+        from: S1
+      });
+      await stakeTok.approve(staking.address, toWei("10000", "ether"), {
+        from: S2
+      });
+      await stakeTok.approve(staking.address, toWei("10000", "ether"), {
+        from: S3
+      });
+
+      stakeStartTime = (await staking.stakingStartTime())/1;
+      console.log("starttime: ", stakeStartTime);
+      
+    });
+  describe('Multiple Staker stakes, no withdrawal', function() {
+    
+    it("Staker 1 stakes 100 Token after 10 seconds", async () => {
+
+      let beforeStakeTokBal = await stakeTok.balanceOf(S1);
+      let beforeStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
+      let vaultBal = await rewardToken1.balanceOf(vaultAdd);
+      
+      // increase 10 seconds
+      await increaseTimeTo(stakeStartTime + 10);
+
+
+      /**
+        * S1 stakes 100 tokens
+        */
+        await staking.stake(toWei("100"), {
+          from: S1
+        });
+        let vaultBalAfter = await rewardToken1.balanceOf(vaultAdd);
+        let afterStakeTokBal = await stakeTok.balanceOf(S1);
+
+        let afterStakeTokBalStaking = await stakeTok.balanceOf(staking.address);
+        expect((beforeStakeTokBal - afterStakeTokBal)).to.be.equal((toWei("100", "ether"))/1);
+        expect((afterStakeTokBalStaking - beforeStakeTokBalStaking)).to.be.equal((toWei("100", "ether"))/1); 
+
+        // accuraccy is of 1 sec
+        let vaultbalanceExpectedInf =  (rewardToBeDistributed1/ stakingPeriod +  rewardToBeDistributed2/ stakingPeriod) *10 ;
+        let vaultbalanceExpectedSup = (rewardToBeDistributed1/ stakingPeriod +  rewardToBeDistributed2/ stakingPeriod) *11 ;
+
+        console.log("vaultbalanceExpectedInf " + vaultbalanceExpectedInf);
+        console.log("vaultbalanceExpectedSup " + vaultbalanceExpectedSup);
+        console.log("vaultBalAfter " + vaultBalAfter);
+        console.log("vaultBal " + vaultBal);
+        
+        expect((Math.abs((vaultbalanceExpectedSup - (vaultBalAfter - vaultBal))))).to.be.below(vaultbalanceExpectedSup-vaultbalanceExpectedInf + 10); 
+
+        let stakerData = await staking.getStakerData(S1);
+        let interestData = await staking.interestData();
+        let yieldData = await staking.getYieldData(S1);
+        let globalYieldsPerToken = await staking.getGlobalYieldsPerToken();
+
+        // 1st stake so globalTotalStake is 0, hence 
+        // globalYieldPerToken and gdYieldRate are  0.
+        expect((yieldData[0][0]).toString()).to.be.equal("0");
+        expect((yieldData[1][0]).toString()).to.be.equal("0");
+        expect((yieldData[0][1]).toString()).to.be.equal("0");
+        expect((yieldData[1][1]).toString()).to.be.equal("0");
+        expect((globalYieldsPerToken[0]).toString()).to.be.equal("0");
+        expect((globalYieldsPerToken[1]).toString()).to.be.equal("0");
+
+        // globalTotalStake
+        expect((interestData[0]).toString()).to.be.equal(toWei("100", "ether")); 
+
+        // totalStake of S1
+        expect((stakerData[0]).toString()).to.be.equal(toWei("100", "ether")); 
+
+    });
+
+    it("Computing updated yield data at 10000 seconds", async () => {
+
+      // increase time
+      await increaseTimeTo(stakeStartTime + 10000);
+
+      let statsDta = await staking.getStatsData(S1);
+
+      console.log("statsDta[0] " + statsDta[0] );
+      console.log("statsDta[1][0] " + statsDta[1][0] );
+      console.log("statsDta[2][0] " + statsDta[2][0] );
+      console.log("statsDta[3][0] " + statsDta[3][0] );
+      console.log("statsDta[4][0] " + statsDta[4][0] );
+      console.log("statsDta[1][1] " + statsDta[1][1] );
+      console.log("statsDta[2][1] " + statsDta[2][1] );
+      console.log("statsDta[3][1] " + statsDta[3][1] );
+      console.log("statsDta[4][1] " + statsDta[4][1] );
+
+
+      expect((Math.abs((Math.round((statsDta[0])/1e18)-100)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[1][0])/1e18)-500000)))).to.be.below(100);
+      expect((Math.abs((Math.round((statsDta[2][0])/1e18)-500000)))).to.be.below(100);
+      expect((Math.abs((Math.round((statsDta[3][0])/1e18)-158)))).to.be.below(10);
+      expect((Math.abs((Math.round((statsDta[4][0])/1e18)-158)))).to.be.below(10);
+
+      expect((Math.abs((Math.round((statsDta[0])/1e18)-100)))).to.be.below(2);
+      expect((Math.abs((Math.round((statsDta[1][1])/1e18)-700000)))).to.be.below(100);
+      expect((Math.abs((Math.round((statsDta[2][1])/1e18)-700000)))).to.be.below(100);
+      expect((Math.abs((Math.round((statsDta[3][1])/1e18)-222)))).to.be.below(10);
+      expect((Math.abs((Math.round((statsDta[4][1])/1e18)-222)))).to.be.below(10);
+
+         
+      await staking
+          .updateGlobalYield()
+          .catch(e => e);
+
+      let interestData = await staking.interestData();
+      let globalYieldPerToken = await staking.getGlobalYieldsPerToken();
+      
+      console.log("interestData[0] " + interestData[0] );
+      console.log("interestData[1] " + interestData[1] );
+      console.log("globalYieldPerToken[0] " + globalYieldPerToken[0] );
+      console.log("globalYieldPerToken[1] " + globalYieldPerToken[1] );
+      
+      expect(((Math.abs(globalYieldPerToken[0]/1e15 - 1600)))/1).to.be.below(100);
+      
+      // globalTotalStake
+      expect(Math.abs(interestData[0]-toWei("100"))).to.be.below(100); 
+      expect((Math.abs((await staking.calculateInterest(S1))[0]/1e18) - 160)).to.be.below(10);
+      expect((Math.abs((await staking.calculateInterest(S1))[1]/1e18) - 221)).to.be.below(10);
+    });
+  });
+});

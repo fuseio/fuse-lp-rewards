@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import reverse from 'lodash/reverse'
 import get from 'lodash/get'
+import classNames from 'classnames'
 import RewardCard from '@/components/common/RewardCard'
+<<<<<<< HEAD
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
 import wethUsdcIcon from '@/assets/images/coins-pair-weth-usdc.svg'
 import wbtcWethIcon from '@/assets/images/coins-pair-wbtc-weth.svg'
@@ -48,14 +50,20 @@ const stakingContracts = [
     items: CONFIG.contracts.fuse
   }
 ]
+=======
+import { selectStakingPlatform } from '@/actions/staking'
+import { PAIRS_ICONS, STAKING_CONTRACTS, REWARDS_PLATFORMS_LIST } from '@/constants'
+>>>>>>> added initial rewardsV2
 
 export default () => {
-  const [filterValue, setFilter] = useState('all')
-  const contractsData = useSelector(state => state.entities.stakingContracts)
+  const disptach = useDispatch()
+  const { stakingPlatform } = useSelector(state => state.screens.home)
 
-  const handleClick = (e) => {
-    setFilter(e.target.name)
+  const selectPlatform = (platform) => {
+    disptach(selectStakingPlatform(platform))
   }
+
+  const contracts = STAKING_CONTRACTS.filter(contract => contract.platform === stakingPlatform)
 
   return (
     <div className='rewards__wrapper'>
@@ -64,48 +72,46 @@ export default () => {
           <h1>Fuse LP rewards</h1>
           <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) then deposit your LP tokens and start earning Fuse.</p>
         </div>
-        <div className='rewards__filter-chips'>
-          {
-            filters.map((fil, index) => (
-              <button
-                className='chip'
-                disabled={filterValue === fil.toLowerCase()}
-                name={fil.toLowerCase()}
-                key={index}
-                onClick={handleClick}
-              >
-                {fil}
-              </button>
-            ))
-          }
+        <div className="rewards__platforms">
+          {REWARDS_PLATFORMS_LIST.map(platform => (
+            <button 
+              className={classNames('rewards__platform', { 'rewards__platform--active': stakingPlatform === platform.name })} 
+              onClick={() => selectPlatform(platform.name)}
+            >
+              <div className="rewards__platform__header">
+                <img className="rewards__platform__banner" src={platform.banner} />
+                <img className="rewards__platform__icon" src={platform.icon} />
+              </div>
+              <div className="rewards__platform__footer">
+                {platform.label}
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className='rewards__section'>
+          <div className='rewards__section__title'>
+            <h3 className='rewards__section__label'>{stakingPlatform}</h3>
+          </div>
         </div>
         {
-          stakingContracts.map(({ icon, network, items }, index) => {
-            const data = filterValue === 'all'
-              ? items
-              : (filterValue === 'new')
-                ? filter(items, (o, address) => !get(contractsData, [address, 'isExpired'], false))
-                : (filterValue === 'expired')
-                  ? filter(items, (o, address) => get(contractsData, [address, 'isExpired'], false))
-                  : []
-            if (isEmpty(data)) return null
-            return (
-              <div className='rewards__section' key={index}>
-                <div className='rewards__section__title'>
-                  <img className='rewards__section__icon' src={icon} />
-                  <h3 className='rewards__section__label'>Rewards on {network}</h3>
-                </div>
-                <div className='rewards__cards-container grid-x align-middle'>
-                  {
-                    reverse(map(data, (contract) => {
-                      const { contractAddress } = contract
-                      return <RewardCard icon={pairsIcons[contract.pairName]} key={contractAddress} {...contract} stakingContract={contractAddress} />
-                    }))
-                  }
-                </div>
-              </div>
-            )
-          })
+          !isEmpty(contracts) ? contracts.map(({ icon, network, items }, index) => (
+            <div className='rewards__cards-container grid-x align-middle'>
+              {
+                reverse(map(items, (contract) => {
+                  const { contractAddress } = contract
+                  return (
+                    <RewardCard 
+                      className={`reward-card--${stakingPlatform.toLowerCase()}`} 
+                      icon={PAIRS_ICONS[contract.pairName]} 
+                      key={contractAddress} 
+                      {...contract} 
+                      stakingContract={contractAddress} 
+                    />
+                  )
+                }))
+              }
+            </div>
+          )) : (<div>Coming Soon</div>)
         }
       </div>
     </div>

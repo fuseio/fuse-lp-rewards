@@ -1,6 +1,6 @@
 @include block(rewards) {
   @include element(wrapper) {
-    background-color: #fbfafc;
+    background-color: #f4f6f9;
   }
   padding: 5em 0 0;
   @include xy-grid-container(1200px);
@@ -49,7 +49,6 @@
   }
   @include element(section) {
     width: 100%;
-    margin-bottom: 3em;
     @include element(title) {
       display: flex;
       align-items: center;
@@ -60,14 +59,67 @@
       margin-right: 0.5em;
     }
     @include element(label) {
-      font-size: 1.375em;
-      font-weight: 500;
+      font-size: 1.875em;
+      font-weight: bold;
       line-height: 21px;
       color: $color-black;
+      margin-bottom: 0.5em;
     }
   }
   @include element(cards-container) {
     width: 100%;
+  }
+  @include element(platforms) {
+    margin-bottom: 3em;
+  }
+  @include element(platform) {
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    @include breakpoint(medium up) {
+      min-width: 230px;
+      max-width: 230px;
+      &:not(:last-child) {
+        margin-right: 2em;
+      }
+    }
+    @include breakpoint(medium down) {
+      &:not(:last-child) {
+        margin-bottom: 2em;
+      }
+    }
+
+    @include modifier(active) {
+      box-shadow: 0 0 0 4px #052235;
+    }
+
+    @include element(header) {
+      position: relative;
+    }
+
+    @include element(footer) {
+      border: 1px solid #ebebeb;
+      padding: 32px 15px;
+      border-bottom-right-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    @include element(banner) {
+      width: 100%;
+    }
+
+    @include element(icon) {
+      position: absolute;
+      bottom: -25px;
+      right: 25px;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+
+      @include modifier(ring) {
+        border: 4px solid white;
+      }
+    }
   }
 }
 
@@ -89,20 +141,71 @@
   }
 
   background-color: #fff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
+  border: 1px solid #e9e9e9;
+  border-radius: 10px;
+
+  @include modifier(uniswap) {
+    @include element(badge) {
+      background-color: $color-uniswap;
+      color: white;
+    }
+  }
+
+  @include modifier(fuseswap) {
+    @include element(badge) {
+      background-color: $color-fuseswap;
+      color: white;
+    }
+  }
+
+  @include element(header) {
+    @include xy-grid();
+    @include flex-align(justify, middle);
+  }
+
+  @include element(badge) {
+    display: flex;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 3px;
+
+    > img {
+      width: 9px;
+      margin-right: 5px;
+    }
+  }
+
+  @include block(reward-status) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    @include modifier(new) {
+      background-color: #4ddd99;
+    }
+
+    @include modifier(expired) {
+      background-color: #f1653b;
+    }
+
+    @include modifier(soon) {
+      background-color: #4ddd99;
+    }
+  }
+
   @include element(icons) {
     padding: 1em 0;
     position: relative;
     @include xy-grid();
-    @include flex-align(justify, top);
+    @include flex-align(left, middle);
 
     @include block(icon) {
       width: 64px;
       height: 24px;
       background: #fef2ef;
       border-radius: 8px;
-      @include flex-align(center, middle);
+      @include flex-align(left, middle);
       @include xy-grid();
 
       > span {
@@ -143,8 +246,7 @@
   }
 
   @include element(title) {
-    margin: 0.5em 0em;
-    font-size: 1.375em;
+    font-size: 17px;
     font-weight: 500;
     color: $color-black;
   }
@@ -155,22 +257,30 @@
     left: 16px;
     top: 375px;
     color: #fff;
-    background: #0f273c;
-    border-radius: 100px;
+    background: #4c5f6e;
+    border-radius: 3px;
     transition: 0.5s;
     &:hover {
-      background: #283e52;
+      background: lighten(#4c5f6e, 10%);
     }
     &:disabled {
       background-color: $color-disabled;
       cursor: not-allowed;
       color: $color-primary-dark;
     }
+
+    @include modifier(grey) {
+      background-color: #e9eDf2;
+      color: #052235;
+      &:hover {
+        background: darken(#e9eDf2, 5%);
+      }
+    }
   }
 }
 
 @include block(card-section) {
-  margin: 1em 0;
+  margin: 1em 0 1.5em;
   min-height: 36px;
   display: flex;
   flex-direction: column;
@@ -179,17 +289,17 @@
   font-weight: 500;
   font-size: 12px;
   @include element(label) {
-    font-size: 9px;
+    font-size: 10px;
     line-height: 12px;
-    letter-spacing: 0.3px;
     text-transform: uppercase;
-    color: #869aac;
+    color: #9d9d9d;
   }
   @include element(info) {
+    font-size: 13px;
     line-height: 16px;
     display: flex;
     align-items: center;
-    color: $color-black;
+    color: #545454;
   }
   @include element(apy) {
     font-size: 15px;

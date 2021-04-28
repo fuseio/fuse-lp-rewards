@@ -33,7 +33,7 @@ module.exports = {
           !isDev ? {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: './'
+              publicPath: '/'
             }
           } : {
             loader: 'style-loader'
@@ -73,7 +73,7 @@ module.exports = {
             options: {
               outputPath: 'images',
               name: '[name].[ext]',
-              publicPath: './images'
+              publicPath: '/images'
             }
           },
           {
@@ -98,7 +98,17 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack', 'file-loader']
+        use: [
+          {
+            loader: '@svgr/webpack'
+          },
+          {
+            loader: 'file-loader',
+            options: {
+              publicPath: '/'
+            }
+          }
+        ]
       }
     ]
   },
@@ -144,7 +154,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       appMountId: 'app',
       filename: 'index.html',
-      template: path.join(__dirname, 'src', 'index.html')
+      template: path.join(__dirname, 'src', 'index.html'),
+      publicPath: '/',
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',

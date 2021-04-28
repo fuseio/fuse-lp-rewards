@@ -4,6 +4,8 @@ import uniswapBanner from '@/assets/images/uniswap.png'
 import bscIcon from '@/assets/images/bsc-icon.png'
 import balanacerBanner from '@/assets/images/balancer.png'
 import pancakeSwapBanner from '@/assets/images/pancake-swap.png'
+import comingSoonBanner from '@/assets/images/comingSoonBanner.png'
+import comingSoonIcon from '@/assets/images/comingSoonIcon.png'
 import fuseSwapBanner from '@/assets/images/fuse-swap.png'
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
 import wethUsdcIcon from '@/assets/images/coins-pair-weth-usdc.svg'
@@ -32,8 +34,8 @@ export const PAIRS_ICONS = {
 export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
-  PANCAKESWAP: 'PancakeSwap',
-  BALANCER: 'Balancer'
+  PANCAKESWAP: 'ComingSoon',
+  BALANCER: 'ComingSoon'
 }
 
 export const REWARDS_PLATFORMS_LIST = [
@@ -51,15 +53,15 @@ export const REWARDS_PLATFORMS_LIST = [
 	},
 	{
 		name: REWARDS_PLATFORMS.PANCAKESWAP,
-		label: 'PancakeSwap on BSC',
-		banner: pancakeSwapBanner,
-		icon: bscIcon
+		label: 'Coming soon!',
+		banner: comingSoonBanner,
+		icon: comingSoonIcon
 	},
 	{
 		name: REWARDS_PLATFORMS.BALANCER,
-		label: 'Balancer ON Ethereum',
-		banner: balanacerBanner,
-		icon: ethIcon
+		label: 'Coming soon!',
+		banner: comingSoonBanner,
+		icon: comingSoonIcon
 	}
 ]
 

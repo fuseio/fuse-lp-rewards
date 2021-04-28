@@ -42,7 +42,7 @@ export default () => {
       <Header handleConnect={handleConnect} />
       <Route component={GoogleAnalyticsReporter} />
       <Switch>
-        <Route path='/staking-contract/:address'>
+        <Route path='/staking-contract'>
           <StakingContract />
         </Route>
         <Route path='/'>

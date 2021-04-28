@@ -8,6 +8,7 @@ import get from 'lodash/get'
 import classNames from 'classnames'
 import RewardCard from '@/components/common/RewardCard'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
 import wethUsdcIcon from '@/assets/images/coins-pair-weth-usdc.svg'
 import wbtcWethIcon from '@/assets/images/coins-pair-wbtc-weth.svg'
@@ -54,6 +55,11 @@ const stakingContracts = [
 import { selectStakingPlatform } from '@/actions/staking'
 import { PAIRS_ICONS, STAKING_CONTRACTS, REWARDS_PLATFORMS_LIST } from '@/constants'
 >>>>>>> added initial rewardsV2
+=======
+import comingSoon from '@/assets/images/coming-soon.png'
+import { selectStakingPlatform } from '@/actions/staking'
+import { PAIRS_ICONS, STAKING_CONTRACTS, REWARDS_PLATFORMS_LIST, REWARDS_PLATFORMS } from '@/constants'
+>>>>>>> ui fixes
 
 export default () => {
   const disptach = useDispatch()
@@ -75,12 +81,19 @@ export default () => {
         <div className="rewards__platforms">
           {REWARDS_PLATFORMS_LIST.map(platform => (
             <button 
-              className={classNames('rewards__platform', { 'rewards__platform--active': stakingPlatform === platform.name })} 
+              className={classNames('rewards__platform', { 
+                'rewards__platform--active': stakingPlatform !== 'ComingSoon' && stakingPlatform === platform.name
+              })} 
               onClick={() => selectPlatform(platform.name)}
             >
               <div className="rewards__platform__header">
                 <img className="rewards__platform__banner" src={platform.banner} />
-                <img className="rewards__platform__icon" src={platform.icon} />
+                <img 
+                  className={classNames("rewards__platform__icon", {
+                    'rewards__platform__icon--ring': platform.name === REWARDS_PLATFORMS.FUSESWAP
+                  })} 
+                  src={platform.icon} 
+                />
               </div>
               <div className="rewards__platform__footer">
                 {platform.label}
@@ -90,7 +103,7 @@ export default () => {
         </div>
         <div className='rewards__section'>
           <div className='rewards__section__title'>
-            <h3 className='rewards__section__label'>{stakingPlatform}</h3>
+            <h3 className='rewards__section__label'>{stakingPlatform !== 'ComingSoon' && stakingPlatform}</h3>
           </div>
         </div>
         {
@@ -111,7 +124,11 @@ export default () => {
                 }))
               }
             </div>
-          )) : (<div>Coming Soon</div>)
+          )) : (
+            <div className="rewards__coming-soon">
+              <img src={comingSoon} />
+            </div>
+          )
         }
       </div>
     </div>

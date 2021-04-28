@@ -55,7 +55,7 @@ export default ({
       label: `Selected ${stakingContract}`
     })
     dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, uniPairToken, pairs }))
-    dispatch(push(`/staking-contract/${stakingContract}`))
+    dispatch(push(`/staking-contract`))
   }
 
   return (

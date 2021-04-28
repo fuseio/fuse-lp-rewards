@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router'
+import { Redirect, useParams } from 'react-router'
 import { BigNumber } from 'bignumber.js'
 import get from 'lodash/get'
 import InfoBox from '@/components/common/InfoBox.jsx'
@@ -18,6 +18,7 @@ import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
 
 export default ({ handleConnect }) => {
+  const { address } = useParams()
   const dispatch = useDispatch()
   const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)

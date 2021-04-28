@@ -61,9 +61,12 @@ export default ({
   return (
     <div className={classNames('reward-card cell medium-10 small-24', className)}>
       <div className="reward-card__header">
-        <div className="reward-card__badge">
-          <img src={trophy} /> APY : {apyPercentCounter === 'Infinity' || isExpired ? 0 : apyPercentCounter}%
-        </div>
+          <div className={classNames("reward-card__badge", { 
+            'reward-card__badge--hide': isExpired 
+            }
+          )}>
+            <img src={trophy} /> APY : {apyPercentCounter}%
+          </div>
         <div className={classNames('reward-status', {
           'reward-status--soon': isComingSoon, 
           'reward-status--expired': isExpired, 
@@ -90,7 +93,7 @@ export default ({
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>
-        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter} {token0.symbol}</h1>
+        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter.length > 6 ? (<><br/>{reserve0Counter}</>) : reserve0Counter} {token0.symbol}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>

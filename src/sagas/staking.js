@@ -232,10 +232,6 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
   }
 }
 
-function * selectStakingPlatform ({ stakingPlatform }) {
-  yield put(ac)
-}
-
 export default function * accountsSaga () {
   yield all([
     tryTakeEvery(actions.GET_STAKING_CONTRACTS_DATA, getStakingContractsData),

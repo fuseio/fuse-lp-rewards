@@ -26,7 +26,8 @@ export default () => {
       <div className='rewards'>
         <div className='rewards__headline'>
           <h1>Fuse LP rewards</h1>
-          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) then deposit your LP tokens and start earning Fuse.</p>
+          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) and new networks announced soon! 
+          Then deposit your LP tokens and start earning Fuse</p>
         </div>
         <div className="rewards__platforms">
           {REWARDS_PLATFORMS_LIST.map(platform => (

@@ -62,7 +62,7 @@ export default ({
     <div className={classNames('reward-card cell medium-10 small-24', className)}>
       <div className="reward-card__header">
         <div className="reward-card__badge">
-          <img src={trophy} /> APY : {apyPercentCounter === 'Infinity' ? 0 : apyPercentCounter}%
+          <img src={trophy} /> APY : {apyPercentCounter === 'Infinity' || isExpired ? 0 : apyPercentCounter}%
         </div>
         <div className={classNames('reward-status', {
           'reward-status--soon': isComingSoon, 

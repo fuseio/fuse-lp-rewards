@@ -17,6 +17,7 @@ import kncusdc from '@/assets/images/coins-pair-knc-usdc.svg'
 import omusdc from '@/assets/images/coins-pair-om-usdc.svg'
 import linkWethIcon from '@/assets/images/coins-pair-link-weth.svg'
 import grtWethIcon from '@/assets/images/coins-pair-grt-weth.svg'
+import gooddollarUsdcIcon from '@/assets/images/coins-pair-gooddollar-usdc.svg'
 
 export const PAIRS_ICONS = {
   'ETH/FUSE': ethFuseIcon,
@@ -28,7 +29,8 @@ export const PAIRS_ICONS = {
   'KNC/USDC': kncusdc,
   'OM/USDC': omusdc,
   'LINK/WETH': linkWethIcon,
-  'GRT/WETH': grtWethIcon
+  'GRT/WETH': grtWethIcon,
+  'G$/USDC': gooddollarUsdcIcon
 }
 
 export const REWARDS_PLATFORMS = {

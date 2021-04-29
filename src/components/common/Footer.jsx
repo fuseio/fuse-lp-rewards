@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import footerLogo from '@/assets/images/footer-logo.svg'
+import footerLogo from '@/assets/images/fuse-logo.svg'
 import twitterIcon from '@/assets/images/twitter_white.svg'
 import twitterIconHover from '@/assets/images/twitter_footer_hover.svg'
 import githubIcon from '@/assets/images/github_white.svg'
@@ -34,10 +34,13 @@ const HoverIcon = ({ Icon, Hover, link }) => {
 const Footer = () => {
   return (
     <footer className='footer__wrapper grid-y align-center align-top'>
-      <div className='footer cell medium-16 grid-x align-middle'>
+      <div className='footer cell medium-12 grid-x align-middle'>
         <div className='grid-x align-middle align-center'>
-          <img className='logo' src={footerLogo} />
+          <img className='footer__logo' src={footerLogo} />
         </div>
+        <div className='footer__text grid-x align-start'>
+          © 2021 Fuse. The Fuse network is a permissionless and border-less public ledger designed for easy integration of everyday payments.
+         </div>
         <div className='footer__icons grid-x align-center'>
           <HoverIcon
             link='https://twitter.com/fuse_network'
@@ -85,9 +88,6 @@ const Footer = () => {
             )}
           />
         </div>
-      </div>
-      <div className='footer__text cell medium-8 grid-x align-start'>
-        © 2021 Fuse. The Fuse network is a permissionless and border-less public ledger designed for easy integration of everyday payments.
       </div>
     </footer>
   )

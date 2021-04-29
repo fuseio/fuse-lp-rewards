@@ -7,7 +7,7 @@ import AddLiquidity from '@/components/common/AddLiquidity'
 import useOutsideClick from '@/hooks/useOutsideClick.jsx'
 import { addressShortener } from '@/utils/format'
 import walletIcon from '@/assets/images/wallet.svg'
-import fuseLogoWhite from '@/assets/images/FuseLogo.png'
+import fuseLogo from '@/assets/images/fuse_rewards.svg'
 import explorerIcon from '@/assets/images/explorer.svg'
 import stakingIcon from '@/assets/images/staking-icon.svg'
 
@@ -35,7 +35,7 @@ const NavBar = ({ history, handleConnect }) => {
       <header className='header__wrapper'>
         <div className='header'>
           <div onClick={homePage} className='header__logo'>
-            <img alt='logo' src={fuseLogoWhite} />
+            <img alt='logo' src={fuseLogo} />
           </div>
           <button ref={hamburgerRef} className='hamburger-button__container' onClick={() => setMenuOpen(!isOpen)}>
             <span className='hamburger-button__top' />

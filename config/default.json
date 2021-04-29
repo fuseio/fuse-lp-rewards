@@ -173,6 +173,18 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 75000
+      },
+      "0x4Bd7dc50B49d018FDE10a1ae6b29f09E175b85fC": {
+        "networkId": 122,
+        "pairName": "fUSD/FUSE",
+        "contractAddress": "0x4Bd7dc50B49d018FDE10a1ae6b29f09E175b85fC",
+        "LPToken": "0xcDd8964BA8963929867CAfFCf5942De4F085bFB7",
+        "uniPairToken": "",
+        "pairs": [
+          "0x249be57637d8b013ad64785404b24aebae9b098b",
+          "0x0be9e53fd7edac9f859882afdda116645287c629"
+        ],
+        "totalReward": 100000
       }
     }
   },

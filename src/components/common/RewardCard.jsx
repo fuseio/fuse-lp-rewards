@@ -11,6 +11,8 @@ import useStartDate from '@/hooks/useStartDate'
 import useEndDate from '@/hooks/useEndDate'
 import useCounter from '@/hooks/useCounter'
 import trophy from '@/assets/images/trophy.svg'
+import star from '@/assets/images/star.svg'
+import useFormattedTimestamp from '@/hooks/useFormattedTimestamp'
 
 export default ({ 
   className, 
@@ -27,8 +29,11 @@ export default ({
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
 
+  // card states: comingSoon -> new -> expired
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const isComingSoon = get(stakingContracts, [stakingContract, 'isComingSoon'], false)
+  const isNew = !isComingSoon && !isExpired 
+
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
   const reserve0 = get(stakingContracts, [stakingContract, 'reserve0'], 0)
@@ -45,8 +50,7 @@ export default ({
 
   const dateEnd = useEndDate(stakingStartTime, stakingPeriod)
   const dateStart = useStartDate(stakingStartTime)
-
-  const isNew = !isComingSoon && !isExpired 
+  const formattedDateEnd = useFormattedTimestamp(dateEnd)
 
   const handleClick = () => {
     ReactGA.event({
@@ -65,7 +69,10 @@ export default ({
             'reward-card__badge--hide': isExpired 
             }
           )}>
-            <img src={trophy} /> APY : {apyPercentCounter}%
+            {isComingSoon 
+              ? <><img src={star} /> Coming Soon</>
+              : <><img src={trophy} /> APY : {apyPercentCounter}%</>
+            }
           </div>
         <div className={classNames('reward-status', {
           'reward-status--soon': isComingSoon, 
@@ -79,17 +86,15 @@ export default ({
       </div>
       <div className='card-section'>
         <div className='card-calender__label'>
-          <h1 className='card-section__label'>{!isComingSoon ? 'Expiration date' : 'Start date'}</h1>
+          <h1 className='card-section__label'>
+            {isComingSoon && 'Starts at'}
+            {isNew && 'Expires at'}
+            {isExpired && 'Expired at'}
+          </h1>
         </div>
-        {
-          !isComingSoon
-            ? dateEnd
-                ? <div className='card-section__info'><Countdown date={dateEnd} /></div>
-                : 0
-            : dateStart
-              ? <div className='card-section__info'><Countdown date={dateStart} /></div>
-              : 0
-        }
+        {isComingSoon && dateStart && <div className='card-section__info'><Countdown date={dateStart} /></div>}
+        {isNew && dateEnd && <div className='card-section__info'><Countdown date={dateEnd} /></div>}
+        {isExpired && formattedDateEnd && <div className='card-section__info'>{formattedDateEnd}</div>}
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>

@@ -187,7 +187,7 @@ contract Staking is IStaking {
         Staker storage staker = interestData.stakers[msg.sender];
         require(_amount > 0, "Should withdraw positive amount");
         require(staker.totalStaked >= _amount, "Not enough token staked");
-        this.withdrawInterest();
+        withdrawTokenInterest();
         updateStakeAndInterestData(msg.sender, _amount);
         require(stakeToken.transfer(msg.sender, _amount), "withdraw transfer failed");
         emit StakeWithdrawn(msg.sender, _amount, interestData.globalYieldPerToken);
@@ -223,6 +223,13 @@ contract Staking is IStaking {
      * @dev Withdraws the sender Earned interest.
      */
     function withdrawInterest() external {
+        withdrawTokenInterest();
+    }
+
+    /**
+     * @dev Withdraws the sender Earned interest.
+     */
+    function withdrawTokenInterest() internal {
         uint timeSinceLastUpdate = _timeSinceLastUpdate();
         uint newlyInterestGenerated = timeSinceLastUpdate.mul(totalReward).div(stakingPeriod);
         

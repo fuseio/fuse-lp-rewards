@@ -27,6 +27,11 @@ contract MultiRewardsStaking is IStaking {
     event StakedMultiRewards(address indexed staker, uint256 value, uint256[] _globalYieldPerToken);
 
     /**
+     * @dev Emitted when contract send `amount` of newly interest of `rewardToken` token in `vaultAdress`.
+     */
+    event NewlyInterestGenerated(address indexed vaultAdress, address rewardToken, uint256 amount);
+
+    /**
      * @dev Emitted when `staker` withdraws their stake `value` tokens.
      */
     event StakeWithdrawnMultiRewards(address indexed staker, uint256 value, uint256[] _globalYieldPerToken);
@@ -213,7 +218,6 @@ contract MultiRewardsStaking is IStaking {
     ) internal {
 
         for (uint r = 0; r < rewardsTokens.length; r++) {
-            //address tokenAddress = address(rewardsTokens[r].token);
             uint256 globalYieldPerToken = interestData.globalYieldPerToken[r];
 
             _stakerData.stakeBuyinRate[r] = _stakerData.stakeBuyinRate[r].add(
@@ -227,11 +231,11 @@ contract MultiRewardsStaking is IStaking {
     /**
      * @dev Withdraws the sender staked Token.
      */
-    function withdrawStakeAndInterest(uint256 _amount) external {
+    function withdrawStakeAndInterest(uint256 _amount) public {
         Staker storage staker = interestData.stakers[msg.sender];
         require(_amount > 0, "Should withdraw positive amount");
         require(staker.totalStaked >= _amount, "Not enough token staked");
-        this.withdrawInterest();
+        withdrawTokenInterest();
         updateStakeAndInterestData(msg.sender, _amount);
         require(stakeToken.transfer(msg.sender, _amount), "withdraw transfer failed");
         emit StakeWithdrawnMultiRewards(msg.sender, _amount, convertGlobalYieldPerTokenToList());
@@ -271,15 +275,21 @@ contract MultiRewardsStaking is IStaking {
      * @dev Withdraws the sender Earned interest.
      */
     function withdrawInterest() external {
+        withdrawTokenInterest();
+    }
+
+    /**
+     * @dev Withdraws the sender Earned interest.
+     */
+    function withdrawTokenInterest() internal {
         uint timeSinceLastUpdate = _timeSinceLastUpdate();
 
         Staker storage stakerData = interestData.stakers[msg.sender];
-        uint256[] memory interest = this.calculateInterest(msg.sender);
-
         updateGlobalYieldPerToken(timeSinceLastUpdate);
+
+        uint256[] memory interest = this.calculateInterest(msg.sender);
         
         for (uint r = 0; r < rewardsTokens.length; r++) {
-            //newlyInterestGenerated[r] = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
             stakerData.withdrawnToDate[r] = stakerData.withdrawnToDate[r].add(interest[r]);
             require(rewardsTokens[r].token.transfer(msg.sender, interest[r]), "Withdraw interest transfer failed");
             emit InterestCollected(msg.sender, interest[r], interestData.globalYieldPerToken[r]);
@@ -348,7 +358,6 @@ contract MultiRewardsStaking is IStaking {
         uint[] memory totalInterests = new uint[](rewardsTokens.length);
 
         for (uint r = 0; r < rewardsTokens.length; r++) {
-            //address rewardToken = address(rewardsTokens[r].token);
             uint256 _withdrawnToDate = stakerData.withdrawnToDate[r];
             uint256 intermediateInterest = stakerData
                 .totalStaked
@@ -362,8 +371,9 @@ contract MultiRewardsStaking is IStaking {
             if (intermediateVal > intermediateInterest) {
                 totalInterests[r]=0;
             }
-
-            totalInterests[r] = (intermediateInterest.sub(intermediateVal));
+            else{
+                totalInterests[r] = (intermediateInterest.sub(intermediateVal));
+            }
         }
 
         return totalInterests;
@@ -387,15 +397,15 @@ contract MultiRewardsStaking is IStaking {
             newlyInterestGenerated[r] = _lastUpdated.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
         }
 
+
         if (interestData.globalTotalStaked == 0) {
             for(uint r = 0; r < rewardsTokens.length; r++){
                 require(rewardsTokens[r].token.transfer(vaultAddress, newlyInterestGenerated[r]), "Transfer failed while trasfering to vault");
+                emit NewlyInterestGenerated(vaultAddress, address(rewardsTokens[r].token), newlyInterestGenerated[r]);
             }
             return;
         }
         for(uint r = 0; r < rewardsTokens.length; r++){
-            //address rewardToken = address(rewardsTokens[r].token);
-
             interestData.globalYieldPerToken[r] = interestData.globalYieldPerToken[r].add(
                 newlyInterestGenerated[r]
                     .mul(DECIMAL1e18) 
@@ -425,16 +435,13 @@ contract MultiRewardsStaking is IStaking {
         uint256[] memory updatedGlobalYield = new uint[](rewardsTokens.length);
 
         for(uint r = 0; r < rewardsTokens.length; r++){
-            //address rewardToken = address(rewardsTokens[r].token);
             uint256 newlyInterestGenerated = timeSinceLastUpdate.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            //uint updatedGlobalYield = 0;
             updatedGlobalYield[r]=0;
             uint256 stakingTimeLeft = 0;
             if(now < stakingStartTime.add(stakingPeriod)){
             stakingTimeLeft = stakingStartTime.add(stakingPeriod).sub(now);
             }
             uint256 interestGeneratedEnd = stakingTimeLeft.mul(rewardsTokens[r].totalReward).div(stakingPeriod);
-            //uint globalYieldEnd;
             globalYieldEnd[r] = 0;
             if (interestData.globalTotalStaked != 0) {
                 updatedGlobalYield[r] = interestData.globalYieldPerToken[r].add(
@@ -535,15 +542,6 @@ contract MultiRewardsStaking is IStaking {
 
         return (interestData.globalTotalStaked, totalRewards, estimatedRewards, unlockedRewards, accruedRewards);
 
-    }
-
-    /**
-     * @dev returns global yield for a token
-     * @param _token Address of staker.
-     */
-    function getGlobalYieldPerToken(uint _token) external view returns(uint256)
-    {
-        return interestData.globalYieldPerToken[_token];
     }
 
     /**

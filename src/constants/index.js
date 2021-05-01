@@ -83,3 +83,5 @@ export const STAKING_CONTRACTS = [
     items: CONFIG.contracts.fuse
   }
 ]
+
+export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'

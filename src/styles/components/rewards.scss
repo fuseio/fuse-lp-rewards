@@ -183,8 +183,9 @@
   }
 
   @include element(header) {
-    @include xy-grid();
+    @include xy-grid(horizontal, false);
     @include flex-align(justify, middle);
+    height: 22px;
   }
 
   @include element(badge) {
@@ -226,7 +227,7 @@
   @include element(icons) {
     padding: 1em 0;
     position: relative;
-    @include xy-grid();
+    @include xy-grid(horizontal, false);
     @include flex-align(left, middle);
 
     @include block(icon) {

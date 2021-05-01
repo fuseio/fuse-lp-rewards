@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import map from 'lodash/map'
-import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import reverse from 'lodash/reverse'
-import get from 'lodash/get'
 import classNames from 'classnames'
 import RewardCard from '@/components/common/RewardCard'
 import comingSoon from '@/assets/images/coming-soon.png'
+import telegram from '@/assets/images/telegram-app.svg'
 import { selectStakingPlatform } from '@/actions/staking'
 import { PAIRS_ICONS, STAKING_CONTRACTS, REWARDS_PLATFORMS_LIST, REWARDS_PLATFORMS } from '@/constants'
 
@@ -28,6 +27,9 @@ export default () => {
           <h1>Fuse LP rewards</h1>
           <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) and new networks announced soon! 
           Then deposit your LP tokens and start earning Fuse</p>
+          <a className="rewards__join-tg-link" href="https://t.me/fuseio" target="_blank">
+            <img src={telegram} /> Join our TG group for updates
+          </a>
         </div>
         <div className="rewards__platforms">
           {REWARDS_PLATFORMS_LIST.map(platform => (
@@ -54,7 +56,9 @@ export default () => {
         </div>
         <div className='rewards__section'>
           <div className='rewards__section__title'>
-            <h3 className='rewards__section__label'>{stakingPlatform !== 'ComingSoon' && stakingPlatform}</h3>
+            <h3 className='rewards__section__label'>
+              {!stakingPlatform.startsWith('ComingSoon') && stakingPlatform}
+            </h3>
           </div>
         </div>
         {

@@ -13,6 +13,9 @@ import { depositStake, approveToken } from '@/actions/staking'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
 import walletIcon from '@/assets/images/wallet.svg'
 import PercentageSelector from './PercentageSelector'
+import useSwitchNetwork from '@/hooks/useSwitchNetwork'
+import { getNetworkName } from '@/utils/network'
+import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive().required(),
@@ -23,17 +26,20 @@ const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumb
 
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { accountAddress } = useSelector(state => state.network)
-  const { stakingContract, lpToken, pairName, networkId } = useSelector(state => state.staking)
+  const { accountAddress, networkId } = useSelector(state => state.network)
+  const { stakingContract, lpToken, pairName, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)
   const accounts = useSelector(state => state.accounts)
+  const switchNetwork = useSwitchNetwork()
+  const isStakingNetwork = useIsStakingNetwork()
+
   const balance = get(accounts, [accountAddress, 'balances', lpToken], 0)
   const amountApprove = get(accounts, [accountAddress, 'allowance', lpToken], 0)
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
+  const symbol = `${stakingNetworkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -79,7 +85,7 @@ const DepositForm = ({ handleConnect }) => {
           decimals={2}
           tootlipText='Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits.'
           modifier='gray_container--fix-width'
-          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+          symbol={stakingNetworkId === 1 ? 'FUSE' : 'WFUSE'}
           title='your estimated rewards'
           end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)}
         />
@@ -99,7 +105,7 @@ const DepositForm = ({ handleConnect }) => {
           )
         }
         {
-          accountAddress && (
+          accountAddress && isStakingNetwork && (
             <button
               onClick={() => {
                 setFieldValue('submitType', 'stake')
@@ -109,6 +115,16 @@ const DepositForm = ({ handleConnect }) => {
             >
               Deposit&nbsp;&nbsp;
               {isDeposit && <img src={FuseLoader} alt='Fuse loader' />}
+            </button>
+          )
+        }
+        {
+          accountAddress && !isStakingNetwork && (
+            <button 
+              onClick={() => switchNetwork(stakingNetworkId)}
+              className="button"
+            >
+              Switch to {getNetworkName(stakingNetworkId)}
             </button>
           )
         }

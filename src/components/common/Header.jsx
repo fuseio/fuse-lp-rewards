@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
 import get from 'lodash/get'
-import { withRouter } from 'react-router'
+import { useRouteMatch, withRouter } from 'react-router'
 import { useSelector } from 'react-redux'
 import AddLiquidity from '@/components/common/AddLiquidity'
 import useOutsideClick from '@/hooks/useOutsideClick.jsx'
@@ -12,6 +12,8 @@ import explorerIcon from '@/assets/images/explorer.svg'
 import stakingIcon from '@/assets/images/staking-icon.svg'
 
 const NavBar = ({ history, handleConnect }) => {
+  // TODO: Find a better way of handling this
+  const stakingPageMatch = useRouteMatch('/staking-contract')
   const { stakingContract, lpToken } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress } = useSelector(state => state.network)
@@ -86,7 +88,7 @@ const NavBar = ({ history, handleConnect }) => {
           </div>
         </div>
       </header>
-      {stakingContract && (!!Number(balance)) && (!!Number(totalStaked)) ? <AddLiquidity /> : null}
+      {stakingPageMatch && stakingContract && (!Number(balance)) && (!Number(totalStaked)) ? <AddLiquidity /> : null}
     </div>
   )
 }

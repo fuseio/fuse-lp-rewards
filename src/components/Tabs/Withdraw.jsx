@@ -11,6 +11,9 @@ import GrayContainer from '@/components/common/GrayContainer.jsx'
 import walletIcon from '@/assets/images/wallet.svg'
 import FuseLoader from '@/assets/images/loader-fuse.gif'
 import PercentageSelector from './PercentageSelector'
+import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
+import useSwitchNetwork from '@/hooks/useSwitchNetwork'
+import { getNetworkName } from '@/utils/network'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive(),
@@ -23,6 +26,9 @@ const WithdrawForm = ({ handleConnect }) => {
   const { stakingContract, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isWithdraw } = useSelector(state => state.screens.withdraw)
+  const isStakingNetwork = useIsStakingNetwork()
+  const switchNetwork = useSwitchNetwork()
+
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
@@ -61,7 +67,7 @@ const WithdrawForm = ({ handleConnect }) => {
             tootlipText='Rewarded FUSEs available for claim.'
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
-            showWithdrawBtn={formatWeiToNumber(accruedRewards) > 0}
+            showWithdrawBtn={isStakingNetwork && formatWeiToNumber(accruedRewards) > 0}
             handleWithdraw={() => {
               setFieldValue('submitType', 'withdrawInterest')
             }}
@@ -76,7 +82,7 @@ const WithdrawForm = ({ handleConnect }) => {
           />
         </div>
         {
-          accountAddress && (
+          accountAddress && isStakingNetwork && (
             <button
               onClick={() => {
                 setFieldValue('submitType', 'withdrawStakeAndInterest')
@@ -88,6 +94,16 @@ const WithdrawForm = ({ handleConnect }) => {
               {
                 isWithdraw && <img src={FuseLoader} alt='Fuse loader' />
               }
+            </button>
+          )
+        }
+        {
+          accountAddress && !isStakingNetwork && (
+            <button 
+              onClick={() => switchNetwork(networkId)}
+              className="button"
+            >
+              Switch to {getNetworkName(networkId)}
             </button>
           )
         }

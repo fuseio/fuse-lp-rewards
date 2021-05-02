@@ -38,14 +38,14 @@ export const PAIRS_ICONS = {
 export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
-  PANCAKESWAP: 'ComingSoon',
-  BALANCER: 'ComingSoon'
+  PANCAKESWAP: 'ComingSoon1',
+  BALANCER: 'ComingSoon2'
 }
 
 export const REWARDS_PLATFORMS_LIST = [
   {
     name: REWARDS_PLATFORMS.UNISWAP,
-		label: 'Uniswap ON Ethereum',
+		label: 'Uniswap On Ethereum',
 		banner: uniswapBanner,
 		icon: ethIcon,
   },
@@ -83,3 +83,5 @@ export const STAKING_CONTRACTS = [
     items: CONFIG.contracts.fuse
   }
 ]
+
+export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'

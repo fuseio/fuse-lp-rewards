@@ -87,6 +87,7 @@
   @include element(wrapper) {
     box-shadow: 0px 0px 30px rgba(21, 53, 80, 0.12);
     display: block;
+    background-color: white;
     padding: 0 20px;
     position: relative;
     width: 100%;

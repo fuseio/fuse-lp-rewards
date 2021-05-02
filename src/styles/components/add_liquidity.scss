@@ -55,6 +55,7 @@
     font-weight: 500;
     font-size: 1.3em;
     color: $color-primary-dark;
+    margin-bottom: 0.25em;
   }
 
   @include block(button) {

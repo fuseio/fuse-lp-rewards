@@ -16,7 +16,7 @@
   }
 
   @include element(wrapper) {
-    background-color: #fbfafc;
+    background-color: #f4f6f9;
     padding: 3em 0;
     @include breakpoint(medium down) {
       padding: 0.5em 0;

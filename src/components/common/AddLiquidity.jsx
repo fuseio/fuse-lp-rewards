@@ -15,8 +15,8 @@ const getSwapLink = (pairs, networkId) => {
 const AddLiquidity = () => {
   const props = useSpring({
     opacity: 1,
-    transform: 'translate(0px, 0px)',
-    from: { opacity: 0, transform: 'translate(-20px, -20px)' }
+    transform: 'translateY(0px)',
+    from: { opacity: 0, transform: 'translateY(-20px)' }
   })
   const { pairs, pairName, networkId } = useSelector(state => state.staking)
   const symbol = symbolFromPair(pairName)

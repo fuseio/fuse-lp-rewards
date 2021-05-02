@@ -10,6 +10,7 @@ import StakingContract from '@/pages/StakingContract.jsx'
 import { getWeb3 } from '@/services/web3'
 import useWeb3Connect from '@/hooks/useWeb3Connect'
 import { connectToWallet } from '@/actions/network'
+import { getStakingContractsData } from '@/actions/staking'
 
 export default () => {
   const dispatch = useDispatch()
@@ -35,6 +36,9 @@ export default () => {
     if (web3connect.core.cachedProvider) {
       web3connect.core.connect()
     }
+
+    // fetch initial staking data for contracts when wallet not connected
+    dispatch(getStakingContractsData())
   }, [])
 
   return (

@@ -16,14 +16,16 @@ import { getBlockExplorerUrl } from '@/utils/network'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
+import useSwitchNetwork from '../hooks/useSwitchNetwork'
 
 export default ({ handleConnect }) => {
-  const { address } = useParams()
   const dispatch = useDispatch()
   const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
+  const switchNetwork = useSwitchNetwork(stakingNetworkId)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress, networkId } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
+
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
   const apyPercent = get(stakingContracts, [stakingContract, 'apyPercent'], 0)
@@ -38,6 +40,7 @@ export default ({ handleConnect }) => {
 
   useEffect(() => {
     if (accountAddress) {
+      switchNetwork(stakingNetworkId)
       setIsRunning(true)
     }
   }, [accountAddress])
@@ -48,7 +51,7 @@ export default ({ handleConnect }) => {
 
   return (
     <>
-      <SwitchNetwork networkId={stakingNetworkId} />
+      {stakingNetworkId === 1 && <SwitchNetwork networkId={stakingNetworkId} />}
       <div className='main__wrapper'>
         <div className='main'>
           <h1 className='title'>Add liquidity</h1>

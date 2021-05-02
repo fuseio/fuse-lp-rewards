@@ -18,9 +18,9 @@
 
     p {
       max-width: 600px;
-      height: 125px;
       font-size: 1.125em;
       line-height: 25px;
+      margin-bottom: 0.5em;
     }
   }
   @include element(filter-chips) {
@@ -126,9 +126,23 @@
   @include element(coming-soon) {
     margin-top: 20px;
     margin-bottom: 150px;
+    width: 100%;
+    text-align: center;
 
     img {
-      width: 256px;
+      width: 300px;
+    }
+  }
+
+  @include element(join-tg-link) {
+    font-size: 1.125em;
+    font-weight: bold;
+    color: #0377ff;
+    display: inline-block;
+    margin-bottom: 3em;
+
+    > img {
+      width: 40px;
     }
   }
 }
@@ -169,8 +183,9 @@
   }
 
   @include element(header) {
-    @include xy-grid();
+    @include xy-grid(horizontal, false);
     @include flex-align(justify, middle);
+    height: 22px;
   }
 
   @include element(badge) {
@@ -212,7 +227,7 @@
   @include element(icons) {
     padding: 1em 0;
     position: relative;
-    @include xy-grid();
+    @include xy-grid(horizontal, false);
     @include flex-align(left, middle);
 
     @include block(icon) {

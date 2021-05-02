@@ -11,6 +11,7 @@ import { fetchPairInfoUniswap, fetchPairInfoFuseswap } from '@/services/api/unis
 import { getTokenPrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { toWei, formatWeiToNumber } from '@/utils/format'
+import { ADDRESS_ZERO } from '@/constants'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse }
@@ -126,66 +127,67 @@ function * getStakingData ({ stakingContract, networkId }) {
 }
 
 function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
-  const { accountAddress } = yield select(state => state.network)
+  const { accountAddress: activeAccountAddress } = yield select(state => state.network)
+  const accountAddress = activeAccountAddress || ADDRESS_ZERO 
+
   const { totalStaked = 0 } = yield select(state => state.staking)
-  if (accountAddress) {
-    const networkState = yield select(state => state.network)
-    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-    const stakingContractInstance = new web3.eth.Contract(StakingABI, stakingContract)
 
-    const statsData = yield call(stakingContractInstance.methods.getStatsData(accountAddress).call)
-    const fuseToken = CONFIG.rewardTokens['1']
-    const pairInfoFetcher = networkId === 122 ? fetchPairInfoFuseswap : fetchPairInfoUniswap
-    const { data } = yield call(pairInfoFetcher, { address: tokenAddress })
+  const networkState = yield select(state => state.network)
+  const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
+  const stakingContractInstance = new web3.eth.Contract(StakingABI, stakingContract)
 
-    const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
-    const tokenPrice = yield call(getTokenPrice, fuseToken)
-    const globalTotalStake = statsData[0]
-    const totalReward = statsData[1]
-    const estimatedReward = statsData[2]
-    const unlockedReward = statsData[3]
-    const accruedRewards = statsData[4]
-    const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
-    const fusePrice = tokenPrice[fuseToken].usd
-    const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
-    const reserveUSD = get(data, 'pair.reserveUSD', 0)
-    const totalSupply = get(data, 'pair.totalSupply', 0)
-    const token0 = get(data, 'pair.token0', {})
-    const token1 = get(data, 'pair.token1', {})
-    const totalReserve0 = get(data, 'pair.reserve0', 0)
-    const totalReserve1 = get(data, 'pair.reserve1', 0)
-    const reserve0 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve0))
-    const reserve1 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve1))
+  const statsData = yield call(stakingContractInstance.methods.getStatsData(accountAddress).call)
+  const fuseToken = CONFIG.rewardTokens['1']
+  const pairInfoFetcher = networkId === 122 ? fetchPairInfoFuseswap : fetchPairInfoUniswap
+  const { data } = yield call(pairInfoFetcher, { address: tokenAddress })
 
-    const lpPrice = reserveUSD / totalSupply
-    const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
-    const globalTotalStakeUSD = formatWeiToNumber(globalTotalStake) * lpPrice
-    const stakingPeriodInDays = Number(stakingPeriod) / (3600 * 24)
-    const apyPercent = (totalRewardInUSD / globalTotalStakeUSD) * (365 / stakingPeriodInDays) * 100
-    yield put({
-      type: actions.GET_STATS_DATA.SUCCESS,
-      accountAddress,
-      entity: 'stakingContracts',
-      response: {
-        address: stakingContract,
-        globalTotalStake,
-        totalReward,
-        estimatedReward,
-        unlockedReward,
-        accruedRewards,
-        lockedRewards,
-        totalStakeUSD,
-        globalTotalStakeUSD,
-        lpPrice,
-        totalRewardInUSD,
-        apyPercent,
-        token0,
-        token1,
-        reserve0,
-        reserve1
-      }
-    })
-  }
+  const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
+  const tokenPrice = yield call(getTokenPrice, fuseToken)
+  const globalTotalStake = statsData[0]
+  const totalReward = statsData[1]
+  const estimatedReward = statsData[2]
+  const unlockedReward = statsData[3]
+  const accruedRewards = statsData[4]
+  const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
+  const fusePrice = tokenPrice[fuseToken].usd
+  const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
+  const reserveUSD = get(data, 'pair.reserveUSD', 0)
+  const totalSupply = get(data, 'pair.totalSupply', 0)
+  const token0 = get(data, 'pair.token0', {})
+  const token1 = get(data, 'pair.token1', {})
+  const totalReserve0 = get(data, 'pair.reserve0', 0)
+  const totalReserve1 = get(data, 'pair.reserve1', 0)
+  const reserve0 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve0))
+  const reserve1 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve1))
+
+  const lpPrice = reserveUSD / totalSupply
+  const totalStakeUSD = formatWeiToNumber(totalStaked) * lpPrice
+  const globalTotalStakeUSD = formatWeiToNumber(globalTotalStake) * lpPrice
+  const stakingPeriodInDays = Number(stakingPeriod) / (3600 * 24)
+  const apyPercent = (totalRewardInUSD / globalTotalStakeUSD) * (365 / stakingPeriodInDays) * 100
+  yield put({
+    type: actions.GET_STATS_DATA.SUCCESS,
+    accountAddress,
+    entity: 'stakingContracts',
+    response: {
+      address: stakingContract,
+      globalTotalStake,
+      totalReward,
+      estimatedReward,
+      unlockedReward,
+      accruedRewards,
+      lockedRewards,
+      totalStakeUSD,
+      globalTotalStakeUSD,
+      lpPrice,
+      totalRewardInUSD,
+      apyPercent,
+      token0,
+      token1,
+      reserve0,
+      reserve1
+    }
+  })
 }
 
 function * refetchBalance () {
@@ -207,29 +209,27 @@ function * withdrawInterestSuccess () {
 
 function * getStakingPeriod ({ stakingContract, networkId }) {
   const { accountAddress } = yield select(state => state.network)
-  if (accountAddress) {
-    const networkState = yield select(state => state.network)
-    const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-    const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
+  const networkState = yield select(state => state.network)
+  const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
+  const basicTokenContract = new web3.eth.Contract(StakingABI, stakingContract)
 
-    const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
-    const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
-    const isExpired = moment().isAfter(moment.unix(Number(stakingStartTime) + Number(stakingPeriod)))
-    const isComingSoon = moment().isBefore(moment.unix(Number(stakingStartTime)))
+  const stakingPeriod = yield call(basicTokenContract.methods.stakingPeriod().call)
+  const stakingStartTime = yield call(basicTokenContract.methods.stakingStartTime().call)
+  const isExpired = moment().isAfter(moment.unix(Number(stakingStartTime) + Number(stakingPeriod)))
+  const isComingSoon = moment().isBefore(moment.unix(Number(stakingStartTime)))
 
-    yield put({
-      type: actions.GET_STAKING_PERIOD.SUCCESS,
-      accountAddress,
-      entity: 'stakingContracts',
-      response: {
-        address: stakingContract,
-        stakingPeriod,
-        isExpired,
-        stakingStartTime,
-        isComingSoon
-      }
-    })
-  }
+  yield put({
+    type: actions.GET_STAKING_PERIOD.SUCCESS,
+    accountAddress,
+    entity: 'stakingContracts',
+    response: {
+      address: stakingContract,
+      stakingPeriod,
+      isExpired,
+      stakingStartTime,
+      isComingSoon
+    }
+  })
 }
 
 export default function * accountsSaga () {

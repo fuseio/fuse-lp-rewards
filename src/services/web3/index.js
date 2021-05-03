@@ -19,7 +19,7 @@ export const getWeb3 = ({ provider, networkType } = {}) => {
 
 export const fuse = new Web3(CONFIG.web3.fuseProvider)
 export const main = new Web3(CONFIG.web3.ethereumProvider)
-export const bsc = new Web3()
+export const bsc = new Web3(CONFIG.web3.bscProvider)
 
 const web3ByNetworkType = {
   122: fuse,

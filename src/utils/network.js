@@ -35,6 +35,12 @@ const networkNames = {
   122: 'Fuse'
 }
 
+export const networkIds = {
+  MAINNET: 1,
+  BSC: 56,
+  FUSE: 122
+}
+
 export const getBlockExplorerUrl = (networkId) => blockExplorers[networkId]
 
 export const getNetwork = (networkId) => networks[networkId]

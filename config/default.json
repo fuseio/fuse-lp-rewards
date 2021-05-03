@@ -190,11 +190,13 @@
   },
   "rewardTokens": {
     "1": "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d",
+    "56": "0x5857c96dae9cf8511b08cb07f85753c472d36ea3",
     "122": "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
   },
   "web3": {
     "fuseProvider": "https://rpc.fuse.io",
-    "ethereumProvider": "https://eth-mainnet.gateway.pokt.network/v1/5f7cca33b90218002e9ce9be"
+    "ethereumProvider": "https://eth-mainnet.gateway.pokt.network/v1/5f7cca33b90218002e9ce9be",
+    "bscProvider": "https://bscnode.liquify.info"
   },
   "api": {
     "graph": {
@@ -208,6 +210,12 @@
         "url": "https://graph.fuse.io/subgraphs/name/fuseio",
         "subgraphs": {
           "fuseswap": "/fuseswap"
+        }
+      },
+      "pancakeswap": {
+        "url": "https://api.thegraph.com/subgraphs/name/pancakeswap/exchange",
+        "subgraphs": {
+          "exchange": "/exchange"
         }
       }
     }

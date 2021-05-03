@@ -38,7 +38,7 @@ export const PAIRS_ICONS = {
 export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
-  PANCAKESWAP: 'ComingSoon1',
+  PANCAKESWAP: 'PancakeSwap',
   BALANCER: 'ComingSoon2'
 }
 
@@ -57,9 +57,9 @@ export const REWARDS_PLATFORMS_LIST = [
 	},
 	{
 		name: REWARDS_PLATFORMS.PANCAKESWAP,
-		label: 'Coming soon!',
-		banner: comingSoonBanner,
-		icon: comingSoonIcon
+		label: 'PancakeSwap On Bsc ',
+		banner: pancakeSwapBanner,
+		icon: bscIcon
 	},
 	{
 		name: REWARDS_PLATFORMS.BALANCER,

@@ -6,6 +6,7 @@ import { useCountUp } from 'react-countup'
 import InfoIcon from '@/components/common/InfoIcon.jsx'
 import InfoIconHover from '@/components/common/InfoIconHover.jsx'
 import { formatNumber } from '@/utils/format'
+import { getRewardTokenName } from '@/utils'
 
 const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, modifier, symbol, tootlipText, decimals }) => {
   const [isHover, setHover] = useState(false)
@@ -56,7 +57,7 @@ const GrayContainer = ({ title, end, showWithdrawBtn = false, handleWithdraw, mo
         {
           showWithdrawBtn && (
             <button onClick={handleWithdraw} className='withdraw_stake'>
-              Claim {networkId === 1 ? 'FUSE' : 'WFUSE'}
+              Claim {getRewardTokenName(networkId)}
             </button>
           )
         }

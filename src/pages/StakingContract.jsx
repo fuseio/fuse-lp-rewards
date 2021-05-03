@@ -17,6 +17,8 @@ import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
 import useSwitchNetwork from '../hooks/useSwitchNetwork'
+import { getRewardTokenName } from '@/utils'
+import { networkIds } from '@/utils/network'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
@@ -52,7 +54,7 @@ export default ({ handleConnect }) => {
 
   return (
     <>
-      {networkId === 1 && <SwitchNetwork networkId={networkId} />}
+      {networkId === networkIds.MAINNET && <SwitchNetwork networkId={networkId} />}
       <div className='main__wrapper'>
         <div className='main'>
           <h1 className='title'>Add liquidity</h1>
@@ -82,7 +84,7 @@ export default ({ handleConnect }) => {
             <InfoBox
               link={`${getBlockExplorerUrl(networkId)}/address/${CONFIG.rewardTokens[networkId]}`}
               name='rewards'
-              symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+              symbol={getRewardTokenName(networkId)}
               modalText={"Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"}
               end={formatWeiToNumber(accrued)}
               title='Accrued rewards'

@@ -9,3 +9,8 @@ export const fuseswapClient = new ApolloClient({
   uri: `${CONFIG.api.graph.fuseswap.url}${CONFIG.api.graph.fuseswap.subgraphs.fuseswap}`,
   cache: new InMemoryCache()
 })
+
+export const pancakeswapClient = new ApolloClient({
+  uri: `${CONFIG.api.graph.pancakeswap.url}${CONFIG.api.graph.pancakeswap.exchange}`,
+  cache: new InMemoryCache()
+})

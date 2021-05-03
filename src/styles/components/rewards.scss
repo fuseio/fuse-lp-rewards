@@ -182,6 +182,13 @@
     }
   }
 
+  @include modifier(pancakeswap) {
+    @include element(badge) {
+      background-color: $color-pancakeswap;
+      color: white;
+    }
+  }
+
   @include element(header) {
     @include xy-grid(horizontal, false);
     @include flex-align(justify, middle);

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
-import { uniswapClient, fuseswapClient } from '@/services/graphql'
+import { uniswapClient, fuseswapClient, pancakeswapClient } from '@/services/graphql'
+import { networkIds } from '@/utils/network'
 
 const GET_PAIR_INFO = (address) => {
   return gql`
@@ -38,3 +39,18 @@ export const fetchPairInfoUniswap = ({ address }) => uniswapClient.query({
 export const fetchPairInfoFuseswap = ({ address }) => fuseswapClient.query({
   query: GET_PAIR_INFO(address)
 })
+
+export const fetchPairInfoPancakeswap = ({ address }) => pancakeswapClient.query({
+  query: GET_PAIR_INFO(address)
+})
+
+export const fetchPairInfo = ({ address }, networkId) => {
+  switch (networkId) {
+    case networkIds.MAINNET:
+      return fetchPairInfoUniswap({ address })
+    case networkIds.FUSE:
+      return fetchPairInfoFuseswap({ address })
+    case networkIds.BSC:
+      return fetchPairInfoPancakeswap({ address })
+  }
+}

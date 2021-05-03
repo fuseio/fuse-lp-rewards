@@ -15,6 +15,7 @@ import walletIcon from '@/assets/images/wallet.svg'
 import PercentageSelector from './PercentageSelector'
 import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
+import { getPlatformPairName, getRewardTokenName } from '@/utils'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 
 const Scheme = object().noUnknown(false).shape({
@@ -39,7 +40,7 @@ const DepositForm = ({ handleConnect }) => {
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
-  const symbol = `${stakingNetworkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(stakingNetworkId)} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -85,7 +86,7 @@ const DepositForm = ({ handleConnect }) => {
           decimals={2}
           tootlipText='Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits.'
           modifier='gray_container--fix-width'
-          symbol={stakingNetworkId === 1 ? 'FUSE' : 'WFUSE'}
+          symbol={getRewardTokenName(stakingNetworkId)}
           title='your estimated rewards'
           end={isNaN(formatWeiToNumber(estimatedAmount)) ? 0 : formatWeiToNumber(estimatedAmount)}
         />

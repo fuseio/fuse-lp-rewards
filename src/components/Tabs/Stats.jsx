@@ -5,11 +5,12 @@ import Countdown from 'react-countdown'
 import moment from 'moment'
 import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
+import { getRewardTokenName, getPlatformPairName } from '@/utils'
 
 const Stats = () => {
   const { stakingContract, pairName, networkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(networkId)} ${symbolFromPair(pairName)}`
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const unlockedReward = get(stakingContracts, [stakingContract, 'unlockedReward'], 0)
@@ -28,7 +29,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Total Rewards are the total $FUSE to be rewarded for the program duration.'
           title='Total Rewards'
-          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+          symbol={getRewardTokenName(networkId)}
           end={formatWeiToNumber(get(stakingContracts, [stakingContract, 'totalReward'], 0))}
         />
       </div>
@@ -45,7 +46,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Locked Rewards are the $FUSE yet to be rewarded.'
           title='Locked Rewards'
-          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+          symbol={getRewardTokenName(networkId)}
           end={formatWeiToNumber(lockedRewards)}
         />
       </div>
@@ -53,7 +54,7 @@ const Stats = () => {
         <GrayContainer
           tootlipText='Unlocked Rewards are the $FUSE rewarded to LP token depositors.'
           title='Unlocked Rewards'
-          symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+          symbol={getRewardTokenName(networkId)}
           end={formatWeiToNumber(unlockedReward)}
         />
       </div>

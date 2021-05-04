@@ -14,7 +14,7 @@ import { toWei, formatWeiToNumber } from '@/utils/format'
 import { ADDRESS_ZERO } from '@/constants'
 
 function * getStakingContractsData () {
-  const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse }
+  const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
   for (const stakingContract in object) {
     const { LPToken, networkId } = object[stakingContract]
     yield put(actions.getTokenAllowance(stakingContract, LPToken, networkId))

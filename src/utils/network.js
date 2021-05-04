@@ -31,7 +31,7 @@ const blockExplorers = {
 
 const networkNames = {
   1: 'Mainnet',
-  56: 'Smart Chain',
+  56: 'Binance Smart Chain',
   122: 'Fuse'
 }
 

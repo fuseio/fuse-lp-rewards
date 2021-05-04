@@ -17,13 +17,15 @@ import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
 import useSwitchNetwork from '../hooks/useSwitchNetwork'
+import { getRewardTokenName } from '@/utils'
+import { networkIds } from '@/utils/network'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { stakingContract, pairName, lpToken, uniPairToken, networkId: stakingNetworkId } = useSelector(state => state.staking)
-  const switchNetwork = useSwitchNetwork(stakingNetworkId)
+  const { stakingContract, pairName, lpToken, networkId } = useSelector(state => state.staking)
+  const switchNetwork = useSwitchNetwork()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const { accountAddress, networkId } = useSelector(state => state.network)
+  const { accountAddress } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
 
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
@@ -40,18 +42,19 @@ export default ({ handleConnect }) => {
 
   useEffect(() => {
     if (accountAddress) {
-      switchNetwork(stakingNetworkId)
+      switchNetwork(networkId)
       setIsRunning(true)
     }
   }, [accountAddress])
 
   useInterval(() => {
-    dispatch(getStatsData(stakingContract, stakingNetworkId === 1 ? lpToken : uniPairToken, networkId))
+    // get contract stats
+    dispatch(getStatsData(stakingContract, lpToken, networkId))
   }, isRunning ? 5000 : null)
 
   return (
     <>
-      {stakingNetworkId === 1 && <SwitchNetwork networkId={stakingNetworkId} />}
+      {networkId === networkIds.MAINNET && <SwitchNetwork networkId={networkId} />}
       <div className='main__wrapper'>
         <div className='main'>
           <h1 className='title'>Add liquidity</h1>
@@ -79,9 +82,9 @@ export default ({ handleConnect }) => {
               format={false}
             />
             <InfoBox
-              link={`${getBlockExplorerUrl(stakingNetworkId)}/address/${CONFIG.rewardTokens[stakingNetworkId]}`}
+              link={`${getBlockExplorerUrl(networkId)}/address/${CONFIG.rewardTokens[networkId]}`}
               name='rewards'
-              symbol={stakingNetworkId === 1 ? 'FUSE' : 'WFUSE'}
+              symbol={getRewardTokenName(networkId)}
               modalText={"Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"}
               end={formatWeiToNumber(accrued)}
               title='Accrued rewards'

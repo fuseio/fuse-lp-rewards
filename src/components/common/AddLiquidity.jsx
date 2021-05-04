@@ -3,14 +3,7 @@ import { useSelector } from 'react-redux'
 import { useSpring, animated } from 'react-spring'
 import alertIcon from '@/assets/images/alert.svg'
 import { symbolFromPair } from '@/utils/format'
-
-const getSwapLink = (pairs, networkId) => {
-  if (networkId === 1) {
-    return `https://app.uniswap.org/#/add/${pairs?.toString()?.split(',')?.join('/')}`
-  } else if (networkId === 122) {
-    return `https://fuseswap.com/#/add/${pairs?.toString()?.split(',')?.join('/')}`
-  }
-}
+import { getAddLiquidityLink, getPlatformName } from '@/utils'
 
 const AddLiquidity = () => {
   const props = useSpring({
@@ -20,7 +13,7 @@ const AddLiquidity = () => {
   })
   const { pairs, pairName, networkId } = useSelector(state => state.staking)
   const symbol = symbolFromPair(pairName)
-  const swapName = networkId === 1 ? 'Uniswap' : 'FuseSwap'
+  const swapName = getPlatformName(networkId)
 
   return (
     <animated.div style={props}>
@@ -46,7 +39,7 @@ const AddLiquidity = () => {
               rel='noreferrer noopener'
               target='_blank'
               className='cell medium-6 small-24'
-              href={(getSwapLink(pairs, networkId))}
+              href={(getAddLiquidityLink(pairs, networkId))}
             >
               <button className='button'>
                 Add liquidity on {swapName}

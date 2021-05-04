@@ -18,7 +18,8 @@ import omusdc from '@/assets/images/coins-pair-om-usdc.svg'
 import linkWethIcon from '@/assets/images/coins-pair-link-weth.svg'
 import grtWethIcon from '@/assets/images/coins-pair-grt-weth.svg'
 import gooddollarUsdcIcon from '@/assets/images/coins-pair-gooddollar-usdc.svg'
-import fuseFuseDollarIcon from '@/assets/images/fuse-fusedollar.png'
+import fuseFuseDollarIcon from '@/assets/images/coins-pair-fuse-fUSD.svg'
+import fuseBnbIcon from '@/assets/images/coins-pair-fuse-bnb.svg'
 
 export const PAIRS_ICONS = {
   'ETH/FUSE': ethFuseIcon,
@@ -32,13 +33,14 @@ export const PAIRS_ICONS = {
   'LINK/WETH': linkWethIcon,
   'GRT/WETH': grtWethIcon,
   'G$/USDC': gooddollarUsdcIcon,
-  'fUSD/FUSE': fuseFuseDollarIcon
+  'fUSD/FUSE': fuseFuseDollarIcon,
+  'FUSE/BNB': fuseBnbIcon
 }
 
 export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
-  PANCAKESWAP: 'ComingSoon1',
+  PANCAKESWAP: 'PancakeSwap',
   BALANCER: 'ComingSoon2'
 }
 
@@ -57,9 +59,9 @@ export const REWARDS_PLATFORMS_LIST = [
 	},
 	{
 		name: REWARDS_PLATFORMS.PANCAKESWAP,
-		label: 'Coming soon!',
-		banner: comingSoonBanner,
-		icon: comingSoonIcon
+		label: 'PancakeSwap On Bsc ',
+		banner: pancakeSwapBanner,
+		icon: bscIcon
 	},
 	{
 		name: REWARDS_PLATFORMS.BALANCER,
@@ -81,6 +83,12 @@ export const STAKING_CONTRACTS = [
     network: 'Fuse',
     platform: REWARDS_PLATFORMS.FUSESWAP,
     items: CONFIG.contracts.fuse
+  },
+  {
+    icon: bscIcon,
+    network: 'Bsc',
+    platform: REWARDS_PLATFORMS.PANCAKESWAP,
+    items: CONFIG.contracts.bsc
   }
 ]
 

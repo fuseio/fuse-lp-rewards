@@ -14,6 +14,7 @@ import PercentageSelector from './PercentageSelector'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
+import { getPlatformPairName, getRewardTokenName } from '@/utils'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive(),
@@ -32,7 +33,7 @@ const WithdrawForm = ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
-  const symbol = `${networkId === 1 ? 'UNI' : 'FS'} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(networkId)} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -63,7 +64,7 @@ const WithdrawForm = ({ handleConnect }) => {
         <PercentageSelector balance={totalStaked} />
         <div className='gray_container__wrapper'>
           <GrayContainer
-            symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+            symbol={getRewardTokenName(networkId)}
             tootlipText='Rewarded FUSEs available for claim.'
             title='Rewards to withdraw'
             end={isNaN(formatWeiToNumber(accruedRewards)) ? 0 : formatWeiToNumber(accruedRewards)}
@@ -73,7 +74,7 @@ const WithdrawForm = ({ handleConnect }) => {
             }}
           />
           <GrayContainer
-            symbol={networkId === 1 ? 'FUSE' : 'WFUSE'}
+            symbol={getRewardTokenName(networkId)}
             tootlipText='Rewarded FUSEs already claimed.'
             title='rewards claimed'
             end={isNaN(formatWeiToNumber(withdrawnToDate))

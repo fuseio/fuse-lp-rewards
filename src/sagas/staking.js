@@ -4,7 +4,7 @@ import * as actions from '@/actions/staking'
 import { tryTakeEvery } from './utils'
 import { getWeb3 } from '@/services/web3'
 import { transactionFlow } from './transaction'
-import { BasicToken as BasicTokenABI, Staking as StakingABI } from '@/constants/abi'
+import { BasicToken as BasicTokenABI, Staking as StakingABI, Pair as PairABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { BigNumber } from 'bignumber.js'
 import { fetchPairInfo } from '@/services/api/uniswap'
@@ -12,6 +12,7 @@ import { getTokenPrice, getFusePrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { toWei, formatWeiToNumber } from '@/utils/format'
 import { ADDRESS_ZERO } from '@/constants'
+import { networkIds } from '@/utils/network'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
@@ -135,27 +136,50 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const networkState = yield select(state => state.network)
   const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
   const stakingContractInstance = new web3.eth.Contract(StakingABI, stakingContract)
-
-  const statsData = yield call(stakingContractInstance.methods.getStatsData(accountAddress).call)
-  const fuseToken = CONFIG.rewardTokens['1']
-  const { data } = yield call(fetchPairInfo, { address: tokenAddress }, networkId)
-
-  const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
+  
+  const fuseToken = CONFIG.rewardTokens['1']  
   const tokenPrice = yield call(getFusePrice)
+  const fusePrice = tokenPrice[fuseToken].usd
+
+  let reserveUSD
+  let totalSupply
+  let token0
+  let token1
+  let totalReserve0
+  let totalReserve1
+
+  if (networkId === networkIds.BSC) {
+    const pairContractInstance = new web3.eth.Contract(PairABI,tokenAddress)
+    const rawtotalSupply = yield call(pairContractInstance.methods.totalSupply().call)
+    const { _reserve0, _reserve1 } = yield call(pairContractInstance.methods.getReserves().call)
+
+    totalSupply = formatWeiToNumber(rawtotalSupply)
+    totalReserve0 = formatWeiToNumber(_reserve0)
+    totalReserve1 = formatWeiToNumber(_reserve1)  
+    reserveUSD = (totalReserve0 * fusePrice) + (totalReserve1 * 650)
+    token0 = { symbol: 'FUSE' }
+    token1 = { symbol: 'BNB' }
+  } else {
+    const { data } = yield call(fetchPairInfo, { address: tokenAddress }, networkId)
+
+    reserveUSD = get(data, 'pair.reserveUSD', 0)
+    totalSupply = get(data, 'pair.totalSupply', 0)
+    token0 = get(data, 'pair.token0', {})
+    token1 = get(data, 'pair.token1', {})
+    totalReserve0 = get(data, 'pair.reserve0', 0)
+    totalReserve1 = get(data, 'pair.reserve1', 0)
+  }
+ 
+  const statsData = yield call(stakingContractInstance.methods.getStatsData(accountAddress).call)
+  const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
   const globalTotalStake = statsData[0]
   const totalReward = statsData[1]
   const estimatedReward = statsData[2]
   const unlockedReward = statsData[3]
   const accruedRewards = statsData[4]
   const lockedRewards = new BigNumber(totalReward).minus(new BigNumber(unlockedReward))
-  const fusePrice = tokenPrice[fuseToken].usd
   const totalRewardInUSD = formatWeiToNumber(totalReward) * fusePrice
-  const reserveUSD = get(data, 'pair.reserveUSD', 0)
-  const totalSupply = get(data, 'pair.totalSupply', 0)
-  const token0 = get(data, 'pair.token0', {})
-  const token1 = get(data, 'pair.token1', {})
-  const totalReserve0 = get(data, 'pair.reserve0', 0)
-  const totalReserve1 = get(data, 'pair.reserve1', 0)
+
   const reserve0 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve0))
   const reserve1 = new BigNumber(globalTotalStake).div(toWei(totalSupply)).multipliedBy(toWei(totalReserve1))
 

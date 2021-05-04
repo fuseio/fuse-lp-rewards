@@ -192,7 +192,7 @@
         "networkId": 56,
         "pairName": "FUSE/BNB",
         "contractAddress": "0xEEBa1e9334b55958664108b13F016A18994eB818",
-        "LPToken": "0x9832AA24d31C541c5024c84544C35851A42d1B31",
+        "LPToken": "0x6483f166b9e4310a165a55fea04f867499aded06",
         "pairs": [
           "0x5857c96DaE9cF8511B08Cb07f85753C472D36Ea3",
           "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"

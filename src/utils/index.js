@@ -47,3 +47,13 @@ export const getPlatformPairName = (networkId) => {
       return 'CAKE'
   }
 }
+
+export const getAddLiquidityHelpLink = (networkId) => {
+  switch (networkId) {
+    case networkIds.MAINNET:
+    case networkIds.FUSE:
+      return 'https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
+    case networkIds.BSC:
+      return 'https://docs.fuse.io/tutorials/adding-liquidity-on-pcs'
+  }
+}

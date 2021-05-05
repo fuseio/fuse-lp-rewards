@@ -4,15 +4,16 @@ import * as actions from '@/actions/staking'
 import { tryTakeEvery } from './utils'
 import { getWeb3 } from '@/services/web3'
 import { transactionFlow } from './transaction'
-import { BasicToken as BasicTokenABI, Staking as StakingABI, Pair as PairABI } from '@/constants/abi'
+import { BasicToken as BasicTokenABI, Staking as StakingABI, } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { BigNumber } from 'bignumber.js'
 import { fetchPairInfo } from '@/services/api/uniswap'
-import { getTokenPrice, getFusePrice } from '@/services/api/coingecko'
+import { getTokenPrice, getFusePrice, getTokenPriceById } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { toWei, formatWeiToNumber } from '@/utils/format'
-import { ADDRESS_ZERO } from '@/constants'
+import { ADDRESS_ZERO, BNB_COIN_ID } from '@/constants'
 import { networkIds } from '@/utils/network'
+import { fetchPairContractData } from '@/utils/contract'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
@@ -149,16 +150,16 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   let totalReserve1
 
   if (networkId === networkIds.BSC) {
-    const pairContractInstance = new web3.eth.Contract(PairABI,tokenAddress)
-    const rawtotalSupply = yield call(pairContractInstance.methods.totalSupply().call)
-    const { _reserve0, _reserve1 } = yield call(pairContractInstance.methods.getReserves().call)
+    const data = yield call(fetchPairContractData, tokenAddress, web3)
+    const bnbPrice = yield call(getTokenPriceById, BNB_COIN_ID)
 
-    totalSupply = formatWeiToNumber(rawtotalSupply)
-    totalReserve0 = formatWeiToNumber(_reserve0)
-    totalReserve1 = formatWeiToNumber(_reserve1)  
-    reserveUSD = (totalReserve0 * fusePrice) + (totalReserve1 * 650)
-    token0 = { symbol: 'FUSE' }
-    token1 = { symbol: 'BNB' }
+    totalReserve0 = get(data, 'reserve0', 0)
+    totalReserve1 = get(data, 'reserve1', 0)
+    token0 = get(data, 'token0', {})
+    token1 = get(data, 'token1', {})
+    totalSupply = get(data, 'totalSupply', 0)
+    
+    reserveUSD = (totalReserve0 * fusePrice) + (totalReserve1 * bnbPrice.usd)
   } else {
     const { data } = yield call(fetchPairInfo, { address: tokenAddress }, networkId)
 
@@ -169,7 +170,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
     totalReserve0 = get(data, 'pair.reserve0', 0)
     totalReserve1 = get(data, 'pair.reserve1', 0)
   }
- 
+
   const statsData = yield call(stakingContractInstance.methods.getStatsData(accountAddress).call)
   const stakingPeriod = yield call(stakingContractInstance.methods.stakingPeriod().call)
   const globalTotalStake = statsData[0]

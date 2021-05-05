@@ -25,8 +25,8 @@ export default () => {
       <div className='rewards'>
         <div className='rewards__headline'>
           <h1>Fuse LP rewards</h1>
-          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum) or Fuseswap (Fuse) and new networks announced soon! 
-          Then deposit your LP tokens and start earning Fuse</p>
+          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), Fuseswap (Fuse) or PancakeSwap (BSC) and new networks announced soon! 
+            Then deposit your LP tokens and start earning Fuse</p>
           <a className="rewards__join-tg-link" href="https://t.me/fuseio" target="_blank">
             <img src={telegram} /> Join our TG group for updates
           </a>
@@ -43,7 +43,7 @@ export default () => {
                 <img className="rewards__platform__banner" src={platform.banner} />
                 <img 
                   className={classNames("rewards__platform__icon", {
-                    'rewards__platform__icon--ring': platform.name === REWARDS_PLATFORMS.FUSESWAP
+                    'rewards__platform__icon--ring': platform.name === REWARDS_PLATFORMS.FUSESWAP || platform.name === REWARDS_PLATFORMS.PANCAKESWAP
                   })} 
                   src={platform.icon} 
                 />

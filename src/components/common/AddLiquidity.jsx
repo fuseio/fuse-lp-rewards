@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useSpring, animated } from 'react-spring'
 import alertIcon from '@/assets/images/alert.svg'
 import { symbolFromPair } from '@/utils/format'
-import { getAddLiquidityLink, getPlatformName } from '@/utils'
+import { getAddLiquidityLink, getPlatformName, getAddLiquidityHelpLink } from '@/utils'
 
 const AddLiquidity = () => {
   const props = useSpring({
@@ -29,7 +29,7 @@ const AddLiquidity = () => {
                 <a
                   rel='noreferrer noopener'
                   target='_blank'
-                  href='https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
+                  href={getAddLiquidityHelpLink(networkId)}
                 >
                   Please refer to the guide for more details.
                 </a>

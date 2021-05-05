@@ -59,7 +59,7 @@ export const REWARDS_PLATFORMS_LIST = [
 	},
 	{
 		name: REWARDS_PLATFORMS.PANCAKESWAP,
-		label: 'PancakeSwap On Bsc ',
+		label: 'PancakeSwap On BSC ',
 		banner: pancakeSwapBanner,
 		icon: bscIcon
 	},
@@ -93,3 +93,5 @@ export const STAKING_CONTRACTS = [
 ]
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
+
+export const BNB_COIN_ID = 'binancecoin'

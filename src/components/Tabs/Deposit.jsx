@@ -56,12 +56,13 @@ const DepositForm = ({ handleConnect }) => {
     })
   }
 
-  const renderForm = ({ values, setFieldValue, dirty, isValid }) => {
+  const renderForm = ({ values, setFieldValue }) => {
     const { amount } = values
     const amountToStake = toWei(amount)
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
+    const disableDeposit = showApprove || !amount
     return (
       <Form className='form form--deposit'>
         <div className='input__wrapper'>
@@ -111,7 +112,7 @@ const DepositForm = ({ handleConnect }) => {
               onClick={() => {
                 setFieldValue('submitType', 'stake')
               }}
-              disabled={showApprove || !(isValid && dirty)}
+              disabled={disableDeposit}
               className='button'
             >
               Deposit&nbsp;&nbsp;

@@ -6,6 +6,7 @@ import { Formik, Field, Form } from 'formik'
 import { BigNumber } from 'bignumber.js'
 import classNames from 'classnames'
 import get from 'lodash/get'
+import { utils as web3Utils } from 'web3'
 
 import { toWei, formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
@@ -45,9 +46,9 @@ const DepositForm = ({ handleConnect }) => {
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
     if (submitType === 'approve') {
-      dispatch(approveToken(toWei(amount)))
+      dispatch(approveToken(web3Utils.toWei(amount)))
     } else {
-      dispatch(depositStake(toWei(amount)))
+      dispatch(depositStake(web3Utils.toWei(amount)))
     }
     ReactGA.event({
       category: 'action',
@@ -58,7 +59,7 @@ const DepositForm = ({ handleConnect }) => {
 
   const renderForm = ({ values, setFieldValue }) => {
     const { amount } = values
-    const amountToStake = toWei(amount)
+    const amountToStake =  amount ? web3Utils.toWei(amount).toString() : 0
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))

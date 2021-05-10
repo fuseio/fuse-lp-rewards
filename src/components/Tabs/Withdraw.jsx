@@ -3,6 +3,8 @@ import ReactGA from 'react-ga'
 import get from 'lodash/get'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
+import { utils as web3Utils } from 'web3'
+
 import { withdrawStakeAndInterest, withdrawInterest } from '@/actions/staking'
 import { object, number, mixed } from 'yup'
 import { Formik, Field, Form } from 'formik'
@@ -38,9 +40,9 @@ const WithdrawForm = ({ handleConnect }) => {
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
     if (submitType === 'withdrawInterest') {
-      dispatch(withdrawInterest(toWei(amount)))
+      dispatch(withdrawInterest(web3Utils.toWei(amount)))
     } else if (submitType === 'withdrawStakeAndInterest') {
-      dispatch(withdrawStakeAndInterest(toWei(amount)))
+      dispatch(withdrawStakeAndInterest(web3Utils.toWei(amount)))
     }
     ReactGA.event({
       category: 'action',

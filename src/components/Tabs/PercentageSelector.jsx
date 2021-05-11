@@ -1,11 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
-import { formatWeiToNumber } from '@/utils/format'
+import { BigNumber } from 'bignumber.js'
 import { Field } from 'formik'
+import web3 from 'web3'
 const percentValues = [25, 50, 75, 100]
 
-const calculate = (value, total) => (value / 100) * total
+const calculate = (value, total) => web3.utils.fromWei(value.div(100).times(total).toString())
 
 const PercentOption = ({ value, balance }) => {
   const { accountAddress } = useSelector(state => state.network)
@@ -19,7 +20,7 @@ const PercentOption = ({ value, balance }) => {
               type='radio'
               onChange={(e) => {
                 field.onChange(e)
-                setFieldValue('amount', calculate(value, formatWeiToNumber(balance)))
+                setFieldValue('amount', calculate(new BigNumber(value), new BigNumber(balance)))
               }}
               name='percent'
               value={value}

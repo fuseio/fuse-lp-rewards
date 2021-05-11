@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import get from 'lodash/get'
 import { utils as web3Utils } from 'web3'
 
-import { toWei, formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
+import { formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
 import { depositStake, approveToken } from '@/actions/staking'
 import FuseLoader from '@/assets/images/loader-fuse.gif'

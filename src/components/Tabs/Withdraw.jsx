@@ -40,7 +40,7 @@ const WithdrawForm = ({ handleConnect }) => {
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
     if (submitType === 'withdrawInterest') {
-      dispatch(withdrawInterest(web3Utils.toWei(amount)))
+      dispatch(withdrawInterest())
     } else if (submitType === 'withdrawStakeAndInterest') {
       dispatch(withdrawStakeAndInterest(web3Utils.toWei(amount)))
     }
@@ -51,7 +51,8 @@ const WithdrawForm = ({ handleConnect }) => {
     })
   }
 
-  const renderForm = ({ setFieldValue, dirty, isValid }) => {
+  const renderForm = ({ values, setFieldValue, dirty, isValid }) => {
+    const { amount } = values
     return (
       <Form className='form form--withdraw'>
         <div className='input__wrapper'>
@@ -90,7 +91,7 @@ const WithdrawForm = ({ handleConnect }) => {
               onClick={() => {
                 setFieldValue('submitType', 'withdrawStakeAndInterest')
               }}
-              disabled={!(isValid && dirty)}
+              disabled={!(isValid && dirty && amount)}
               className='button'
             >
               Withdraw&nbsp;&nbsp;

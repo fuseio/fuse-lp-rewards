@@ -6,7 +6,10 @@ import { Field } from 'formik'
 import web3 from 'web3'
 const percentValues = [25, 50, 75, 100]
 
-const calculate = (value, total) => web3.utils.fromWei(value.div(100).times(total).toString())
+const calculate = (value, total) => {
+  // fromWei doesn't support passing numbers with decimals, pass number without decimals
+  return web3.utils.fromWei(value.div(100).times(total).toFixed(0))
+}
 
 const PercentOption = ({ value, balance }) => {
   const { accountAddress } = useSelector(state => state.network)

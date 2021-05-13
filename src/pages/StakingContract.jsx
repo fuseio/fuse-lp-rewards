@@ -12,20 +12,21 @@ import walletIcongray from '@/assets/images/wallet-plus-gray.svg'
 import percentageIcon from '@/assets/images/percentage.svg'
 import percentageIcongray from '@/assets/images/percentage-gray.svg'
 import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
-import { getBlockExplorerUrl } from '@/utils/network'
+import { getBlockExplorerUrl, networkIds } from '@/utils/network'
 import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
 import useSwitchNetwork from '../hooks/useSwitchNetwork'
 import { getRewardTokenName } from '@/utils'
-import { networkIds } from '@/utils/network'
+
+const switchNetworkIsSupported = ({ networkId, providerInfo }) => networkId === networkIds.MAINNET || get(providerInfo, 'id') === 'walletconnect'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { stakingContract, pairName, lpToken, networkId } = useSelector(state => state.staking)
   const switchNetwork = useSwitchNetwork()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
-  const { accountAddress } = useSelector(state => state.network)
+  const { accountAddress, providerInfo } = useSelector(state => state.network)
   const [isRunning, setIsRunning] = useState(!!accountAddress)
 
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
@@ -51,10 +52,10 @@ export default ({ handleConnect }) => {
     // get contract stats
     dispatch(getStatsData(stakingContract, lpToken, networkId))
   }, isRunning ? 5000 : null)
-
+  console.log(switchNetworkIsSupported(networkId, providerInfo))
   return (
     <>
-      {networkId === networkIds.MAINNET && <SwitchNetwork networkId={networkId} />}
+      {!switchNetworkIsSupported(networkId, providerInfo) && <SwitchNetwork networkId={networkId} />}
       <div className='main__wrapper'>
         <div className='main'>
           <h1 className='title'>Add liquidity</h1>

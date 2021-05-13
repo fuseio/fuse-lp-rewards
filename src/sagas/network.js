@@ -129,7 +129,7 @@ function * switchNetwork ({ networkId }) {
     const web3 = yield getWeb3Service()
     const provider = web3.currentProvider
     const network = getNetwork(networkId)
-    
+
     const response = yield call(provider.request, {
       method: 'wallet_addEthereumChain',
       params: [

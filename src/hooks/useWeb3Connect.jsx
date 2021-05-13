@@ -1,22 +1,17 @@
 import { useState } from 'react'
 import Web3Modal from 'web3modal'
-import Torus from '@toruslabs/torus-embed'
-
-const isDev = process.env.NODE_ENV === 'development'
+import WalletConnectProvider from "@walletconnect/web3-provider"
 
 const providerOptions = {
   metamask: {
   },
-  torus: {
-    package: Torus,
+  walletconnect: {
+    package: WalletConnectProvider, // required
     options: {
-      networkParams: {
-        host: 'mainnet'
-      },
-      enableLogging: isDev,
-      buttonPosition: 'top-right',
-      config: {
-        buildEnv: process.env.NODE_ENV
+      rpc: {
+        1: 'https://mainnet.infura.io/v3/a7f50ee1a9e94ea3af446d76106ff515',
+        56: 'https://bsc-dataseed.binance.org/',
+        122: 'https://rpc.fuse.io'
       }
     }
   }
@@ -26,7 +21,7 @@ const useWeb3Connect = (connectCallback) => {
   const [provider, setProvider] = useState()
 
   const web3Modal = new Web3Modal({
-    network: 'ropsten',
+    network: 'mainnet',
     providerOptions,
     cacheProvider: true
   })

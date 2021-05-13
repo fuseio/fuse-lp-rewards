@@ -5,7 +5,7 @@ export default (state = {}, action) => {
     case network.CONNECT_TO_WALLET.REQUEST:
       return { ...state, connectingToWallet: true }
     case network.CONNECT_TO_WALLET.SUCCESS:
-      return { ...state, connectingToWallet: false }
+      return { ...state, providerInfo: action.response.providerInfo, connectingToWallet: false }
     case network.CONNECT_TO_WALLET.FAILURE:
       return { ...state, connectingToWallet: false }
     case network.CHECK_ACCOUNT_CHANGED.SUCCESS:

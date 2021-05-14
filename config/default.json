@@ -43,6 +43,28 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 300000
+      },
+      "0xCBdCc62feF478D0e94112AD5123c33edAe6D820f": {
+        "networkId": 1,
+        "pairName": "ETH/FUSE",
+        "LPToken": "0x4ce3687fed17e19324f23e305593ab13bbd55c4d",
+        "contractAddress": "0xCBdCc62feF478D0e94112AD5123c33edAe6D820f",
+        "pairs": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
+        ],
+        "totalReward": 500000
+      },
+      "0xd9D5Fda4D82693eEAa4289A83914DdC6C072cb8B": {
+        "networkId": 1,
+        "pairName": "USDC/FUSE",
+        "LPToken": "0x611805Ce4071C096f5b44557b45685802d8a46FE",
+        "contractAddress": "0xd9D5Fda4D82693eEAa4289A83914DdC6C072cb8B",
+        "pairs": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
+        ],
+        "totalReward": 500000
       }
     },
     "fuse": {

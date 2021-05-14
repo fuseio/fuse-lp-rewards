@@ -19,8 +19,6 @@ import SwitchNetwork from '@/components/common/SwitchNetwork'
 import useSwitchNetwork from '../hooks/useSwitchNetwork'
 import { getRewardTokenName } from '@/utils'
 
-const switchNetworkIsSupported = ({ networkId, providerInfo }) => networkId === networkIds.MAINNET || get(providerInfo, 'id') === 'walletconnect'
-
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
   const { stakingContract, pairName, lpToken, networkId } = useSelector(state => state.staking)
@@ -36,6 +34,8 @@ export default ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'])
   const symbol = symbolFromPair(pairName)
+  const isSwitchNetworkSupported = networkId !== networkIds.MAINNET || 
+    (get(providerInfo, 'id') !== 'injected' && get(providerInfo, 'name') !== 'Metamask')
 
   if (!stakingContract) {
     return <Redirect to='/' />
@@ -43,19 +43,19 @@ export default ({ handleConnect }) => {
 
   useEffect(() => {
     if (accountAddress) {
-      switchNetwork(networkId)
+      if (isSwitchNetworkSupported) switchNetwork(networkId)
       setIsRunning(true)
     }
-  }, [accountAddress])
+  }, [accountAddress, isSwitchNetworkSupported])
 
   useInterval(() => {
     // get contract stats
     dispatch(getStatsData(stakingContract, lpToken, networkId))
   }, isRunning ? 5000 : null)
-  console.log(switchNetworkIsSupported(networkId, providerInfo))
+
   return (
     <>
-      {!switchNetworkIsSupported(networkId, providerInfo) && <SwitchNetwork networkId={networkId} />}
+      {!isSwitchNetworkSupported && <SwitchNetwork networkId={networkId} />}
       <div className='main__wrapper'>
         <div className='main'>
           <h1 className='title'>Add liquidity</h1>

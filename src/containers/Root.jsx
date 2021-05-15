@@ -9,7 +9,7 @@ import ChooseStakingContract from '@/pages/ChooseStakingContract.jsx'
 import StakingContract from '@/pages/StakingContract.jsx'
 import { getWeb3 } from '@/services/web3'
 import useWeb3Connect from '@/hooks/useWeb3Connect'
-import { connectToWallet } from '@/actions/network'
+import { connectToWallet, disconnectWallet } from '@/actions/network'
 import { getStakingContractsData } from '@/actions/staking'
 
 export default () => {
@@ -21,7 +21,18 @@ export default () => {
 
   const web3connect = useWeb3Connect(onConnectCallback)
 
-  // const handleLogout = useCallback(web3connect?.core?.clearCachedProvider, [web3connect])
+  const handleLogout = useCallback(async () => {
+    try {
+      if (web3connect?.provider && web3connect?.provider?.close) {
+        await web3connect?.provider?.close()
+      }
+
+      await web3connect?.core?.clearCachedProvider()
+      dispatch(disconnectWallet())
+    } catch (e) {
+      console.error(e)
+    }
+  }, [web3connect])
 
   const handleConnect = useCallback(() => {
     web3connect.toggleModal()
@@ -43,7 +54,7 @@ export default () => {
 
   return (
     <>
-      <Header handleConnect={handleConnect} />
+      <Header handleConnect={handleConnect} handleLogout={handleLogout} />
       <Route component={GoogleAnalyticsReporter} />
       <Switch>
         <Route path='/staking-contract'>

@@ -34,8 +34,11 @@ export default ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'])
   const symbol = symbolFromPair(pairName)
-  const isSwitchNetworkSupported = networkId !== networkIds.MAINNET || 
-    (get(providerInfo, 'id') !== 'injected' && get(providerInfo, 'name') !== 'Metamask')
+  const isSwitchNetworkSupported = 
+    get(providerInfo, 'id') === 'injected' && 
+    get(providerInfo, 'name') === 'MetaMask' &&  
+    networkId !== networkIds.MAINNET 
+    
 
   if (!stakingContract) {
     return <Redirect to='/' />

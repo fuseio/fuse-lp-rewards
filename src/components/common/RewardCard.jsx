@@ -105,12 +105,11 @@ export default ({
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
       <button 
-        className={classNames('button', { 'button--grey': isExpired })} 
+        className={classNames('button')} 
         disabled={isComingSoon} 
         onClick={handleClick}
       >
-        {(isNew || isComingSoon) && 'Deposit'}
-        {isExpired && 'Withdraw'}
+        Select
       </button>
     </div>
   )

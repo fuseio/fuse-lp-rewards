@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { useSelector } from "react-redux";
-import { getNetworkName } from "@/utils/network";
+import { getNetworkName, networkIds } from "@/utils/network";
 import SwitchToMainnet from "@/assets/images/Switch_To_Main.png";
+import SwitchToFuse from '@/assets/images/step_1.png'
 
 const SwitchNetwork = ({ networkId }) => {
   const { networkId: activeNetworkId } = useSelector((state) => state.network);
@@ -31,7 +32,11 @@ const SwitchNetwork = ({ networkId }) => {
           Switch to {getNetworkName(networkId)} network
         </div>
         <div>
-          <img src={SwitchToMainnet} />
+          {networkId === networkIds.FUSE ? (
+            <img src={SwitchToFuse} />
+          ) : (
+            <img src={SwitchToMainnet} />
+          )}
         </div>
       </div>
     </ReactModal>

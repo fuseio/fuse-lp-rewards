@@ -79,6 +79,24 @@ function * connectToWallet () {
   }
 }
 
+function * disconnectWallet () {
+  try {
+    yield put({
+      type: actions.DISCONNECT_WALLET.SUCCESS,
+      accountAddress: '',
+      response: {
+        providerInfo: null
+      }
+    })
+
+    yield call(checkAccountChanged, { selectedAddress: '' })
+  } catch (error) {
+    yield put({
+      type: actions.DISCONNECT_WALLET.FAILURE
+    })
+  }
+}
+
 function * checkNetworkType ({ web3, accountAddress }) {
   try {
     if (!accountAddress) {
@@ -129,7 +147,6 @@ function * switchNetwork ({ networkId }) {
     const web3 = yield getWeb3Service()
     const provider = web3.currentProvider
     const network = getNetwork(networkId)
-    
     const response = yield call(provider.request, {
       method: 'wallet_addEthereumChain',
       params: [
@@ -157,6 +174,7 @@ export default function * web3Saga () {
   yield all([
     takeEvery(actions.CHECK_NETWORK_TYPE.REQUEST, checkNetworkType),
     takeEvery(actions.CONNECT_TO_WALLET.REQUEST, connectToWallet),
+    takeEvery(actions.DISCONNECT_WALLET.REQUEST, disconnectWallet),
     takeEvery(actions.CHECK_ACCOUNT_CHANGED.REQUEST, checkAccountChanged),
     takeEvery(actions.SWITCH_NETWORK.REQUEST, switchNetwork)
   ])

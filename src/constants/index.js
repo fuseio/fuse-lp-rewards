@@ -34,7 +34,8 @@ export const PAIRS_ICONS = {
   'GRT/WETH': grtWethIcon,
   'G$/USDC': gooddollarUsdcIcon,
   'fUSD/FUSE': fuseFuseDollarIcon,
-  'FUSE/BNB': fuseBnbIcon
+  'FUSE/BNB': fuseBnbIcon,
+  'WETH/FUSE': ethFuseIcon
 }
 
 export const REWARDS_PLATFORMS = {

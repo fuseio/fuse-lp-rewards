@@ -20,6 +20,7 @@ import grtWethIcon from '@/assets/images/coins-pair-grt-weth.svg'
 import gooddollarUsdcIcon from '@/assets/images/coins-pair-gooddollar-usdc.svg'
 import fuseFuseDollarIcon from '@/assets/images/coins-pair-fuse-fUSD.svg'
 import fuseBnbIcon from '@/assets/images/coins-pair-fuse-bnb.svg'
+import fusdBnbIcon from '@/assets/images/coins-pair-fusd-bnb.svg'
 
 export const PAIRS_ICONS = {
   'ETH/FUSE': ethFuseIcon,
@@ -35,7 +36,8 @@ export const PAIRS_ICONS = {
   'G$/USDC': gooddollarUsdcIcon,
   'fUSD/FUSE': fuseFuseDollarIcon,
   'FUSE/BNB': fuseBnbIcon,
-  'WETH/FUSE': ethFuseIcon
+  'WETH/FUSE': ethFuseIcon,
+  'fUSD/BNB': fusdBnbIcon
 }
 
 export const REWARDS_PLATFORMS = {

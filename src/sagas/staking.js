@@ -161,8 +161,6 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
 
     const token0Price = yield call(getBscTokenPrice, token0.address)
     const token1Price = yield call(getBscTokenPrice, token1.address)
-
-    console.log(token0, token0Price, token1, token1Price)
     
     reserveUSD = (totalReserve0 * token0Price) + (totalReserve1 * token1Price)
   } else {

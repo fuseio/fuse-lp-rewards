@@ -18,11 +18,12 @@ export const getFusePrice = () => {
 }
 
 export const getBscTokenPrice = async (tokenAddress) => {
-  if (getCoingeckoId(tokenAddress) == CONFIG.rewardTokens['1']) {
-    return getFusePrice().then(price => price[CONFIG.rewardTokens['1']].usd)
-  } else if (getCoingeckoId(tokenAddress) === BNB_COIN_ID) {
+  const id = getCoingeckoId(tokenAddress)
+  if (id == CONFIG.rewardTokens['1']) {
+    return getFusePrice().then(price => price[id].usd)
+  } else if (id === BNB_COIN_ID) {
     return getTokenPriceById(BNB_COIN_ID)
   } else {
-    return getTokenPrice(getCoingeckoId(tokenAddress))
+    return getTokenPrice(id).then(price => price[id].usd)
   }
 }

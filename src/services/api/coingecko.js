@@ -1,4 +1,6 @@
 import request from 'superagent'
+import { BNB_COIN_ID } from '../../constants'
+import { getCoingeckoId } from '../../utils'
 
 export const getTokenPrice = (tokenAddress, vsCurrencies = 'usd') => {
   return request.get(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenAddress}&vs_currencies=${vsCurrencies}`)
@@ -7,10 +9,20 @@ export const getTokenPrice = (tokenAddress, vsCurrencies = 'usd') => {
 
 export const getTokenPriceById = (id) => {
   return request.get(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`)
-    .then(response => response.body[id])
+    .then(response => response.body[id].usd)
 }
 
 export const getFusePrice = () => {
   const fuseToken = CONFIG.rewardTokens['1']
   return getTokenPrice(fuseToken)
+}
+
+export const getBscTokenPrice = async (tokenAddress) => {
+  if (getCoingeckoId(tokenAddress) == CONFIG.rewardTokens['1']) {
+    return getFusePrice().then(price => price[CONFIG.rewardTokens['1']].usd)
+  } else if (getCoingeckoId(tokenAddress) === BNB_COIN_ID) {
+    return getTokenPriceById(BNB_COIN_ID)
+  } else {
+    return getTokenPrice(getCoingeckoId(tokenAddress))
+  }
 }

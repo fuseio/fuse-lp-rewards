@@ -8,12 +8,13 @@ import { BasicToken as BasicTokenABI, Staking as StakingABI, } from '@/constants
 import { balanceOfToken } from '@/actions/accounts'
 import { BigNumber } from 'bignumber.js'
 import { fetchPairInfo } from '@/services/api/uniswap'
-import { getTokenPrice, getFusePrice, getTokenPriceById } from '@/services/api/coingecko'
+import { getTokenPrice, getFusePrice, getTokenPriceById, getBscTokenPrice } from '@/services/api/coingecko'
 import get from 'lodash/get'
 import { toWei, formatWeiToNumber } from '@/utils/format'
 import { ADDRESS_ZERO, BNB_COIN_ID } from '@/constants'
 import { networkIds } from '@/utils/network'
 import { fetchPairContractData } from '@/utils/contract'
+import { getCoingeckoId } from '../utils'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
@@ -151,15 +152,19 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
 
   if (networkId === networkIds.BSC) {
     const data = yield call(fetchPairContractData, tokenAddress, web3)
-    const bnbPrice = yield call(getTokenPriceById, BNB_COIN_ID)
 
     totalReserve0 = get(data, 'reserve0', 0)
     totalReserve1 = get(data, 'reserve1', 0)
     token0 = get(data, 'token0', {})
     token1 = get(data, 'token1', {})
     totalSupply = get(data, 'totalSupply', 0)
+
+    const token0Price = yield call(getBscTokenPrice, token0.address)
+    const token1Price = yield call(getBscTokenPrice, token1.address)
+
+    console.log(token0, token0Price, token1, token1Price)
     
-    reserveUSD = (totalReserve0 * fusePrice) + (totalReserve1 * bnbPrice.usd)
+    reserveUSD = (totalReserve0 * token0Price) + (totalReserve1 * token1Price)
   } else {
     const { data } = yield call(fetchPairInfo, { address: tokenAddress }, networkId)
 

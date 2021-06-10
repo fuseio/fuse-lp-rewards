@@ -1,5 +1,6 @@
 import { networkIds } from '@/utils/network'
 import { REWARDS_PLATFORMS } from '@/constants'
+import { COINGECKO_ID_MAP } from '../constants'
 
 const getPairPath = (pairs) => {
   return String(pairs).split(',').join('/')
@@ -56,4 +57,8 @@ export const getAddLiquidityHelpLink = (networkId) => {
     case networkIds.BSC:
       return 'https://docs.fuse.io/tutorials/adding-liquidity-on-pcs'
   }
+}
+
+export const getCoingeckoId = (tokenAddress) => {
+  return COINGECKO_ID_MAP[tokenAddress]
 }

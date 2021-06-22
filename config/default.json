@@ -239,6 +239,16 @@
           "0x249BE57637D8B013Ad64785404b24aeBaE9B098B",
           "0x6acb34b1Df86E254b544189Ec32Cf737e2482058"
         ]
+      },
+      "0x7Abf7eEAC893a929ec7244b46966F113BD537B5B": {
+        "networkId": 122,
+        "pairName": "DEXT/FUSE",
+        "contractAddress": "0x7Abf7eEAC893a929ec7244b46966F113BD537B5B",
+        "LPToken": "0xCD0643b3B2481ee9280eADbE8b54104bfDee9bdB",
+        "pairs": [
+          "0x92c9DD8F3C443d75949A1B46F2878cacc1089de5",
+          "0x0be9e53fd7edac9f859882afdda116645287c629"
+        ]
       }
     },
     "bsc": {

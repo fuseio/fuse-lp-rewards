@@ -240,10 +240,10 @@
           "0x6acb34b1Df86E254b544189Ec32Cf737e2482058"
         ]
       },
-      "0x7Abf7eEAC893a929ec7244b46966F113BD537B5B": {
+      "0xC68eAa3c93cA8BB829243EA2cdA215c944500b2a": {
         "networkId": 122,
         "pairName": "DEXT/FUSE",
-        "contractAddress": "0x7Abf7eEAC893a929ec7244b46966F113BD537B5B",
+        "contractAddress": "0xC68eAa3c93cA8BB829243EA2cdA215c944500b2a",
         "LPToken": "0xCD0643b3B2481ee9280eADbE8b54104bfDee9bdB",
         "pairs": [
           "0x92c9DD8F3C443d75949A1B46F2878cacc1089de5",

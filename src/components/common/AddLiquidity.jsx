@@ -29,7 +29,7 @@ const AddLiquidity = () => {
                 <a
                   rel='noreferrer noopener'
                   target='_blank'
-                  href={getAddLiquidityHelpLink(networkId)}
+                  href={getAddLiquidityHelpLink(networkId, pairName)}
                 >
                   Please refer to the guide for more details.
                 </a>

@@ -49,7 +49,7 @@ export const getPlatformPairName = (networkId) => {
   }
 }
 
-export const getAddLiquidityHelpLink = (networkId) => {
+const getHelpLinkFromNetworkId = (networkId) => {
   switch (networkId) {
     case networkIds.MAINNET:
     case networkIds.FUSE:
@@ -57,6 +57,21 @@ export const getAddLiquidityHelpLink = (networkId) => {
     case networkIds.BSC:
       return 'https://docs.fuse.io/tutorials/adding-liquidity-on-pcs'
   }
+}
+
+const getHelpLinkFromPairName = (pairName) => {
+  if (pairName === 'DEXT/FUSE') {
+    return 'https://medium.com/fusenet/introducing-the-dext-fuse-liquidity-rewards-program-on-fuseswap-53bc6affd8bc'
+  }
+}
+
+export const getAddLiquidityHelpLink = (networkId, pairName) => {
+  const helpLinkFromPair = getHelpLinkFromPairName(pairName)
+  if (helpLinkFromPair) {
+    return helpLinkFromPair
+  }
+
+  return getHelpLinkFromNetworkId(networkId)
 }
 
 export const getCoingeckoId = (tokenAddress) => {

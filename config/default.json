@@ -250,16 +250,35 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ]
       },
-      "0xc8a4A5E5962C68f2b54c9e8BE2c0a435aA73cFB5": {
+      "0xFF1F9fd96BA115376042c8893B438D03eedd5503": {
         "networkId": 122,
         "pairName": "fUSD/FUSE",
-        "contractAddress": "0xc8a4A5E5962C68f2b54c9e8BE2c0a435aA73cFB5",
+        "contractAddress": "0xFF1F9fd96BA115376042c8893B438D03eedd5503",
         "LPToken": "0xcDd8964BA8963929867CAfFCf5942De4F085bFB7",
         "pairs": [
           "0x249be57637d8b013ad64785404b24aebae9b098b",
           "0x0be9e53fd7edac9f859882afdda116645287c629"
-        ],
-        "totalReward": 150000
+        ]
+      },
+      "0x66B393872d11468A3266E6a6a85328Bc5A6C51bD": {
+        "networkId": 122,
+        "pairName": "WETH/FUSE",
+        "contractAddress": "0x66B393872d11468A3266E6a6a85328Bc5A6C51bD",
+        "LPToken": "0x75e24462108E49B71278c93b49B35A5837c0547C",
+        "pairs": [
+          "0xa722c13135930332Eb3d749B2F0906559D2C5b99",
+          "0x0be9e53fd7edac9f859882afdda116645287c629"
+        ]
+      },
+      "0xF449846eCe9c8d9438e1E940840EE59314AF4502": {
+        "networkId": 122,
+        "pairName": "WBTC/WETH",
+        "LPToken": "0x79fb917292f841ab64941c04acdf5f9059aa24e7",
+        "contractAddress": "0xF449846eCe9c8d9438e1E940840EE59314AF4502",
+        "pairs": [
+          "0x33284f95ccb7B948d9D352e1439561CF83d8d00d",
+          "0xa722c13135930332Eb3d749B2F0906559D2C5b99"
+        ]
       }
     },
     "bsc": {

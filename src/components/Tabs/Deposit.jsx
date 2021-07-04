@@ -18,6 +18,7 @@ import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
 import { getPlatformPairName, getRewardTokenName } from '@/utils'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
+import { DEPOSIT_BLACKLIST } from '@/constants'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive().required(),
@@ -35,6 +36,7 @@ const DepositForm = ({ handleConnect }) => {
   const accounts = useSelector(state => state.accounts)
   const switchNetwork = useSwitchNetwork()
   const isStakingNetwork = useIsStakingNetwork()
+  const isDepositBlacklisted = DEPOSIT_BLACKLIST.includes(stakingContract)
 
   const balance = get(accounts, [accountAddress, 'balances', lpToken], 0)
   const amountApprove = get(accounts, [accountAddress, 'allowance', lpToken], 0)
@@ -108,7 +110,7 @@ const DepositForm = ({ handleConnect }) => {
           )
         }
         {
-          accountAddress && isStakingNetwork && (
+          accountAddress && isStakingNetwork && !isDepositBlacklisted && (
             <button
               onClick={() => {
                 setFieldValue('submitType', 'stake')

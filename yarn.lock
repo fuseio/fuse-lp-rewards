@@ -1293,8 +1293,10 @@
     "@ethersproject/properties" "^5.0.7"
     "@ethersproject/strings" "^5.0.8"
 
-"@fuseio/rewards-sdk@file:../rewards-sdk":
-  version "1.0.0"
+"@fuseio/rewards-sdk@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@fuseio/rewards-sdk/-/rewards-sdk-0.1.8.tgz#ae9454cd4155bea810efb9d94a8d5f7c3946d77a"
+  integrity sha512-3pZsbcoN/d9fSwj2Jei7TT9vWV+lMnZSRaOPEHXSK3oQrZ/CqkGDPzLnClfLFj9tfgG7EMFUpTb7YhXaVwKaEg==
   dependencies:
     "@apollo/client" "^3.3.21"
     bignumber.js "^9.0.1"

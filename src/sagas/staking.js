@@ -131,7 +131,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
       totalReward: stats.totalRewards,
       estimatedReward: stats.estimatedRewards,
       unlockedReward: stats.unlockedRewards,
-      accruedRewards: stats.accruedRewards,
+      accruedRewards: stats.accuruedRewards,
       lockedRewards: stats.lockedRewards,
       totalStakeUSD: stats.totalStakedUSD,
       globalTotalStakeUSD: stats.globalTotalStakeUSD,

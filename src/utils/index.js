@@ -1,3 +1,4 @@
+import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/rewards-sdk'
 import { networkIds } from '@/utils/network'
 import { REWARDS_PLATFORMS } from '@/constants'
 import { COINGECKO_ID_MAP } from '../constants'
@@ -76,4 +77,17 @@ export const getAddLiquidityHelpLink = (networkId, pairName) => {
 
 export const getCoingeckoId = (tokenAddress) => {
   return COINGECKO_ID_MAP[tokenAddress]
+}
+
+export const getReward = (rewardType) => {
+  if (rewardType === 'single') {
+    return SingleRewardProgram
+  } else if (rewardType === 'multi') {
+    return MultiRewardProgram
+  }
+}
+
+export const getContractRewardType = (address) => {
+  const contracts = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
+  return contracts[address].type
 }

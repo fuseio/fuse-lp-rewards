@@ -186,7 +186,8 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
   const rewardType = getContractRewardType(stakingContract)
   const RewardProgram = getReward(rewardType)
   const staking = new RewardProgram(stakingContract, web3)
-  const { start, duration, end } = yield staking.getStakingTimes()
+  const rewardToken = rewardType === 'multi' && CONFIG.rewardTokens[networkId] 
+  const { start, duration, end } = yield staking.getStakingTimes(rewardToken)
 
   const isExpired = moment().isAfter(moment.unix(end))
   const isComingSoon = moment().isBefore(moment.unix(start))

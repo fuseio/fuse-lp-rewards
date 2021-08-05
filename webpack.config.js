@@ -102,17 +102,10 @@ module.exports = {
         ]
       },
       {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        issuer: {
-          test: /\.(sa|sc|c)ss$/
-        },
+        test: /\.svg$/,
         use: [
-          'babel-loader',
           {
-            loader: '@svgr/webpack',
-            options: {
-              native: true
-            }
+            loader: '@svgr/webpack'
           },
           {
             loader: 'file-loader',
@@ -121,10 +114,6 @@ module.exports = {
             }
           }
         ]
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader'
       }
     ]
   },

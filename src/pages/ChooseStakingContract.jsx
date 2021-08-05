@@ -33,8 +33,9 @@ export default () => {
           </a>
         </div>
         <div className='rewards__platforms'>
-          {REWARDS_PLATFORMS_LIST.map(platform => (
+          {REWARDS_PLATFORMS_LIST.map((platform, index) => (
             <button
+              key={index}
               className={classNames('rewards__platform', {
                 'rewards__platform--active': stakingPlatform !== 'ComingSoon' && stakingPlatform === platform.name
               })}

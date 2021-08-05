@@ -7,7 +7,7 @@ import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { ADDRESS_ZERO } from '@/constants'
-import { SingleRewardProgram } from '@fuseio/rewards-sdk'
+import { getContractRewardType, getReward } from '../utils'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
@@ -58,7 +58,10 @@ function * depositStake ({ amount }) {
   const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const staking = new SingleRewardProgram(stakingContract, web3)
+
+    const rewardType = getContractRewardType(stakingContract)
+    const RewardProgram = getReward(rewardType)
+    const staking = new RewardProgram(stakingContract, web3)
     const transactionPromise = staking.deposit(amount, accountAddress)
 
     const action = actions.DEPOSIT_STAKE
@@ -71,7 +74,10 @@ function * withdrawStake ({ amount }) {
   const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const staking = new SingleRewardProgram(stakingContract, web3)
+
+    const rewardType = getContractRewardType(stakingContract)
+    const RewardProgram = getReward(rewardType)
+    const staking = new RewardProgram(stakingContract, web3)
     const transactionPromise = staking.withdraw(amount, accountAddress)
 
     const action = actions.WITHDRAW_STAKE
@@ -84,7 +90,10 @@ function * withdrawInterest () {
   const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    const staking = new SingleRewardProgram(stakingContract, web3)
+    
+    const rewardType = getContractRewardType(stakingContract)
+    const RewardProgram = getReward(rewardType) 
+    const staking = new RewardProgram(stakingContract, web3)
     const transactionPromise = staking.withdrawReward(accountAddress)
 
     const action = actions.WITHDRAW_INTEREST
@@ -97,7 +106,10 @@ function * getStakingData ({ stakingContract, networkId }) {
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-    const staking = new SingleRewardProgram(stakingContract, web3.currentProvider)
+    
+    const rewardType = getContractRewardType(stakingContract)
+    const RewardProgram = getReward(rewardType)
+    const staking = new RewardProgram(stakingContract, web3.currentProvider)
     const stakeData = yield staking.getStakerInfo(accountAddress)
     
     yield put({
@@ -118,7 +130,10 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const accountAddress = activeAccountAddress || ADDRESS_ZERO
   const networkState = yield select(state => state.network)
   const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-  const staking = new SingleRewardProgram(stakingContract, web3)
+
+  const rewardType = getContractRewardType(stakingContract)
+  const RewardProgram = getReward(rewardType)
+  const staking = new RewardProgram(stakingContract, web3)
   const stats = yield staking.getStats(accountAddress, tokenAddress, networkId, [CONFIG.rewardTokens[networkId]])
 
   yield put({
@@ -128,15 +143,15 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
     response: {
       address: stakingContract,
       globalTotalStake: stats.globalTotalStake,
-      totalReward: stats.totalRewards,
-      estimatedReward: stats.estimatedRewards,
+      totalReward: stats.rewardsInfo[0].totalRewards,
+      estimatedReward: stats.rewardsInfo[0].estimatedRewards,
       unlockedReward: stats.unlockedRewards,
-      accruedRewards: stats.accuruedRewards,
+      accruedRewards: stats.rewardsInfo[0].accuruedRewards,
       lockedRewards: stats.lockedRewards,
       totalStakeUSD: stats.totalStakedUSD,
       globalTotalStakeUSD: stats.globalTotalStakeUSD,
       lpPrice: stats.pairPrice,
-      totalRewardInUSD: stats.totalRewardInUSD,
+      totalRewardInUSD: stats.rewardsInfo[0].totalRewardsInUSD,
       apyPercent: stats.rewardsInfo[0].apyPercent * 100,
       token0: stats.token0,
       token1: stats.token1,
@@ -167,7 +182,10 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
   const { accountAddress } = yield select(state => state.network)
   const networkState = yield select(state => state.network)
   const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-  const staking = new SingleRewardProgram(stakingContract, web3)
+  
+  const rewardType = getContractRewardType(stakingContract)
+  const RewardProgram = getReward(rewardType)
+  const staking = new RewardProgram(stakingContract, web3)
   const { start, duration, end } = yield staking.getStakingTimes()
 
   const isExpired = moment().isAfter(moment.unix(end))

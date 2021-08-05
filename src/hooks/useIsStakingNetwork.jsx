@@ -6,7 +6,7 @@ const useIsStakingNetwork = () => {
   const { networkId: stakingNetworkId } = useSelector((state) => state.staking)
   return useMemo(() => networkId === stakingNetworkId, [
     networkId,
-    stakingNetworkId,
+    stakingNetworkId
   ])
 }
 

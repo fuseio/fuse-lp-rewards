@@ -90,9 +90,9 @@ function * withdrawInterest () {
   const { stakingContract } = yield select(state => state.staking)
   if (accountAddress) {
     const web3 = yield getWeb3()
-    
+
     const rewardType = getContractRewardType(stakingContract)
-    const RewardProgram = getReward(rewardType) 
+    const RewardProgram = getReward(rewardType)
     const staking = new RewardProgram(stakingContract, web3)
     const transactionPromise = staking.withdrawReward(accountAddress)
 
@@ -106,12 +106,12 @@ function * getStakingData ({ stakingContract, networkId }) {
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-    
+
     const rewardType = getContractRewardType(stakingContract)
     const RewardProgram = getReward(rewardType)
     const staking = new RewardProgram(stakingContract, web3.currentProvider)
     const stakeData = yield staking.getStakerInfo(accountAddress)
-    
+
     yield put({
       type: actions.GET_STAKE_DATA.SUCCESS,
       accountAddress,
@@ -182,7 +182,7 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
   const { accountAddress } = yield select(state => state.network)
   const networkState = yield select(state => state.network)
   const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
-  
+
   const rewardType = getContractRewardType(stakingContract)
   const RewardProgram = getReward(rewardType)
   const staking = new RewardProgram(stakingContract, web3)

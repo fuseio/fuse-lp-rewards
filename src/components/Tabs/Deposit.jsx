@@ -61,7 +61,7 @@ const DepositForm = ({ handleConnect }) => {
 
   const renderForm = ({ values, setFieldValue }) => {
     const { amount } = values
-    const amountToStake =  amount ? web3Utils.toWei(amount).toString() : 0
+    const amountToStake = amount ? web3Utils.toWei(amount).toString() : 0
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
@@ -125,9 +125,9 @@ const DepositForm = ({ handleConnect }) => {
         }
         {
           accountAddress && !isStakingNetwork && (
-            <button 
+            <button
               onClick={() => switchNetwork(stakingNetworkId)}
-              className="button"
+              className='button'
             >
               Switch to {getNetworkName(stakingNetworkId)}
             </button>

@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { switchNetwork } from "@/actions/network";
-
+import { switchNetwork } from '@/actions/network'
 
 const useSwitchNetwork = () => {
   const disptach = useDispatch()

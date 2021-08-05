@@ -25,30 +25,31 @@ export default () => {
       <div className='rewards'>
         <div className='rewards__headline'>
           <h1>Fuse LP rewards</h1>
-          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), Fuseswap (Fuse) or PancakeSwap (BSC) and new networks announced soon! 
-            Then deposit your LP tokens and start earning Fuse</p>
-          <a className="rewards__join-tg-link" href="https://t.me/fuseio" target="_blank">
+          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), Fuseswap (Fuse) or PancakeSwap (BSC) and new networks announced soon!
+            Then deposit your LP tokens and start earning Fuse
+          </p>
+          <a className='rewards__join-tg-link' href='https://t.me/fuseio' target='_blank'>
             <img src={telegram} /> Join our TG group for updates
           </a>
         </div>
-        <div className="rewards__platforms">
+        <div className='rewards__platforms'>
           {REWARDS_PLATFORMS_LIST.map(platform => (
-            <button 
-              className={classNames('rewards__platform', { 
+            <button
+              className={classNames('rewards__platform', {
                 'rewards__platform--active': stakingPlatform !== 'ComingSoon' && stakingPlatform === platform.name
-              })} 
+              })}
               onClick={() => selectPlatform(platform.name)}
             >
-              <div className="rewards__platform__header">
-                <img className="rewards__platform__banner" src={platform.banner} />
-                <img 
-                  className={classNames("rewards__platform__icon", {
+              <div className='rewards__platform__header'>
+                <img className='rewards__platform__banner' src={platform.banner} />
+                <img
+                  className={classNames('rewards__platform__icon', {
                     'rewards__platform__icon--ring': platform.name === REWARDS_PLATFORMS.FUSESWAP || platform.name === REWARDS_PLATFORMS.PANCAKESWAP
-                  })} 
-                  src={platform.icon} 
+                  })}
+                  src={platform.icon}
                 />
               </div>
-              <div className="rewards__platform__footer">
+              <div className='rewards__platform__footer'>
                 {platform.label}
               </div>
             </button>
@@ -68,19 +69,19 @@ export default () => {
                 reverse(map(items, (contract) => {
                   const { contractAddress } = contract
                   return (
-                    <RewardCard 
-                      className={`reward-card--${stakingPlatform.toLowerCase()}`} 
-                      icon={PAIRS_ICONS[contract.pairName]} 
-                      key={contractAddress} 
-                      {...contract} 
-                      stakingContract={contractAddress} 
+                    <RewardCard
+                      className={`reward-card--${stakingPlatform.toLowerCase()}`}
+                      icon={PAIRS_ICONS[contract.pairName]}
+                      key={contractAddress}
+                      {...contract}
+                      stakingContract={contractAddress}
                     />
                   )
                 }))
               }
             </div>
           )) : (
-            <div className="rewards__coming-soon">
+            <div className='rewards__coming-soon'>
               <img src={comingSoon} />
             </div>
           )

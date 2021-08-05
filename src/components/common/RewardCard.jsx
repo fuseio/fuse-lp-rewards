@@ -14,17 +14,17 @@ import trophy from '@/assets/images/trophy.svg'
 import star from '@/assets/images/star.svg'
 import useFormattedTimestamp from '@/hooks/useFormattedTimestamp'
 
-export default ({ 
-  className, 
-  icon, 
-  pairName, 
-  stakingContract, 
-  totalReward: defaultTotalReward, 
-  LPToken, 
-  networkId, 
-  pairs, 
-  uniPairToken, 
-  btnText = 'Select' 
+export default ({
+  className,
+  icon,
+  pairName,
+  stakingContract,
+  totalReward: defaultTotalReward,
+  LPToken,
+  networkId,
+  pairs,
+  uniPairToken,
+  btnText = 'Select'
 }) => {
   const dispatch = useDispatch()
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
@@ -32,7 +32,7 @@ export default ({
   // card states: comingSoon -> new -> expired
   const isExpired = get(stakingContracts, [stakingContract, 'isExpired'], false)
   const isComingSoon = get(stakingContracts, [stakingContract, 'isComingSoon'], false)
-  const isNew = !isComingSoon && !isExpired 
+  const isNew = !isComingSoon && !isExpired
 
   const token0 = get(stakingContracts, [stakingContract, 'token0'], {})
   const token1 = get(stakingContracts, [stakingContract, 'token1'], {})
@@ -59,26 +59,27 @@ export default ({
       label: `Selected ${stakingContract}`
     })
     dispatch(selectStakingContract({ stakingContract, lpToken: LPToken, networkId, pairName, uniPairToken, pairs }))
-    dispatch(push(`/staking-contract`))
+    dispatch(push('/staking-contract'))
   }
 
   return (
     <div className={classNames('reward-card cell medium-10 small-24', className)}>
-      <div className="reward-card__header">
-          <div className={classNames("reward-card__badge", { 
-            'reward-card__badge--hide': isExpired 
-            }
-          )}>
-            {isComingSoon 
-              ? <><img src={star} /> Coming Soon</>
-              : <><img src={trophy} /> APY : {apyPercentCounter}%</>
-            }
-          </div>
+      <div className='reward-card__header'>
+        <div className={classNames('reward-card__badge', {
+          'reward-card__badge--hide': isExpired
+        }
+        )}
+        >
+          {isComingSoon
+            ? <><img src={star} /> Coming Soon</>
+            : <><img src={trophy} /> APY : {apyPercentCounter}%</>}
+        </div>
         <div className={classNames('reward-status', {
-          'reward-status--soon': isComingSoon, 
-          'reward-status--expired': isExpired, 
+          'reward-status--soon': isComingSoon,
+          'reward-status--expired': isExpired,
           'reward-status--new': isNew
-        })} />
+        })}
+        />
       </div>
       <div className='reward-card__icons'>
         <img src={icon} className='reward-card__icon' />
@@ -98,15 +99,15 @@ export default ({
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>
-        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter.length > 6 ? (<><br/>{reserve0Counter}</>) : reserve0Counter} {token0.symbol}</h1>
+        <h1 className='card-section__info'>{reserve1Counter} {token1.symbol} / {reserve0Counter.length > 6 ? (<><br />{reserve0Counter}</>) : reserve0Counter} {token0.symbol}</h1>
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
-      <button 
-        className={classNames('button')} 
-        disabled={isComingSoon} 
+      <button
+        className={classNames('button')}
+        disabled={isComingSoon}
         onClick={handleClick}
       >
         Select

@@ -4,8 +4,7 @@ let givenWeb3
 
 export const getWeb3 = ({ provider, networkType } = {}) => {
   if (networkType) {
-    const web3 = web3ByNetworkType[networkType]
-    return web3
+    return web3ByNetworkType[networkType]
   }
 
   if (provider) {

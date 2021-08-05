@@ -52,28 +52,28 @@ export const REWARDS_PLATFORMS = {
 export const REWARDS_PLATFORMS_LIST = [
   {
     name: REWARDS_PLATFORMS.UNISWAP,
-		label: 'Uniswap On Ethereum',
-		banner: uniswapBanner,
-		icon: ethIcon,
+    label: 'Uniswap On Ethereum',
+    banner: uniswapBanner,
+    icon: ethIcon
   },
-	{
-		name: REWARDS_PLATFORMS.FUSESWAP,
-		label: 'FuseSwap On Fuse',
-		banner: fuseSwapBanner,
-		icon: fuseIcon
-	},
-	{
-		name: REWARDS_PLATFORMS.PANCAKESWAP,
-		label: 'PancakeSwap On BSC ',
-		banner: pancakeSwapBanner,
-		icon: bscIcon
-	},
-	{
-		name: REWARDS_PLATFORMS.BALANCER,
-		label: 'Coming soon!',
-		banner: comingSoonBanner,
-		icon: comingSoonIcon
-	}
+  {
+    name: REWARDS_PLATFORMS.FUSESWAP,
+    label: 'FuseSwap On Fuse',
+    banner: fuseSwapBanner,
+    icon: fuseIcon
+  },
+  {
+    name: REWARDS_PLATFORMS.PANCAKESWAP,
+    label: 'PancakeSwap On BSC ',
+    banner: pancakeSwapBanner,
+    icon: bscIcon
+  },
+  {
+    name: REWARDS_PLATFORMS.BALANCER,
+    label: 'Coming soon!',
+    banner: comingSoonBanner,
+    icon: comingSoonIcon
+  }
 ]
 
 export const STAKING_CONTRACTS = [

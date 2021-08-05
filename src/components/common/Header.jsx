@@ -17,7 +17,7 @@ const NavBar = ({ history, handleConnect, handleLogout }) => {
   const { stakingContract, lpToken } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { accountAddress, providerInfo } = useSelector(state => state.network)
-  
+
   const [isOpen, setMenuOpen] = useState(false)
   const hamburgerRef = useRef(null)
 
@@ -83,26 +83,29 @@ const NavBar = ({ history, handleConnect, handleLogout }) => {
             {
               accountAddress
                 ? (
-                  <div 
-                    className="header__wallet__wrapper" 
-                    ref={dropdownRef} 
+                  <div
+                    className='header__wallet__wrapper'
+                    ref={dropdownRef}
                     onClick={() => setDropdownOpen(!isDropdownOpen)}
                   >
                     <div className='header__wallet header__wallet--logged-in'>
                       <span className='dot' />
                       <span className='text'>{addressShortener(accountAddress)}</span>
                     </div>
-                    <div 
-                      className={classNames("header__wallet__dropdown", {
+                    <div
+                      className={classNames('header__wallet__dropdown', {
                         'header__wallet__dropdown--open': isDropdownOpen
                       })}
                     >
-                      <div className="header__wallet__disconnect">
-                        Connected to {get(providerInfo, 'name')}{' '} 
-                        <a href="#" className="header__wallet__disconnect__link" onClick={(e) => {
-                          e.preventDefault()
-                          handleLogout()
-                        }}>(disconnect)</a>
+                      <div className='header__wallet__disconnect'>
+                        Connected to {get(providerInfo, 'name')}{' '}
+                        <a
+                          href='#' className='header__wallet__disconnect__link' onClick={(e) => {
+                            e.preventDefault()
+                            handleLogout()
+                          }}
+                        >(disconnect)
+                        </a>
                       </div>
                     </div>
                   </div>

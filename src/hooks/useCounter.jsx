@@ -1,22 +1,21 @@
-import { useCountUp } from "react-countup"
+import { useCountUp } from 'react-countup'
 import { formatNumber } from '@/utils/format'
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
 const useCounter = (value, decimals) => {
   const { start, update, countUp } = useCountUp({
     formattingFn: formatNumber,
-		end: 0,
-		...(decimals ? { decimals } : {})
+    end: 0,
+    ...(decimals ? { decimals } : {})
   })
 
-	useEffect(() => {
-		start()
-	}, [])
+  useEffect(() => {
+    start()
+  }, [])
 
-	useEffect(() => {
-		update(value)
-	}, [value])
-
+  useEffect(() => {
+    update(value)
+  }, [value])
 
   return countUp
 }

@@ -103,9 +103,9 @@ const WithdrawForm = ({ handleConnect }) => {
         }
         {
           accountAddress && !isStakingNetwork && (
-            <button 
+            <button
               onClick={() => switchNetwork(networkId)}
-              className="button"
+              className='button'
             >
               Switch to {getNetworkName(networkId)}
             </button>

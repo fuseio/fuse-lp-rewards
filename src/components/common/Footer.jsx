@@ -40,7 +40,7 @@ const Footer = () => {
         </div>
         <div className='footer__text grid-x align-start'>
           © 2021 Fuse. The Fuse network is a permissionless and border-less public ledger designed for easy integration of everyday payments.
-         </div>
+        </div>
         <div className='footer__icons grid-x align-center'>
           <HoverIcon
             link='https://twitter.com/fuse_network'

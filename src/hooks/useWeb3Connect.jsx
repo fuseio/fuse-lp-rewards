@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from "@walletconnect/web3-provider"
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
 const providerOptions = {
   metamask: {
   },
   walletconnect: {
-    package: WalletConnectProvider, // required
+    package: WalletConnectProvider,
     options: {
+      bridge: 'https://walletconnect.fuse.io',
       rpc: {
         1: 'https://mainnet.infura.io/v3/a7f50ee1a9e94ea3af446d76106ff515',
         56: 'https://bsc-dataseed.binance.org/',

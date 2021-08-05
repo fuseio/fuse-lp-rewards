@@ -28,13 +28,14 @@ export default () => {
           <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), Fuseswap (Fuse) or PancakeSwap (BSC) and new networks announced soon!
             Then deposit your LP tokens and start earning Fuse
           </p>
-          <a className='rewards__join-tg-link' href='https://t.me/fuseio' target='_blank'>
+          <a className='rewards__join-tg-link' rel='noreferrer noopener' href='https://t.me/fuseio' target='_blank'>
             <img src={telegram} /> Join our TG group for updates
           </a>
         </div>
         <div className='rewards__platforms'>
-          {REWARDS_PLATFORMS_LIST.map(platform => (
+          {REWARDS_PLATFORMS_LIST.map((platform, index) => (
             <button
+              key={index}
               className={classNames('rewards__platform', {
                 'rewards__platform--active': stakingPlatform !== 'ComingSoon' && stakingPlatform === platform.name
               })}

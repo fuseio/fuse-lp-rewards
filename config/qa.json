@@ -1,19 +1,5 @@
 {
-  "contracts": {
-    "fuse": {
-      "0x4Db0edd9F11d0fCd66C0c7E5f2616c9C5F7DBb77": {
-        "networkId": 122,
-        "pairName": "USDC/FUSE",
-        "contractAddress": "0x4Db0edd9F11d0fCd66C0c7E5f2616c9C5F7DBb77",
-        "LPToken": "0x123e18262642a090b209a9cdd5bc5dfa03d734d1",
-        "pairs": [
-          "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-          "0x5857c96DaE9cF8511B08Cb07f85753C472D36Ea3"
-        ],
-        "type": "multi"
-      }
-    }
-  },
+  "contracts": {},
   "web3": {},
   "api": {},
   "reactGA": {

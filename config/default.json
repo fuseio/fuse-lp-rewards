@@ -364,6 +364,9 @@
           "0x5857c96DaE9cF8511B08Cb07f85753C472D36Ea3",
           "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
         ],
+        "rewards": [
+          "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
+        ],
         "totalReward": 75000,
         "type": "multi"
       }

@@ -7,7 +7,7 @@ import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
 import { ADDRESS_ZERO } from '@/constants'
-import { getContractRewardType, getReward } from '../utils'
+import { getContractRewardType, getReward, getRewards } from '../utils'
 
 function * getStakingContractsData () {
   const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
@@ -134,7 +134,8 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const rewardType = getContractRewardType(stakingContract)
   const RewardProgram = getReward(rewardType)
   const staking = new RewardProgram(stakingContract, web3)
-  const stats = yield staking.getStats(accountAddress, tokenAddress, networkId, [CONFIG.rewardTokens[networkId]])
+  const rewards = rewardType === 'single' ? [CONFIG.rewardTokens[networkId]] : getRewards(stakingContract)
+  const stats = yield staking.getStats(accountAddress, tokenAddress, networkId, rewards)
 
   yield put({
     type: actions.GET_STATS_DATA.SUCCESS,
@@ -156,7 +157,8 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
       token0: stats.token0,
       token1: stats.token1,
       reserve0: stats.reserve0,
-      reserve1: stats.reserve1
+      reserve1: stats.reserve1,
+      rewardPerToken: stats.rewardsInfo[0].rewardPerToken
     }
   })
 }

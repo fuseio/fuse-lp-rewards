@@ -16,7 +16,7 @@ import walletIcon from '@/assets/images/wallet.svg'
 import PercentageSelector from './PercentageSelector'
 import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
-import { getPlatformPairName, getRewardTokenName } from '@/utils'
+import { getPlatformPairName, getRewardTokenName, getContractRewardType } from '@/utils'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 import { DEPOSIT_BLACKLIST } from '@/constants'
 
@@ -43,7 +43,9 @@ const DepositForm = ({ handleConnect }) => {
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
+  const rewardPerToken = get(stakingContracts, [stakingContract, 'rewardPerToken'], 0)
   const symbol = `${getPlatformPairName(stakingNetworkId)} ${symbolFromPair(pairName)}`
+  const rewardType = getContractRewardType(stakingContract)
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values
@@ -63,7 +65,9 @@ const DepositForm = ({ handleConnect }) => {
     const { amount } = values
     const amountToStake = amount ? web3Utils.toWei(amount).toString() : 0
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
-    const rewardsPerToken = calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
+    const rewardsPerToken = rewardType === 'single' 
+      ? calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
+      : new BigNumber(formatWeiToNumber(rewardPerToken))
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
     const disableDeposit = showApprove || !amount
     return (

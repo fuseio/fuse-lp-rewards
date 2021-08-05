@@ -34,8 +34,8 @@ export const getPlatformName = (networkId) => {
 }
 
 export const getRewardTokenName = (networkId) => {
-  return networkId === networkIds.MAINNET || networkId === networkIds.BSC 
-    ? 'FUSE' 
+  return networkId === networkIds.MAINNET || networkId === networkIds.BSC
+    ? 'FUSE'
     : 'WFUSE'
 }
 

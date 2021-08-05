@@ -18,6 +18,7 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: '[name].[hash].js'
   },
   module: {
@@ -30,17 +31,20 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          !isDev ? {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '/'
-            }
-          } : {
-            loader: 'style-loader'
-          },
+          !isDev
+            ? {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: '/'
+                }
+              }
+            : {
+                loader: 'style-loader'
+              },
           {
             loader: 'css-loader',
             options: {
+              url: false,
               sourceMap
             }
           },
@@ -66,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g)$/i,
-        exclude: /fonts/,
+        exclude: [/fonts/],
         use: [
           {
             loader: 'file-loader',
@@ -79,6 +83,7 @@ module.exports = {
           {
             loader: 'image-webpack-loader',
             options: {
+              disable: true,
               bypassOnDebug: true,
               gifsicle: {
                 interlaced: false
@@ -97,10 +102,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.svg$/,
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        issuer: {
+          test: /\.(sa|sc|c)ss$/
+        },
         use: [
+          'babel-loader',
           {
-            loader: '@svgr/webpack'
+            loader: '@svgr/webpack',
+            options: {
+              native: true
+            }
           },
           {
             loader: 'file-loader',
@@ -109,13 +121,19 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader'
       }
     ]
   },
   resolve: {
     extensions: [
       '.js',
-      '.jsx'
+      '.jsx',
+      '.png',
+      '.svg'
     ],
     alias: {
       'react-dom': '@hot-loader/react-dom',
@@ -151,18 +169,18 @@ module.exports = {
         }
       }
     }),
-    new HtmlWebpackPlugin({
-      appMountId: 'app',
-      filename: 'index.html',
-      template: path.join(__dirname, 'src', 'index.html'),
-      publicPath: '/',
-    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false
     }),
     new MiniCssExtractPlugin(),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      appMountId: 'app',
+      filename: 'index.html',
+      template: path.join(__dirname, 'src', 'index.html'),
+      publicPath: '/'
+    })
   ],
   optimization: {
     runtimeChunk: 'single',

@@ -91,3 +91,8 @@ export const getContractRewardType = (address) => {
   const contracts = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
   return contracts[address].type
 }
+
+export const getRewards = (address) => {
+  const contracts = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
+  return contracts[address].rewards
+}

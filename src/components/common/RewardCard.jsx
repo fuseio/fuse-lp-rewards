@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import ReactGA from 'react-ga'
 import Countdown from 'react-countdown'
 import get from 'lodash/get'
@@ -13,6 +13,7 @@ import useCounter from '@/hooks/useCounter'
 import trophy from '@/assets/images/trophy.svg'
 import star from '@/assets/images/star.svg'
 import useFormattedTimestamp from '@/hooks/useFormattedTimestamp'
+import { getContractRewardType } from '@/utils'
 
 export default ({
   className,
@@ -51,6 +52,7 @@ export default ({
   const dateEnd = useEndDate(stakingStartTime, stakingPeriod)
   const dateStart = useStartDate(stakingStartTime)
   const formattedDateEnd = useFormattedTimestamp(dateEnd)
+  const isMulti = useMemo(() => getContractRewardType(stakingContract) === 'multi', [stakingContract])
 
   const handleClick = () => {
     ReactGA.event({
@@ -88,14 +90,14 @@ export default ({
       <div className='card-section'>
         <div className='card-calender__label'>
           <h1 className='card-section__label'>
-            {isComingSoon && 'Starts at'}
+            {!isMulti && isComingSoon && 'Starts at'}
             {isNew && 'Expires at'}
-            {isExpired && 'Expired at'}
+            {!isMulti && isExpired && 'Expired at'}
           </h1>
         </div>
-        {isComingSoon && dateStart && <div className='card-section__info'><Countdown date={dateStart} /></div>}
+        {!isMulti && isComingSoon && dateStart && <div className='card-section__info'><Countdown date={dateStart} /></div>}
         {isNew && dateEnd && <div className='card-section__info'><Countdown date={dateEnd} /></div>}
-        {isExpired && formattedDateEnd && <div className='card-section__info'>{formattedDateEnd}</div>}
+        {!isMulti && isExpired && formattedDateEnd && <div className='card-section__info'>{formattedDateEnd}</div>}
       </div>
       <div className='card-section'>
         <h1 className='card-section__label'>Pool Size</h1>

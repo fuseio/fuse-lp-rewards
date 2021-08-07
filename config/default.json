@@ -81,6 +81,9 @@
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
+        "rewards": [
+          "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
+        ],
         "totalReward": 100000,
         "type": "multi"
       },
@@ -91,6 +94,9 @@
         "contractAddress": "0xA4c9BEc5dbd6f3497301b01D62B9AA40c3E214F6",
         "pairs": [
           "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
+        ],
+        "rewards": [
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 100000,

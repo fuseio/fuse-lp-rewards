@@ -5,12 +5,12 @@ import { CHECK_ACCOUNT_CHANGED } from '@/actions/network'
 import { getWeb3 } from '@/services/web3'
 import { BasicToken as BasicTokenABI } from '@/constants/abi'
 
-function * balanceOfToken ({ tokenAddress }) {
+function * balanceOfToken ({ tokenAddress, blockNumber }) {
   const { accountAddress } = yield select(state => state.network)
   if (accountAddress && tokenAddress) {
     const web3 = yield getWeb3()
     const basicTokenContract = new web3.eth.Contract(BasicTokenABI, tokenAddress)
-    const balanceOf = yield call(basicTokenContract.methods.balanceOf(accountAddress).call)
+    const balanceOf = yield call(basicTokenContract.methods.balanceOf(accountAddress).call, {}, blockNumber)
 
     yield put({
       type: actions.BALANCE_OF_TOKEN.SUCCESS,

@@ -35,13 +35,13 @@ function * approveToken ({ amount }) {
   yield call(transactionFlow, { transactionPromise, action, tokenAddress })
 }
 
-function * getAllowance ({ stakingContract, tokenAddress, networkId }) {
+function * getAllowance ({ stakingContract, tokenAddress, networkId, blockNumber }) {
   const { accountAddress } = yield select(state => state.network)
   if (accountAddress) {
     const networkState = yield select(state => state.network)
     const web3 = yield getWeb3({ networkType: networkState.networkId === networkId ? null : networkId })
     const basicToken = new web3.eth.Contract(BasicTokenABI, tokenAddress)
-    const allowance = yield call(basicToken.methods.allowance(accountAddress, stakingContract).call)
+    const allowance = yield call(basicToken.methods.allowance(accountAddress, stakingContract).call, {}, blockNumber)
     yield put({
       type: actions.GET_TOKEN_ALLOWANCE.SUCCESS,
       accountAddress,
@@ -163,17 +163,19 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   })
 }
 
-function * refetchBalance () {
+function * refetchBalance ({ response: { receipt } }) {
+  const { blockNumber } = receipt
   const { lpToken, stakingContract, networkId, uniPairToken } = yield select(state => state.staking)
-  yield put(balanceOfToken(CONFIG.rewardTokens[`${networkId}`]))
-  yield put(balanceOfToken(lpToken))
+  yield put(balanceOfToken(CONFIG.rewardTokens[`${networkId}`], blockNumber))
+  yield put(balanceOfToken(lpToken, blockNumber))
   yield put(actions.getStakerData(stakingContract, networkId))
   yield put(actions.getStatsData(stakingContract, networkId === 1 ? lpToken : uniPairToken))
 }
 
-function * approveTokenSuccess () {
+function * approveTokenSuccess ({ response: { receipt } }) {
+  const { blockNumber } = receipt
   const { lpToken, stakingContract, networkId } = yield select(state => state.staking)
-  yield put(actions.getTokenAllowance(stakingContract, lpToken, networkId))
+  yield put(actions.getTokenAllowance(stakingContract, lpToken, networkId, blockNumber))
 }
 
 function * withdrawInterestSuccess () {

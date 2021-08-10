@@ -1480,6 +1480,19 @@
     graphql "^15.5.1"
     web3 "^1.4.0"
 
+"@fuseio/walletconnect-web3-provider@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@fuseio/walletconnect-web3-provider/-/walletconnect-web3-provider-1.5.4.tgz#3c014f39c87871e96312b373f8987f6f4c7162df"
+  integrity sha512-1jt5QV02S9rqCWT70gKlimARd99JNI5BG3k9vq1UBKMHUZmzMVN0d23bSAxfBM9SYw1T/8rbWJYmrBK+4l7KHg==
+  dependencies:
+    "@walletconnect/client" "^1.5.3"
+    "@walletconnect/http-connection" "^1.5.3"
+    "@walletconnect/qrcode-modal" "^1.5.3"
+    "@walletconnect/types" "^1.5.3"
+    "@walletconnect/utils" "^1.5.3"
+    typescript "^4.3.5"
+    web3-provider-engine "16.0.1"
+
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
@@ -2436,18 +2449,6 @@
     "@walletconnect/qrcode-modal" "^1.4.1"
     "@walletconnect/types" "^1.4.1"
     "@walletconnect/utils" "^1.4.1"
-    web3-provider-engine "16.0.1"
-
-"@walletconnect/web3-provider@npm:fuse-walletconnect-web3-provider":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/fuse-walletconnect-web3-provider/-/fuse-walletconnect-web3-provider-1.5.3.tgz#64509f25b5e175365850da9e82d436942e5d2a4f"
-  integrity sha512-/OityWLmimB9AO9S68bVikxIa1W2CGACq9Kg0BgQYJ2DQ79CM8wsnUjECi/g0yslFIhVmCaxAVVq/8LIwQOFtA==
-  dependencies:
-    "@walletconnect/client" "^1.5.3"
-    "@walletconnect/http-connection" "^1.5.3"
-    "@walletconnect/qrcode-modal" "^1.5.3"
-    "@walletconnect/types" "^1.5.3"
-    "@walletconnect/utils" "^1.5.3"
     web3-provider-engine "16.0.1"
 
 "@walletconnect/window-getters@1.0.0", "@walletconnect/window-getters@^1.0.0":

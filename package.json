@@ -34,7 +34,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.7",
     "@fuseio/rewards-sdk": "^0.1.10",
-    "@walletconnect/web3-provider": "^1.4.1",
+    "@fuseio/walletconnect-web3-provider": "^1.5.4",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.2.6",
     "config": "^3.3.3",
@@ -42,7 +42,6 @@
     "cross-env": "^7.0.3",
     "formik": "^2.2.6",
     "foundation-sites": "^6.6.3",
-    "fuse-walletconnect-web3-provider": "^1.5.4",
     "graphql": "^15.3.0",
     "history": "4.10.1",
     "moment": "^2.29.1",

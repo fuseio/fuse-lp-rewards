@@ -105,8 +105,5 @@
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  },
-  "resolutions": {
-    "@walletconnect/web3-provider": "npm:fuse-walletconnect-web3-provider"
   }
 }

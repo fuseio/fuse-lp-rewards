@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+import WalletConnectProvider from '@fuseio/walletconnect-web3-provider'
 
 const providerOptions = {
   metamask: {

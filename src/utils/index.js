@@ -1,4 +1,4 @@
-import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/rewards-sdk'
+import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/earn-sdk'
 import { networkIds } from '@/utils/network'
 import { REWARDS_PLATFORMS } from '@/constants'
 import { COINGECKO_ID_MAP } from '../constants'

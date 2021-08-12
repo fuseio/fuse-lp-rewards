@@ -7,6 +7,7 @@ import { BigNumber } from 'bignumber.js'
 import classNames from 'classnames'
 import get from 'lodash/get'
 import { utils as web3Utils } from 'web3'
+import moment from 'moment'
 
 import { formatWei, formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import GrayContainer from '@/components/common/GrayContainer.jsx'
@@ -43,7 +44,8 @@ const DepositForm = ({ handleConnect }) => {
   const lockedRewards = get(stakingContracts, [stakingContract, 'lockedRewards'], 0)
   const globalTotalStake = get(stakingContracts, [stakingContract, 'globalTotalStake'], 0)
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
-  const rewardPerToken = get(stakingContracts, [stakingContract, 'rewardPerToken'], 0)
+  const rewardRate = get(stakingContracts, [stakingContract, 'rewardRate'], 0)
+  const stakingEndTime = get(stakingContracts, [stakingContract, 'stakingEndTime'], 0)
   const symbol = `${getPlatformPairName(stakingNetworkId)} ${symbolFromPair(pairName)}`
   const rewardType = getContractRewardType(stakingContract)
 
@@ -67,7 +69,9 @@ const DepositForm = ({ handleConnect }) => {
     const showApprove = new BigNumber(amountApprove).isLessThan(amountToStake)
     const rewardsPerToken = rewardType === 'single' 
       ? calcRewardsPerToken(lockedRewards, globalTotalStake, amountToStake)
-      : new BigNumber(formatWeiToNumber(rewardPerToken))
+      : new BigNumber(stakingEndTime - moment().unix())
+        .multipliedBy(rewardRate)
+        .dividedBy(new BigNumber(globalTotalStake).plus(amountToStake))
     const estimatedAmount = rewardsPerToken.multipliedBy(new BigNumber(amountToStake).plus(totalStaked))
     const disableDeposit = showApprove || !amount
     return (

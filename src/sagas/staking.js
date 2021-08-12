@@ -158,7 +158,7 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
       token1: stats.token1,
       reserve0: stats.reserve0,
       reserve1: stats.reserve1,
-      rewardPerToken: stats.rewardsInfo[0].rewardPerToken
+      rewardRate: stats.rewardsInfo[0].rewardRate
     }
   })
 }
@@ -205,7 +205,8 @@ function * getStakingPeriod ({ stakingContract, networkId }) {
       isExpired,
       isComingSoon,
       stakingStartTime: start,
-      stakingPeriod: duration
+      stakingPeriod: duration,
+      stakingEndTime: end
     }
   })
 }

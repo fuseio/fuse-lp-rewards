@@ -58,7 +58,7 @@ export default () => {
       <Route component={GoogleAnalyticsReporter} />
       <Switch>
         <Route path='/staking-contract'>
-          <StakingContract />
+          <StakingContract handleConnect={handleConnect} />
         </Route>
         <Route path='/'>
           <ChooseStakingContract handleConnect={handleConnect} />

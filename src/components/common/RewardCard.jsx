@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import classNames from 'classnames'
 import { selectStakingContract } from '@/actions/staking'
-import { formatWeiToNumber } from '@/utils/format'
+import { formatWeiToNumber, symbolFromPair } from '@/utils/format'
 import useStartDate from '@/hooks/useStartDate'
 import useEndDate from '@/hooks/useEndDate'
 import useCounter from '@/hooks/useCounter'
 import trophy from '@/assets/images/trophy.svg'
 import star from '@/assets/images/star.svg'
 import useFormattedTimestamp from '@/hooks/useFormattedTimestamp'
-import { getContractRewardType } from '@/utils'
+import { getContractRewardType , getPlatformPairName} from '@/utils'
 
 export default ({
   className,
@@ -28,6 +28,7 @@ export default ({
   btnText = 'Select'
 }) => {
   const dispatch = useDispatch()
+  const { accountAddress } = useSelector(state => state.network)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
 
   // card states: comingSoon -> new -> expired
@@ -43,16 +44,19 @@ export default ({
   const totalReward = get(stakingContracts, [stakingContract, 'totalReward'])
   const stakingStartTime = get(stakingContracts, [stakingContract, 'stakingStartTime'], 0)
   const stakingPeriod = get(stakingContracts, [stakingContract, 'stakingPeriod'], 0)
+  const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
 
   const reserve0Counter = useCounter(formatWeiToNumber(reserve0), 2)
   const reserve1Counter = useCounter(formatWeiToNumber(reserve1), 2)
   const totalRewardCounter = useCounter(defaultTotalReward || formatWeiToNumber(totalReward))
   const apyPercentCounter = useCounter(apyPercent)
+  const totalStakedCounter = useCounter(formatWeiToNumber(totalStaked), 2)
 
   const dateEnd = useEndDate(stakingStartTime, stakingPeriod)
   const dateStart = useStartDate(stakingStartTime)
   const formattedDateEnd = useFormattedTimestamp(dateEnd)
   const isMulti = useMemo(() => getContractRewardType(stakingContract) === 'multi', [stakingContract])
+  const symbol = `${getPlatformPairName(networkId)} ${symbolFromPair(pairName)}`
 
   const handleClick = () => {
     ReactGA.event({
@@ -107,6 +111,12 @@ export default ({
         <h1 className='card-section__label'>TOTAL REWARDS</h1>
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
+      {accountAddress && (
+        <div className="card-section">
+          <h1 className="card-section__label">Total Staked</h1>
+          <h1 className="card-section__info">{totalStakedCounter} {symbol}</h1>
+        </div>
+      )}
       <button
         className={classNames('button')}
         disabled={isComingSoon}

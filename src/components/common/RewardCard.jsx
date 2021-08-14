@@ -113,7 +113,7 @@ export default ({
       </div>
       {accountAddress && (
         <div className="card-section">
-          <h1 className="card-section__label">Total Staked</h1>
+          <h1 className="card-section__label">Staked Amount</h1>
           <h1 className="card-section__info">{totalStakedCounter} {symbol}</h1>
         </div>
       )}

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { useDispatch, useSelector } from 'react-redux'
 import { object, number, mixed } from 'yup'
 import { Formik, Field, Form } from 'formik'
@@ -30,7 +30,7 @@ const calcRewardsPerToken = (lockedRewards, total, amountToStake) => new BigNumb
 
 const DepositForm = ({ handleConnect }) => {
   const dispatch = useDispatch()
-  const { accountAddress, networkId } = useSelector(state => state.network)
+  const { accountAddress } = useSelector(state => state.network)
   const { stakingContract, lpToken, pairName, networkId: stakingNetworkId } = useSelector(state => state.staking)
   const stakingContracts = useSelector(state => state.entities.stakingContracts)
   const { isApproving, isDeposit } = useSelector(state => state.screens.deposit)

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router'
 import Header from '@/components/common/Header.jsx'

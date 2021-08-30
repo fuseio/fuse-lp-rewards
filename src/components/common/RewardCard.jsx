@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import Countdown from 'react-countdown'
 import get from 'lodash/get'
 import { useDispatch, useSelector } from 'react-redux'
@@ -112,9 +112,9 @@ export default ({
         <h1 className='card-section__info'>{totalRewardCounter} FUSE</h1>
       </div>
       {accountAddress && (
-        <div className="card-section">
-          <h1 className="card-section__label">Staked Amount</h1>
-          <h1 className="card-section__info">{totalStakedCounter} {symbol}</h1>
+        <div className='card-section'>
+          <h1 className='card-section__label'>Staked Amount</h1>
+          <h1 className='card-section__info'>{totalStakedCounter} {symbol}</h1>
         </div>
       )}
       <button

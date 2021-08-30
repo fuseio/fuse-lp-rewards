@@ -1,6 +1,6 @@
 import React from 'react'
 import { isMobile } from 'react-device-detect'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { render } from 'react-dom'
 
 import App from './App'

@@ -84,7 +84,7 @@
         "rewards": [
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
-        "totalReward": 100000,
+        "totalReward": 150000,
         "type": "multi"
       },
       "0xA4c9BEc5dbd6f3497301b01D62B9AA40c3E214F6": {
@@ -457,7 +457,7 @@
         "rewards": [
           "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
         ],
-        "totalReward": 75000,
+        "totalReward": 150000,
         "type": "multi"
       }
     }

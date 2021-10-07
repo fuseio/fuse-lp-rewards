@@ -347,7 +347,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 34000,
+        "totalReward": 70000,
         "type": "multi"
       },
       "0xbCa51ae3896f4033fb7B467BD3ab4A4ff27f3a3E": {
@@ -362,7 +362,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 34000,
+        "totalReward": 70000,
         "type": "multi"
       },
       "0x076BDeA1fD4695BDEF9Ba4579463BC4B3C97d645": {
@@ -377,7 +377,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 34000,
+        "totalReward": 70000,
         "type": "multi"
       },
       "0x1E3C4727A7dAFDd51Dc202232D2eB696E734f1Cb": {
@@ -392,7 +392,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 34000,
+        "totalReward": 70000,
         "type": "multi"
       }
     },

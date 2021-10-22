@@ -87,12 +87,21 @@ export const getReward = (rewardType) => {
   }
 }
 
+export const getContracts = () => {
+  return { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc.pancake, ...CONFIG.contracts.bsc.fegex }
+}
+
 export const getContractRewardType = (address) => {
-  const contracts = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
+  const contracts = getContracts()
   return contracts[address].type
 }
 
 export const getRewards = (address) => {
-  const contracts = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
+  const contracts = getContracts()
   return contracts[address].rewards
+}
+
+export const getPlatformType = (address) => {
+  const contracts = getContracts()
+  return contracts[address].platformType
 }

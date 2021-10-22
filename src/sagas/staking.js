@@ -3,19 +3,20 @@ import moment from 'moment'
 import * as actions from '@/actions/staking'
 import { tryTakeEvery } from './utils'
 import { getWeb3 } from '@/services/web3'
+import { getFegexStats } from '@/services/fegex'
 import { transactionFlow } from './transaction'
 import { BasicToken as BasicTokenABI } from '@/constants/abi'
 import { balanceOfToken } from '@/actions/accounts'
-import { ADDRESS_ZERO } from '@/constants'
-import { getContractRewardType, getReward, getRewards } from '../utils'
+import { ADDRESS_ZERO, REWARDS_PLATFORMS } from '@/constants'
+import { getContractRewardType, getReward, getRewards, getContracts } from '../utils'
 
 function * getStakingContractsData () {
-  const object = { ...CONFIG.contracts.main, ...CONFIG.contracts.fuse, ...CONFIG.contracts.bsc }
+  const object = getContracts()
   for (const stakingContract in object) {
-    const { LPToken, networkId } = object[stakingContract]
+    const { LPToken, networkId, platform } = object[stakingContract]
     yield put(actions.getTokenAllowance(stakingContract, LPToken, networkId))
     yield put(actions.getStakerData(stakingContract, networkId))
-    yield put(actions.getStatsData(stakingContract, LPToken, networkId))
+    yield put(actions.getStatsData(stakingContract, LPToken, networkId, platform))
     yield put(actions.getStakingPeriod(stakingContract, networkId))
     yield put(balanceOfToken(LPToken))
   }
@@ -125,7 +126,7 @@ function * getStakingData ({ stakingContract, networkId }) {
   }
 }
 
-function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
+function * getStatsData ({ stakingContract, tokenAddress, networkId, platform }) {
   const { accountAddress: activeAccountAddress } = yield select(state => state.network)
   const accountAddress = activeAccountAddress || ADDRESS_ZERO
   const networkState = yield select(state => state.network)
@@ -135,7 +136,15 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId }) {
   const RewardProgram = getReward(rewardType)
   const staking = new RewardProgram(stakingContract, web3)
   const rewards = rewardType === 'single' ? [CONFIG.rewardTokens[networkId]] : getRewards(stakingContract)
-  const stats = yield staking.getStats(accountAddress, tokenAddress, networkId, rewards)
+  
+  let stats
+  if (platform === REWARDS_PLATFORMS.FEGEX) {
+    const stakeData = yield staking.getStakerInfo(accountAddress)
+    const { duration, } = yield staking.getStakingTimes(rewardToken)
+    stats = yield getFegexStats(stakingContract, tokenAddress, stakeData[0], duration, accountAddress, web3)
+  } else {
+    stats = yield staking.getStats(accountAddress, tokenAddress, networkId, rewards)
+  }
 
   yield put({
     type: actions.GET_STATS_DATA.SUCCESS,

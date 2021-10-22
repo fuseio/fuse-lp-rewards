@@ -17,7 +17,7 @@ import useInterval from '@/hooks/useInterval'
 import { getStatsData } from '@/actions/staking'
 import SwitchNetwork from '@/components/common/SwitchNetwork'
 import useSwitchNetwork from '../hooks/useSwitchNetwork'
-import { getRewardTokenName } from '@/utils'
+import { getRewardTokenName, getPlatformType } from '@/utils'
 
 export default ({ handleConnect }) => {
   const dispatch = useDispatch()
@@ -52,7 +52,7 @@ export default ({ handleConnect }) => {
 
   useInterval(() => {
     // get contract stats
-    dispatch(getStatsData(stakingContract, lpToken, networkId))
+    dispatch(getStatsData(stakingContract, lpToken, networkId, getPlatformType(stakingContract)))
   }, isRunning ? 5000 : null)
   return (
     <>

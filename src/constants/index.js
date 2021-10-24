@@ -46,7 +46,7 @@ export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
   PANCAKESWAP: 'PancakeSwap',
-  BALANCER: 'ComingSoon2'
+  FEGEX: 'FEGex'
 }
 
 export const REWARDS_PLATFORMS_LIST = [
@@ -69,10 +69,10 @@ export const REWARDS_PLATFORMS_LIST = [
     icon: bscIcon
   },
   {
-    name: REWARDS_PLATFORMS.BALANCER,
-    label: 'Coming soon!',
+    name: REWARDS_PLATFORMS.FEGEX,
+    label: 'FEGex on BSC',
     banner: comingSoonBanner,
-    icon: comingSoonIcon
+    icon: bscIcon
   }
 ]
 
@@ -93,7 +93,13 @@ export const STAKING_CONTRACTS = [
     icon: bscIcon,
     network: 'Bsc',
     platform: REWARDS_PLATFORMS.PANCAKESWAP,
-    items: CONFIG.contracts.bsc
+    items: CONFIG.contracts.bsc.pancake
+  },
+  {
+    icon: bscIcon,
+    network: 'Bsc',
+    platform: REWARDS_PLATFORMS.FEGEX,
+    items: CONFIG.contracts.bsc.fegex
   }
 ]
 

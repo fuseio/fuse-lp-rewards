@@ -46,7 +46,6 @@ export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
   FUSESWAP: 'FuseSwap',
   PANCAKESWAP: 'PancakeSwap',
-  BALANCER: 'ComingSoon2',
   FEGEX: 'FEGex'
 }
 

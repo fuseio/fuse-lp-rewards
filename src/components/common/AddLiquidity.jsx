@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useSpring, animated } from 'react-spring'
 import alertIcon from '@/assets/images/alert.svg'
 import { symbolFromPair } from '@/utils/format'
-import { getAddLiquidityLink, getPlatformName, getAddLiquidityHelpLink } from '@/utils'
+import { getAddLiquidityLink, getAddLiquidityHelpLink, getPlatformType } from '@/utils'
 
 const AddLiquidity = () => {
   const props = useSpring({
@@ -11,9 +11,9 @@ const AddLiquidity = () => {
     transform: 'translateY(0px)',
     from: { opacity: 0, transform: 'translateY(-20px)' }
   })
-  const { pairs, pairName, networkId } = useSelector(state => state.staking)
+  const { pairs, pairName, networkId, stakingContract } = useSelector(state => state.staking)
   const symbol = symbolFromPair(pairName)
-  const swapName = getPlatformName(networkId)
+  const platformName = getPlatformType(stakingContract)
 
   return (
     <animated.div style={props}>
@@ -24,12 +24,12 @@ const AddLiquidity = () => {
               <img src={alertIcon} />
               <div className='text'>
                 <div className='beta'>Beta - use at your own risk.</div>
-                Please add liquidity to the {swapName} {symbol} pool and deposit the LP token received here to mine more FUSE.
+                Please add liquidity to the {platformName} {symbol} pool and deposit the LP token received here to mine more FUSE.
                 <br />
                 <a
                   rel='noreferrer noopener'
                   target='_blank'
-                  href={getAddLiquidityHelpLink(networkId, pairName)}
+                  href={getAddLiquidityHelpLink(platformName, pairName)}
                 >
                   Please refer to the guide for more details.
                 </a>
@@ -39,10 +39,10 @@ const AddLiquidity = () => {
               rel='noreferrer noopener'
               target='_blank'
               className='cell medium-6 small-24'
-              href={(getAddLiquidityLink(pairs, networkId))}
+              href={(getAddLiquidityLink(pairs, platformName))}
             >
               <button className='button'>
-                Add liquidity on {swapName}
+                Add liquidity on {platformName}
               </button>
             </a>
           </div>

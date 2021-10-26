@@ -13,7 +13,7 @@ import useCounter from '@/hooks/useCounter'
 import trophy from '@/assets/images/trophy.svg'
 import star from '@/assets/images/star.svg'
 import useFormattedTimestamp from '@/hooks/useFormattedTimestamp'
-import { getContractRewardType , getPlatformPairName} from '@/utils'
+import { getContractRewardType , getPlatformPairName } from '@/utils'
 
 export default ({
   className,
@@ -25,6 +25,7 @@ export default ({
   networkId,
   pairs,
   uniPairToken,
+  platform,
   btnText = 'Select'
 }) => {
   const dispatch = useDispatch()
@@ -56,7 +57,7 @@ export default ({
   const dateStart = useStartDate(stakingStartTime)
   const formattedDateEnd = useFormattedTimestamp(dateEnd)
   const isMulti = useMemo(() => getContractRewardType(stakingContract) === 'multi', [stakingContract])
-  const symbol = `${getPlatformPairName(networkId)} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(platform)} ${symbolFromPair(pairName)}`
 
   const handleClick = () => {
     ReactGA.event({

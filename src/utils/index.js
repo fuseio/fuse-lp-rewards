@@ -1,36 +1,26 @@
 import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/earn-sdk'
 import { networkIds } from '@/utils/network'
-import { REWARDS_PLATFORMS } from '@/constants'
-import { COINGECKO_ID_MAP } from '../constants'
+import { COINGECKO_ID_MAP, REWARDS_PLATFORMS } from '../constants'
 
 const getPairPath = (pairs) => {
   return String(pairs).split(',').join('/')
 }
 
-const getPlatformBaseUrl = (networkId) => {
-  switch (networkId) {
-    case networkIds.MAINNET:
+const getPlatformBaseUrl = (platform) => {
+  switch (platform) {
+    case REWARDS_PLATFORMS.UNISWAP:
       return 'https://app.uniswap.org'
-    case networkIds.FUSE:
+    case REWARDS_PLATFORMS.FUSESWAP:
       return 'https://fuseswap.com'
-    case networkIds.BSC:
+    case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'https://exchange.pancakeswap.finance'
+    case REWARDS_PLATFORMS.FEGEX:
+      return 'https://fegex'
   }
 }
 
-export const getAddLiquidityLink = (pairs, networkId) => {
-  return getPlatformBaseUrl(networkId) + '/#/add/' + getPairPath(pairs)
-}
-
-export const getPlatformName = (networkId) => {
-  switch (networkId) {
-    case networkIds.MAINNET:
-      return REWARDS_PLATFORMS.UNISWAP
-    case networkIds.FUSE:
-      return REWARDS_PLATFORMS.FUSESWAP
-    case networkIds.BSC:
-      return REWARDS_PLATFORMS.PANCAKESWAP
-  }
+export const getAddLiquidityLink = (pairs, platform) => {
+  return getPlatformBaseUrl(platform) + '/#/add/' + getPairPath(pairs)
 }
 
 export const getRewardTokenName = (networkId) => {
@@ -39,23 +29,25 @@ export const getRewardTokenName = (networkId) => {
     : 'WFUSE'
 }
 
-export const getPlatformPairName = (networkId) => {
-  switch (networkId) {
-    case networkIds.MAINNET:
+export const getPlatformPairName = (platform) => {
+  switch (platform) {
+    case REWARDS_PLATFORMS.UNISWAP:
       return 'UNI'
-    case networkIds.FUSE:
+    case REWARDS_PLATFORMS.FUSESWAP:
       return 'FS'
-    case networkIds.BSC:
+    case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'CAKE'
+    case REWARDS_PLATFORMS.FEGEX:
+      return 'FEXex'
   }
 }
 
-const getHelpLinkFromNetworkId = (networkId) => {
-  switch (networkId) {
-    case networkIds.MAINNET:
-    case networkIds.FUSE:
+const getHelpLinkFromNetworkId = (platform) => {
+  switch (platform) {
+    case REWARDS_PLATFORMS.UNISWAP:
+    case REWARDS_PLATFORMS.FUSESWAP:
       return 'https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
-    case networkIds.BSC:
+    case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'https://docs.fuse.io/tutorials/adding-liquidity-on-pcs'
   }
 }
@@ -103,5 +95,5 @@ export const getRewards = (address) => {
 
 export const getPlatformType = (address) => {
   const contracts = getContracts()
-  return contracts[address].platformType
+  return contracts[address].platform
 }

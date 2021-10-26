@@ -16,7 +16,7 @@ import PercentageSelector from './PercentageSelector'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
-import { getPlatformPairName, getRewardTokenName } from '@/utils'
+import { getPlatformPairName, getRewardTokenName, getPlatformType } from '@/utils'
 
 const Scheme = object().noUnknown(false).shape({
   amount: number().positive(),
@@ -35,7 +35,7 @@ const WithdrawForm = ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const accruedRewards = get(stakingContracts, [stakingContract, 'accruedRewards'], 0)
   const withdrawnToDate = get(stakingContracts, [stakingContract, 'withdrawnToDate'], 0)
-  const symbol = `${getPlatformPairName(networkId)} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(getPlatformType(stakingContract))} ${symbolFromPair(pairName)}`
 
   const onSubmit = (values, formikBag) => {
     const { amount, submitType } = values

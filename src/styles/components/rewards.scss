@@ -189,6 +189,13 @@
     }
   }
 
+  @include modifier(fegex) {
+    @include element(badge) {
+      background-color: black;
+      color: white;
+    }
+  }
+
   @include element(header) {
     @include xy-grid(horizontal, false);
     @include flex-align(justify, middle);

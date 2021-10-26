@@ -17,7 +17,7 @@ import walletIcon from '@/assets/images/wallet.svg'
 import PercentageSelector from './PercentageSelector'
 import useSwitchNetwork from '@/hooks/useSwitchNetwork'
 import { getNetworkName } from '@/utils/network'
-import { getPlatformPairName, getRewardTokenName, getContractRewardType } from '@/utils'
+import { getPlatformPairName, getRewardTokenName, getContractRewardType, getPlatformType } from '@/utils'
 import useIsStakingNetwork from '@/hooks/useIsStakingNetwork'
 import { DEPOSIT_BLACKLIST } from '@/constants'
 
@@ -46,7 +46,7 @@ const DepositForm = ({ handleConnect }) => {
   const totalStaked = get(stakingContracts, [stakingContract, 'totalStaked'], 0)
   const rewardRate = get(stakingContracts, [stakingContract, 'rewardRate'], 0)
   const stakingEndTime = get(stakingContracts, [stakingContract, 'stakingEndTime'], 0)
-  const symbol = `${getPlatformPairName(stakingNetworkId)} ${symbolFromPair(pairName)}`
+  const symbol = `${getPlatformPairName(getPlatformType(stakingContract))} ${symbolFromPair(pairName)}`
   const rewardType = getContractRewardType(stakingContract)
 
   const onSubmit = (values, formikBag) => {

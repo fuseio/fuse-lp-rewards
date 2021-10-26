@@ -140,8 +140,8 @@ function * getStatsData ({ stakingContract, tokenAddress, networkId, platform })
   let stats
   if (platform === REWARDS_PLATFORMS.FEGEX) {
     const stakeData = yield staking.getStakerInfo(accountAddress)
-    const { duration, } = yield staking.getStakingTimes(rewardToken)
-    stats = yield getFegexStats(stakingContract, tokenAddress, stakeData[0], duration, accountAddress, web3)
+    const { duration, } = yield staking.getStakingTimes(rewards[0])
+    stats = yield getFegexStats(stakingContract, tokenAddress, stakeData[0], duration, accountAddress, rewards, web3)
   } else {
     stats = yield staking.getStats(accountAddress, tokenAddress, networkId, rewards)
   }

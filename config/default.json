@@ -10,7 +10,8 @@
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0x928EE7ffF283abD3D8C365F39Cd08F346bd31A76": {
         "networkId": 1,
@@ -21,7 +22,8 @@
           "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0xc2077bDdEeB34D3a1372A147d6Db93Ccc9686854": {
         "networkId": 1,
@@ -34,7 +36,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 100000,
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0x9640B393a016ba171a15BB2E68A8B3327Ef7ee29": {
         "networkId": 1,
@@ -46,7 +49,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 300000,
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0xCBdCc62feF478D0e94112AD5123c33edAe6D820f": {
         "networkId": 1,
@@ -58,7 +62,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 500000,
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0xd9D5Fda4D82693eEAa4289A83914DdC6C072cb8B": {
         "networkId": 1,
@@ -70,7 +75,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 500000,
-        "type": "single"
+        "type": "single",
+        "platform": "Uniswap"
       },
       "0xb54536E0c4CA3FA54d394DB6B7c41f70AeC334FF": {
         "networkId": 1,
@@ -85,7 +91,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 50000,
-        "type": "multi"
+        "type": "multi",
+        "platform": "Uniswap"
       },
       "0xA4c9BEc5dbd6f3497301b01D62B9AA40c3E214F6": {
         "networkId": 1,
@@ -100,7 +107,8 @@
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
         "totalReward": 100000,
-        "type": "multi"
+        "type": "multi",
+        "platform": "Uniswap"
       }
     },
     "fuse": {
@@ -114,7 +122,8 @@
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670",
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x3e1DE36098965f09836028354e13Ad945dDB84f0": {
         "networkId": 122,
@@ -126,7 +135,8 @@
           "0x33284f95ccb7B948d9D352e1439561CF83d8d00d",
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x4957d310D6704DbdAb18F7D651F655aa59C6059a": {
         "networkId": 122,
@@ -138,7 +148,8 @@
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5",
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x49aE27DCB1A7621073e6Cb23Ce4A16423993DD95": {
         "networkId": 122,
@@ -150,7 +161,8 @@
           "0x94Ba7A27c7A95863d1bdC7645AC2951E0cca06bA",
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x4EE7127d43B385C77308bdF9E9d59258ab11e836": {
         "networkId": 122,
@@ -163,7 +175,8 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 50000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x835b51352f906ff7632A38F20137218309895506": {
         "networkId": 122,
@@ -176,7 +189,8 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 35000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x9091D40Ed50842BE9BDEDA5fEF6CfF82485De741": {
         "networkId": 122,
@@ -189,7 +203,8 @@
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
         ],
         "totalReward": 25000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x1795AC4015CA9E818371Ed22f1bf913f596d204F": {
         "networkId": 122,
@@ -202,7 +217,8 @@
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
         ],
         "totalReward": 25000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x471C46C37958EB26FE4EB57D3FBd387172cB7434": {
         "networkId": 122,
@@ -215,7 +231,8 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 25000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x57095EcA8B76f26DB5E95A00EEbdaeEdC62a5ee9": {
         "networkId": 122,
@@ -228,7 +245,8 @@
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"
         ],
         "totalReward": 150000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x4Bd7dc50B49d018FDE10a1ae6b29f09E175b85fC": {
         "networkId": 122,
@@ -241,7 +259,8 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "totalReward": 100000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d": {
         "networkId": 122,
@@ -253,7 +272,8 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "totalReward": 150000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0xf14D745a4D264255F758B541BB1F61EbC589EA25": {
         "networkId": 122,
@@ -265,7 +285,8 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "totalReward": 150000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x04Ee5DE43332aF99eeC2D40de19962AA1cC583EC": {
         "networkId": 122,
@@ -278,7 +299,8 @@
           "0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5"
         ],
         "totalReward": 75000,
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x65995B106988E9aCd15998a5DF95aDe89b6511c8": {
         "networkId": 122,
@@ -289,7 +311,8 @@
           "0x249BE57637D8B013Ad64785404b24aeBaE9B098B",
           "0x6acb34b1Df86E254b544189Ec32Cf737e2482058"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0xC68eAa3c93cA8BB829243EA2cdA215c944500b2a": {
         "networkId": 122,
@@ -300,7 +323,8 @@
           "0x92c9DD8F3C443d75949A1B46F2878cacc1089de5",
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0xFF1F9fd96BA115376042c8893B438D03eedd5503": {
         "networkId": 122,
@@ -311,7 +335,8 @@
           "0x249be57637d8b013ad64785404b24aebae9b098b",
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x66B393872d11468A3266E6a6a85328Bc5A6C51bD": {
         "networkId": 122,
@@ -322,7 +347,8 @@
           "0xa722c13135930332Eb3d749B2F0906559D2C5b99",
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0xF449846eCe9c8d9438e1E940840EE59314AF4502": {
         "networkId": 122,
@@ -333,7 +359,8 @@
           "0x33284f95ccb7B948d9D352e1439561CF83d8d00d",
           "0xa722c13135930332Eb3d749B2F0906559D2C5b99"
         ],
-        "type": "single"
+        "type": "single",
+        "platform": "FuseSwap"
       },
       "0x45609C92B46F8f9d101D421f155eD558a043AF99": {
         "networkId": 122,
@@ -348,7 +375,8 @@
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
         "totalReward": 70000,
-        "type": "multi"
+        "type": "multi",
+        "platform": "FuseSwap"
       },
       "0xbCa51ae3896f4033fb7B467BD3ab4A4ff27f3a3E": {
         "networkId": 122,
@@ -363,7 +391,8 @@
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
         "totalReward": 70000,
-        "type": "multi"
+        "type": "multi",
+        "platform": "FuseSwap"
       },
       "0x076BDeA1fD4695BDEF9Ba4579463BC4B3C97d645": {
         "networkId": 122,
@@ -378,7 +407,8 @@
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
         "totalReward": 70000,
-        "type": "multi"
+        "type": "multi",
+        "platform": "FuseSwap"
       },
       "0x1E3C4727A7dAFDd51Dc202232D2eB696E734f1Cb": {
         "networkId": 122,
@@ -392,8 +422,9 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 35000,
-        "type": "multi"
+        "totalReward": 70000,
+        "type": "multi",
+        "platform": "FuseSwap"
       }
     },
     "bsc": {
@@ -408,7 +439,8 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
           ],
           "totalReward": 55000,
-          "type": "single"
+          "type": "single",
+          "platform": "PancakeSwap"
         },
         "0x4d2Cd192d2ea321707bb52b266DBeaB95FB94d47": {
           "networkId": 56,
@@ -420,7 +452,8 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
           ],
           "totalReward": 50000,
-          "type": "single"
+          "type": "single",
+          "platform": "PancakeSwap"
         },
         "0x34f37aa7ec34752b7e46fbfdb9d0db802202b59e": {
           "networkId": 56,
@@ -432,7 +465,8 @@
             "0x5857c96DaE9cF8511B08Cb07f85753C472D36Ea3"
           ],
           "totalReward": 50000,
-          "type": "single"
+          "type": "single",
+          "platform": "PancakeSwap"
         },
         "0x50a7be05872466031611013da54c9cc5e1166319": {
           "networkId": 56,
@@ -444,7 +478,9 @@
             "0x5857c96DaE9cF8511B08Cb07f85753C472D36Ea3"
           ],
           "totalReward": 50000,
-          "type": "single"
+          "type": "single",
+          "platform": "PancakeSwap"
+
         },
         "0x4f18D7FA5996337ba787f82C4D4758A6e655D6B3": {
           "networkId": 56,
@@ -459,10 +495,27 @@
             "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
           ],
           "totalReward": 40000,
-          "type": "multi"
+          "type": "multi",
+          "platform": "PancakeSwap"
         }
       },
-      "fegex": {}
+      "fegex": {
+        "0x0d1620f24b3c41c1db009ffb71ab71b453a88010": {
+          "networkId": 56,
+          "pairName": "FEG/fBNB",
+          "contractAddress": "0x0d1620f24b3c41c1db009ffb71ab71b453a88010",
+          "LPToken": "0x818E2013dD7D9bf4547AaabF6B617c1262578bc7",
+          "pairs": [
+            "0xacfc95585d80ab62f67a14c566c1b7a49fe91167",
+            "0x87b1acce6a1958e522233a737313c086551a5c76"
+          ],
+          "rewards": [
+            "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
+          ],
+          "type": "multi",
+          "platform": "FEGex"
+        }
+      }
     }
   },
   "rewardTokens": {

@@ -5,7 +5,7 @@ import bscIcon from '@/assets/images/bsc-icon.png'
 import balanacerBanner from '@/assets/images/balancer.png'
 import pancakeSwapBanner from '@/assets/images/pancake-swap.png'
 import comingSoonBanner from '@/assets/images/comingSoonBanner.png'
-import comingSoonIcon from '@/assets/images/comingSoonIcon.png'
+import fegexBanner from '@/assets/images/fegex.jpg'
 import fuseSwapBanner from '@/assets/images/fuse-swap.png'
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
 import wethUsdcIcon from '@/assets/images/coins-pair-weth-usdc.svg'
@@ -71,7 +71,7 @@ export const REWARDS_PLATFORMS_LIST = [
   {
     name: REWARDS_PLATFORMS.FEGEX,
     label: 'FEGex on BSC',
-    banner: comingSoonBanner,
+    banner: fegexBanner,
     icon: bscIcon
   }
 ]

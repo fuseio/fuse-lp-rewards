@@ -18,7 +18,7 @@ export const depositStake = (amount) => action(DEPOSIT_STAKE.REQUEST, { amount }
 export const approveToken = (amount) => action(APPROVE_TOKEN.REQUEST, { amount })
 export const getStakerData = (stakingContract, networkId) => action(GET_STAKE_DATA.REQUEST, { stakingContract, networkId })
 export const getTokenAllowance = (stakingContract, tokenAddress, networkId, blockNumber) => requestAction(GET_TOKEN_ALLOWANCE, { stakingContract, tokenAddress, networkId, blockNumber })
-export const getStatsData = (stakingContract, tokenAddress, networkId) => requestAction(GET_STATS_DATA, { stakingContract, tokenAddress, networkId })
+export const getStatsData = (stakingContract, tokenAddress, networkId, platform) => requestAction(GET_STATS_DATA, { stakingContract, tokenAddress, networkId, platform })
 export const getStakingPeriod = (stakingContract, networkId) => requestAction(GET_STAKING_PERIOD, { stakingContract, networkId })
 export const selectStakingContract = (stakingContractData) => action(SELECT_STAKING_CONTRACT, { stakingContractData })
 export const getStakingContractsData = () => action(GET_STAKING_CONTRACTS_DATA.REQUEST)

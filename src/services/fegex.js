@@ -12,10 +12,10 @@ async function fetchAllFegexTokens() {
 
 async function getRewardsInfo(multiRewardAddress, account, globalTotalStakeUSD, duration, rewards, web3) {
     const rewardsInfo = []
-    const mulitReward = new web3.Contract(MultiRewardsABI, multiRewardAddress)
+    const mulitReward = new web3.eth.Contract(MultiRewardsABI, multiRewardAddress)
     
     for (const reward of rewards) {
-      const rewardToken = new web3.Contract(Erc20ABI, reward)
+      const rewardToken = new web3.eth.Contract(Erc20ABI, reward)
 
       const accuruedRewards = await mulitReward.methods.earned(account, reward).call()
       const rewardTokenDecimals = await rewardToken.methods.decimals().call()
@@ -23,7 +23,8 @@ async function getRewardsInfo(multiRewardAddress, account, globalTotalStakeUSD, 
       const rewardData = await mulitReward.methods.rewardData(reward).call()
 
       const rewardRate = rewardData.rewardRate
-      const rewardPrice = await getFusePrice()
+      const price = await getFusePrice()
+      const rewardPrice = price[CONFIG.rewardTokens['1']].usd
       const totalRewardsInUSD = formatWeiToNumber(totalRewards, rewardTokenDecimals) * rewardPrice
 
       const durationInDays = duration / (3600 * 24)
@@ -42,7 +43,7 @@ async function getRewardsInfo(multiRewardAddress, account, globalTotalStakeUSD, 
   
 }
 
-export const getFegexStats = async (stakingAddress, pairAddress, totalStaked, duration, account, web3) => {
+export const getFegexStats = async (stakingAddress, pairAddress, totalStaked, duration, account, rewards, web3) => {
     const response = await fetchAllFegexTokens()
 
     const pairs = Object.values(response)

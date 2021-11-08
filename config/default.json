@@ -425,6 +425,22 @@
         "totalReward": 150000,
         "type": "multi",
         "platform": "FuseSwap"
+      },
+      "0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7": {
+        "network": 122,
+        "pairName": "FUSE/BUSD",
+        "contractAddress": "0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7",
+        "LPToken": "0x2e7DeDEfC1b40eb2C935A5d07ACDb8F8a9B2A91D",
+        "pairs": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629",
+          "0x6a5f6a8121592becd6747a38d67451b310f7f156"
+        ],
+        "rewards": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "totalReward": 150000,
+        "type": "multi",
+        "platform": "FuseSwap"
       }
     },
     "bsc": {

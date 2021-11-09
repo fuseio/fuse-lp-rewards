@@ -90,7 +90,7 @@
         "rewards": [
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
-        "totalReward": 50000,
+        "totalReward": 100000,
         "type": "multi",
         "platform": "Uniswap"
       },
@@ -510,7 +510,7 @@
           "rewards": [
             "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
           ],
-          "totalReward": 40000,
+          "totalReward": 70000,
           "type": "multi",
           "platform": "PancakeSwap"
         }

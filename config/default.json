@@ -516,18 +516,19 @@
         }
       },
       "fegex": {
-        "0x0d1620f24b3c41c1db009ffb71ab71b453a88010": {
+        "0x05455319c6FBe1E5c5EBf0cD8Ae44E4f2AC4853e": {
           "networkId": 56,
-          "pairName": "FEG/fBNB",
-          "contractAddress": "0x0d1620f24b3c41c1db009ffb71ab71b453a88010",
-          "LPToken": "0x818E2013dD7D9bf4547AaabF6B617c1262578bc7",
+          "pairName": "FUSE/fBNB",
+          "contractAddress": "0x05455319c6FBe1E5c5EBf0cD8Ae44E4f2AC4853e",
+          "LPToken": "0xf2b83A206A5F342F29c0bA4279b155e0ADF9B4f0",
           "pairs": [
-            "0xacfc95585d80ab62f67a14c566c1b7a49fe91167",
-            "0x87b1acce6a1958e522233a737313c086551a5c76"
+            "0x5857c96dae9cf8511b08cb07f85753c472d36ea3",
+            "0x87b1AccE6a1958E522233A737313C086551a5c76"
           ],
           "rewards": [
             "0x5857c96dae9cf8511b08cb07f85753c472d36ea3"
           ],
+          "totalReward": 150000,
           "type": "multi",
           "platform": "FEGex"
         }

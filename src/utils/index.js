@@ -15,7 +15,7 @@ const getPlatformBaseUrl = (platform) => {
     case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'https://exchange.pancakeswap.finance'
     case REWARDS_PLATFORMS.FEGEX:
-      return 'https://fegex'
+      return 'https://fegex.com'
   }
 }
 
@@ -38,7 +38,7 @@ export const getPlatformPairName = (platform) => {
     case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'CAKE'
     case REWARDS_PLATFORMS.FEGEX:
-      return 'FEXex'
+      return 'FEGex'
   }
 }
 

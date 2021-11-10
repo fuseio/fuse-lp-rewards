@@ -427,7 +427,7 @@
         "platform": "FuseSwap"
       },
       "0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7": {
-        "network": 122,
+        "networkId": 122,
         "pairName": "FUSE/BUSD",
         "contractAddress": "0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7",
         "LPToken": "0x2e7DeDEfC1b40eb2C935A5d07ACDb8F8a9B2A91D",

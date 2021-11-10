@@ -22,7 +22,7 @@ import fuseFuseDollarIcon from '@/assets/images/coins-pair-fuse-fUSD.svg'
 import fuseBnbIcon from '@/assets/images/coins-pair-fuse-bnb.svg'
 import fusdBnbIcon from '@/assets/images/coins-pair-fusd-bnb.svg'
 import dextFuseIcon from '@/assets/images/dext-fuse.svg'
-import fuseBusdIcon from '@/assets/images/coins-pair-fuse-busd.svg'
+import fuseBusdIcon from '@/assets/images/fuse-busd.png'
 
 export const PAIRS_ICONS = {
   'ETH/FUSE': ethFuseIcon,

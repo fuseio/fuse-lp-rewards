@@ -53,7 +53,7 @@ export const getFegexStats = async (stakingAddress, pairAddress, totalStaked, du
             return prev
         }, {})
 
-    const pair = pairs[pairAddress]
+    const pair = pairs[pairAddress.toLowerCase()]
 
     const token0 = {
         name: pair.main_name,

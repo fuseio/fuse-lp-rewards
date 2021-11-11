@@ -543,7 +543,7 @@
   "web3": {
     "fuseProvider": "https://fuse-mainnet.gateway.pokt.network/v1/lb/6112cb93f7662000365d6735",
     "ethereumProvider": "https://eth-mainnet.gateway.pokt.network/v1/5f7cca33b90218002e9ce9be",
-    "bscProvider": "https://bscnode.liquify.info"
+    "bscProvider": "https://bsc-dataseed.binance.org/"
   },
   "api": {
     "graph": {

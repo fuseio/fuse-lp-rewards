@@ -441,6 +441,22 @@
         "totalReward": 150000,
         "type": "multi",
         "platform": "FuseSwap"
+      },
+      "0x38D4e6Df715b968B49579F64eCA15B12FB972884": {
+        "networkId": 122,
+        "pairName": "FUSE/USDC",
+        "contractAddress": "0x38D4e6Df715b968B49579F64eCA15B12FB972884",
+        "LPToken": "0x9f17b1895633E855b8b1C1D0Ade9B3B72EB0590C",
+        "pairs": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629",
+          "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"
+        ],
+        "rewards": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "totalReward": 150000,
+        "type": "multi",
+        "platform": "FuseSwap"
       }
     },
     "bsc": {

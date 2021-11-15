@@ -42,7 +42,8 @@ export const PAIRS_ICONS = {
   'fUSD/BNB': fusdBnbIcon,
   'DEXT/FUSE': dextFuseIcon,
   'FUSE/BUSD': fuseBusdIcon,
-  'FUSE/fBNB': fuseBnbIcon
+  'FUSE/fBNB': fuseBnbIcon,
+  'FUSE/USDC': usdcFuseIcon
 }
 
 export const REWARDS_PLATFORMS = {

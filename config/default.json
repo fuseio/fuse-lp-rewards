@@ -123,7 +123,7 @@
           "0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x3e1DE36098965f09836028354e13Ad945dDB84f0": {
         "networkId": 122,
@@ -136,7 +136,7 @@
           "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x4957d310D6704DbdAb18F7D651F655aa59C6059a": {
         "networkId": 122,
@@ -149,7 +149,7 @@
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x49aE27DCB1A7621073e6Cb23Ce4A16423993DD95": {
         "networkId": 122,
@@ -162,7 +162,7 @@
           "0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x4EE7127d43B385C77308bdF9E9d59258ab11e836": {
         "networkId": 122,
@@ -176,7 +176,7 @@
         ],
         "totalReward": 50000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x835b51352f906ff7632A38F20137218309895506": {
         "networkId": 122,
@@ -190,7 +190,7 @@
         ],
         "totalReward": 35000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x9091D40Ed50842BE9BDEDA5fEF6CfF82485De741": {
         "networkId": 122,
@@ -204,7 +204,7 @@
         ],
         "totalReward": 25000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x1795AC4015CA9E818371Ed22f1bf913f596d204F": {
         "networkId": 122,
@@ -218,7 +218,7 @@
         ],
         "totalReward": 25000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x471C46C37958EB26FE4EB57D3FBd387172cB7434": {
         "networkId": 122,
@@ -232,7 +232,7 @@
         ],
         "totalReward": 25000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x57095EcA8B76f26DB5E95A00EEbdaeEdC62a5ee9": {
         "networkId": 122,
@@ -246,7 +246,7 @@
         ],
         "totalReward": 150000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x4Bd7dc50B49d018FDE10a1ae6b29f09E175b85fC": {
         "networkId": 122,
@@ -260,7 +260,7 @@
         ],
         "totalReward": 100000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d": {
         "networkId": 122,
@@ -273,7 +273,7 @@
         ],
         "totalReward": 150000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xf14D745a4D264255F758B541BB1F61EbC589EA25": {
         "networkId": 122,
@@ -286,7 +286,7 @@
         ],
         "totalReward": 150000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x04Ee5DE43332aF99eeC2D40de19962AA1cC583EC": {
         "networkId": 122,
@@ -300,7 +300,7 @@
         ],
         "totalReward": 75000,
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x65995B106988E9aCd15998a5DF95aDe89b6511c8": {
         "networkId": 122,
@@ -312,7 +312,7 @@
           "0x6acb34b1Df86E254b544189Ec32Cf737e2482058"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xC68eAa3c93cA8BB829243EA2cdA215c944500b2a": {
         "networkId": 122,
@@ -324,7 +324,7 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xFF1F9fd96BA115376042c8893B438D03eedd5503": {
         "networkId": 122,
@@ -336,7 +336,7 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x66B393872d11468A3266E6a6a85328Bc5A6C51bD": {
         "networkId": 122,
@@ -348,7 +348,7 @@
           "0x0be9e53fd7edac9f859882afdda116645287c629"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xF449846eCe9c8d9438e1E940840EE59314AF4502": {
         "networkId": 122,
@@ -360,7 +360,7 @@
           "0xa722c13135930332Eb3d749B2F0906559D2C5b99"
         ],
         "type": "single",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x45609C92B46F8f9d101D421f155eD558a043AF99": {
         "networkId": 122,
@@ -376,7 +376,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0xbCa51ae3896f4033fb7B467BD3ab4A4ff27f3a3E": {
         "networkId": 122,
@@ -392,7 +392,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x076BDeA1fD4695BDEF9Ba4579463BC4B3C97d645": {
         "networkId": 122,
@@ -408,7 +408,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x1E3C4727A7dAFDd51Dc202232D2eB696E734f1Cb": {
         "networkId": 122,
@@ -424,7 +424,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7": {
         "networkId": 122,
@@ -440,7 +440,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       },
       "0x38D4e6Df715b968B49579F64eCA15B12FB972884": {
         "networkId": 122,
@@ -456,7 +456,7 @@
         ],
         "totalReward": 150000,
         "type": "multi",
-        "platform": "FuseSwap"
+        "platform": "FuseFi"
       }
     },
     "bsc": {

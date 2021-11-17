@@ -6,7 +6,7 @@ import balanacerBanner from '@/assets/images/balancer.png'
 import pancakeSwapBanner from '@/assets/images/pancake-swap.png'
 import comingSoonBanner from '@/assets/images/comingSoonBanner.png'
 import fegexBanner from '@/assets/images/fegex.jpg'
-import fuseSwapBanner from '@/assets/images/fuse-swap.png'
+import fuseFiBanner from '@/assets/images/fuse-swap.png'
 import ethFuseIcon from '@/assets/images/coins-pair-eth-fuse.svg'
 import wethUsdcIcon from '@/assets/images/coins-pair-weth-usdc.svg'
 import wbtcWethIcon from '@/assets/images/coins-pair-wbtc-weth.svg'
@@ -48,7 +48,7 @@ export const PAIRS_ICONS = {
 
 export const REWARDS_PLATFORMS = {
   UNISWAP: 'Uniswap',
-  FUSESWAP: 'FuseSwap',
+  FUSEFI: 'FuseFi',
   PANCAKESWAP: 'PancakeSwap',
   FEGEX: 'FEGex'
 }
@@ -61,9 +61,9 @@ export const REWARDS_PLATFORMS_LIST = [
     icon: ethIcon
   },
   {
-    name: REWARDS_PLATFORMS.FUSESWAP,
-    label: 'FuseSwap On Fuse',
-    banner: fuseSwapBanner,
+    name: REWARDS_PLATFORMS.FUSEFI,
+    label: 'FuseFi On Fuse',
+    banner: fuseFiBanner,
     icon: fuseIcon
   },
   {
@@ -90,7 +90,7 @@ export const STAKING_CONTRACTS = [
   {
     icon: fuseIcon,
     network: 'Fuse',
-    platform: REWARDS_PLATFORMS.FUSESWAP,
+    platform: REWARDS_PLATFORMS.FUSEFI,
     items: CONFIG.contracts.fuse
   },
   {

@@ -10,8 +10,8 @@ const getPlatformBaseUrl = (platform) => {
   switch (platform) {
     case REWARDS_PLATFORMS.UNISWAP:
       return 'https://app.uniswap.org'
-    case REWARDS_PLATFORMS.FUSESWAP:
-      return 'https://fuseswap.com'
+    case REWARDS_PLATFORMS.FUSEFI:
+      return 'https://app.fuse.fi'
     case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'https://exchange.pancakeswap.finance'
     case REWARDS_PLATFORMS.FEGEX:
@@ -33,8 +33,8 @@ export const getPlatformPairName = (platform) => {
   switch (platform) {
     case REWARDS_PLATFORMS.UNISWAP:
       return 'UNI'
-    case REWARDS_PLATFORMS.FUSESWAP:
-      return 'FS'
+    case REWARDS_PLATFORMS.FUSEFI:
+      return 'FFI'
     case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'CAKE'
     case REWARDS_PLATFORMS.FEGEX:
@@ -45,7 +45,7 @@ export const getPlatformPairName = (platform) => {
 const getHelpLinkFromNetworkId = (platform) => {
   switch (platform) {
     case REWARDS_PLATFORMS.UNISWAP:
-    case REWARDS_PLATFORMS.FUSESWAP:
+    case REWARDS_PLATFORMS.FUSEFI:
       return 'https://medium.com/fusenet/how-to-stake-eth-fuse-lp-tokens-for-fuse-rewards-fd9abe08f84c'
     case REWARDS_PLATFORMS.PANCAKESWAP:
       return 'https://docs.fuse.io/tutorials/adding-liquidity-on-pcs'

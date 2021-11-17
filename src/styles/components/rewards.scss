@@ -175,9 +175,9 @@
     }
   }
 
-  @include modifier(fuseswap) {
+  @include modifier(fusefi) {
     @include element(badge) {
-      background-color: $color-fuseswap;
+      background-color: $color-fusefi;
       color: white;
     }
   }

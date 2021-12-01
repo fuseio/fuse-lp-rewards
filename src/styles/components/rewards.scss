@@ -7,11 +7,15 @@
   @include xy-grid(vertical);
   @include flex-align(null, top);
   width: 100%;
+  @include element(header) {
+    margin-bottom: 3em;
+  }
   @include element(headline) {
     h1 {
       font-weight: bold;
       font-size: 1.875em;
       line-height: 29px;
+      margin-top: 0.5em;
       margin-bottom: 0.5em;
       color: $color-black;
     }

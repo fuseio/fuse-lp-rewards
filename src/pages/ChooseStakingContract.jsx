@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import RewardCard from '@/components/common/RewardCard'
 import comingSoon from '@/assets/images/coming-soon.png'
 import telegram from '@/assets/images/telegram-app.svg'
+import fusefi from '@/assets/images/fusefi-banner.svg'
 import { selectStakingPlatform } from '@/actions/staking'
 import { PAIRS_ICONS, STAKING_CONTRACTS, REWARDS_PLATFORMS_LIST, REWARDS_PLATFORMS } from '@/constants'
 
@@ -23,14 +24,21 @@ export default () => {
   return (
     <div className='rewards__wrapper'>
       <div className='rewards'>
-        <div className='rewards__headline'>
-          <h1>Fuse LP rewards</h1>
-          <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), FuseFi (Fuse) or PancakeSwap (BSC) and new networks announced soon!
-            Then deposit your LP tokens and start earning Fuse
-          </p>
-          <a className='rewards__join-tg-link' rel='noreferrer noopener' href='https://t.me/fuseio' target='_blank'>
-            <img src={telegram} /> Join our TG group for updates
-          </a>
+        <div className="rewards__header grid-x align-middle">
+          <div className='rewards__headline medium-12 small-24'>
+            <h1>Fuse LP rewards</h1>
+            <p>Please choose your preferred pair, provide liquidity on Uniswap (Ethereum), FuseFi (Fuse) or PancakeSwap (BSC) and new networks announced soon!
+              Then deposit your LP tokens and start earning Fuse
+            </p>
+            <a className='rewards__join-tg-link' rel='noreferrer noopener' href='https://t.me/fuseio' target='_blank'>
+              <img src={telegram} /> Join our TG group for updates
+            </a>
+          </div>
+          <div className="rewards__banner medium-12 small-24">
+            <a href="https://app.fuse.fi" target="_blank">
+              <img src={fusefi} />
+            </a>
+          </div>
         </div>
         <div className='rewards__platforms'>
           {REWARDS_PLATFORMS_LIST.map((platform, index) => (

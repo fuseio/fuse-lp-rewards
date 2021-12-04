@@ -35,7 +35,7 @@ export default () => {
             </a>
           </div>
           <div className="rewards__banner medium-12 small-24">
-            <a href="https://app.fuse.fi" target="_blank">
+            <a href="https://app.fuse.fi/#/farm/122" target="_blank">
               <img src={fusefi} />
             </a>
           </div>

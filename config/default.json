@@ -90,7 +90,7 @@
         "rewards": [
           "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d"
         ],
-        "totalReward": 50000,
+        "totalReward": 150000,
         "type": "multi",
         "platform": "Uniswap"
       },

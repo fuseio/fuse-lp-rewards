@@ -438,7 +438,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 150000,
+        "totalReward": 100000,
         "type": "multi",
         "platform": "FuseFi"
       },
@@ -454,7 +454,7 @@
         "rewards": [
           "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
         ],
-        "totalReward": 150000,
+        "totalReward": 100000,
         "type": "multi",
         "platform": "FuseFi"
       }

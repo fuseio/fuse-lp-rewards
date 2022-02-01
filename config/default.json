@@ -473,6 +473,38 @@
         "totalReward": 100000,
         "type": "multi",
         "platform": "FuseFi"
+      },
+      "0xe39c87605FeE81b509034E408EC2D2cE592E8B33": {
+        "networkId": 122,
+        "pairName": "FUSE/UST",
+        "contractAddress": "0xe39c87605FeE81b509034E408EC2D2cE592E8B33",
+        "LPToken": "0x53B1B8Fb8bE9aA94076e6B29fb9D08bd9ced2D30",
+        "pairs": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629",
+          "0x0D58a44be3dCA0aB449965dcc2c46932547Fea2f"
+        ],
+        "rewards": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "totalReward": 50000,
+        "type": "multi",
+        "platform": "FuseFi"
+      },
+      "0xE25d7A32903e29F5909d461cD89729aF6f2c9399": {
+        "networkId": 122,
+        "pairName": "LUNA/UST",
+        "contractAddress": "0xE25d7A32903e29F5909d461cD89729aF6f2c9399",
+        "LPToken": "0x44cB3a602AE57b60A5dc808a44544Ab9ec8dDB36",
+        "pairs": [
+          "0x588e24DEd8f850b14BB2e62E9c50A7Cd5Ee13Da9",
+          "0x0D58a44be3dCA0aB449965dcc2c46932547Fea2f"
+        ],
+        "rewards": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "totalReward": 50000,
+        "type": "multi",
+        "platform": "FuseFi"
       }
     },
     "bsc": {

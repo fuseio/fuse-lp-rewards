@@ -505,6 +505,22 @@
         "totalReward": 50000,
         "type": "multi",
         "platform": "FuseFi"
+      },
+      "0xf8438EE654782a11084b2Be90d1153eaf34C0F82": {
+        "networkId": 122,
+        "pairName": "ELON/FUSE",
+        "contractAddress": "0xf8438EE654782a11084b2Be90d1153eaf34C0F82",
+        "LPToken": "0xe418c323fA450e7e18c4dB304bEFC7ffF92D2Cc1",
+        "pairs": [
+          "0x5DD8015cec49F4dB01fd228F688BF30337d3e0A9",
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "rewards": [
+          "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+        ],
+        "totalReward": 10000,
+        "type": "multi",
+        "platform": "FuseFi"
       }
     },
     "bsc": {
